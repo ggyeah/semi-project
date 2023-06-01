@@ -34,6 +34,8 @@
 </style>
 </head>
 <body>
+<!------------  상품상세보기 ------------>
+<div>
 	<table>
 		<tr>
 			<th>product_no</th>
@@ -76,5 +78,6 @@
 			<td><%=productOne.getUpdatedate()%></td>
 		</tr>
 	</table>
+</div>
 </body>
 </html>
