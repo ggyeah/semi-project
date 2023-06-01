@@ -1,7 +1,6 @@
 package util;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.*;
 
 public class DBUtil {
 	public Connection getConnection() throws Exception {
@@ -10,5 +9,4 @@ public class DBUtil {
 				"jdbc:mariadb://127.0.0.1:3306/semi_project", "root", "java1234");
 		return conn;
 	}
-
 }
