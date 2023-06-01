@@ -5,7 +5,15 @@ import java.sql.*;
 import java.util.*;
 import util.DBUtil;
 
+
 public class ProductDao {
+	// ANSI CODE	
+	final String RESET = "\u001B[0m"; 
+	final String LIM = "\u001B[41m";
+	final String KIM = "\u001B[42m";
+	final String SONG = "\u001B[43m";
+	final String YANG = "\u001B[44m";
+
 	/* 상품 리스트 : productList */
 	public ArrayList<Product> productListByPage(int beginRow, int rowPerPage) throws Exception {
 		ArrayList<Product> productList = new ArrayList<>();		// 상품 리스트를 담을 ArrayList 객체 생성
@@ -91,4 +99,35 @@ public class ProductDao {
 		 return productOne;
 	}
 	
+	
+	/* 상품 추가 : addProduct */
+	public int addProduct(Product product) throws Exception {
+		int addProductRow = 0;
+		DBUtil dbUtil = new DBUtil();							// DBUtil 객체 생성
+		Connection conn = dbUtil.getConnection();				// 데이터베이스 연결을 위한 Connection 객체 생성
+		PreparedStatement addProductStmt = null;				// 쿼리를 전송하기 위해 PreparedStatement 객체 생성
+		// SQL 쿼리문
+		String addProductSql = "INSERT INTO product(category_name, product_name, product_price, product_status, product_stock, product_info, createdate, updatedate) VALUES(?,?,?,?,?,?,now(),now())";
+		addProductStmt = conn.prepareStatement(addProductSql);
+		// ? 6개
+		addProductStmt.setString(1, product.getCategoryName());
+		addProductStmt.setString(2, product.getProductName());
+		addProductStmt.setInt(3, product.getProductPrice());
+		addProductStmt.setString(4, product.getProductStatus());
+		addProductStmt.setInt(5, product.getProductStock());
+		addProductStmt.setString(6, product.getProductInfo());
+	
+		addProductRow = addProductStmt.executeUpdate(); // 쿼리 실행 및 결과 반환
+		 if(addProductRow == 1) {  
+	         System.out.println(SONG + "상품추가성공" + RESET);
+	      } else {
+	         System.out.println(SONG + "상품추가실패" + RESET);
+	      } 	
+	return addProductRow;
+	}
+	
+	/* 상품 삭제 : addProduct */
+	
+	
+	/* 상품 수정 : addProduct */
 }
