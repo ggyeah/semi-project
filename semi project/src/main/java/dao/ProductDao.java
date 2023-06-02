@@ -5,7 +5,6 @@ import java.sql.*;
 import java.util.*;
 import util.DBUtil;
 
-
 public class ProductDao {
 	// ANSI CODE	
 	final String RESET = "\u001B[0m"; 
@@ -53,16 +52,19 @@ public class ProductDao {
 	
 	
 	/* 전체 상품의 개수 조회 : productCnt */
-	public int productCnt () throws Exception {
-		int productRow = 0;		// DBUtil 객체 생성
-		DBUtil dbUtil = new DBUtil();
-		Connection conn = dbUtil.getConnection();
+	public int productCnt() throws Exception {
+		int productRow = 0;	
+		DBUtil dbUtil = new DBUtil();							// DBUtil 객체 생성
+		Connection conn = dbUtil.getConnection();				// 데이터베이스 연결을 위한 Connection 객체 생성
+		PreparedStatement productCntStmt = null;				// 쿼리를 전송하기 위해 PreparedStatement 객체 생성
+		ResultSet productCntRs = null;							// 쿼리 실행 결과를 담을 ResultSet 객체 생성
+		// SQL 쿼리문
 		String productCntSql = "SELECT COUNT(*) FROM product";
-		PreparedStatement productCntStmt = conn.prepareStatement(productCntSql);
-		ResultSet productCntRs = productCntStmt.executeQuery();
-		if(productCntRs.next()) {
-			// 결과에서 상품 개수 추출
-			productRow = productCntRs.getInt("COUNT(*)");
+		productCntStmt = conn.prepareStatement(productCntSql);
+		// 쿼리 실행 및 결과 저장
+		productCntRs = productCntStmt.executeQuery();
+		if(productCntRs.next()) { 								// 결과가 존재하는 경우
+			productRow = productCntRs.getInt("COUNT(*)");		// 결과에서 상품 개수 추출
 		}
 		return productRow;
 	}
@@ -82,9 +84,8 @@ public class ProductDao {
 		productOneStmt.setInt(1, productNo);
 		// 쿼리 실행 및 결과 저장
 		productOneRs = productOneStmt.executeQuery();
-		if (productOneRs.next()) { 								// 결과가 존재하는 경우
+		if(productOneRs.next()) { 								// 결과가 존재하는 경우
 			productOne = new Product(); 						// productOne 객체 생성
-	        
 			// ResultSet에서 상품 상세 정보 추출 + 상품 상세 객체에 저장
 			productOne.setProductNo(productOneRs.getInt("productNo"));
 			productOne.setCategoryName(productOneRs.getString("categoryName"));
@@ -118,16 +119,62 @@ public class ProductDao {
 		addProductStmt.setString(6, product.getProductInfo());
 		// 쿼리 실행 및 결과 저장
 		addProductRow = addProductStmt.executeUpdate();
-		 if(addProductRow == 1) {  
-	         System.out.println(SONG + "상품추가성공" + RESET);
-	      } else {
-	         System.out.println(SONG + "상품추가실패" + RESET);
-	      } 	
+		// 영향받은 행값	
+		if(addProductRow == 1) {  
+			System.out.println(SONG + addProductRow + " <-- ProductDao 상품추가성공" + RESET);
+	    } else {
+	    	System.out.println(SONG + addProductRow + " <-- ProductDao 상품추가실패" + RESET);
+	    } 	
 	return addProductRow;
 	}
 	
-	/* 상품 삭제 : addProduct */
+	/* 상품 수정 : modifyProduct */
+	public int modifyProduct(Product product) throws Exception {
+		DBUtil dbUtil = new DBUtil();							// DBUtil 객체 생성
+		Connection conn = dbUtil.getConnection();				// 데이터베이스 연결을 위한 Connection 객체 생성
+		PreparedStatement modifyProductStmt = null;				// 쿼리를 전송하기 위해 PreparedStatement 객체 생성
+		System.out.println(SONG + product.getProductNo() + RESET);
+		
+		// SQL 쿼리문
+		String modifyProductSql = "UPDATE product SET category_name = ?, product_name = ?, product_price = ?, product_status = ?, product_stock = ?, product_info = ?, updatedate = NOW() WHERE product_no = ?";
+		modifyProductStmt = conn.prepareStatement(modifyProductSql);
+		// ? 7개
+		modifyProductStmt.setString(1, product.getCategoryName());
+		modifyProductStmt.setString(2, product.getProductName());
+		modifyProductStmt.setInt(3, product.getProductPrice());
+		modifyProductStmt.setString(4, product.getProductStatus());
+		modifyProductStmt.setInt(5, product.getProductStock());
+		modifyProductStmt.setString(6, product.getProductInfo());
+		modifyProductStmt.setInt(7, product.getProductNo());
+		// 쿼리 실행 및 결과 저장
+		int modifyProductRow = modifyProductStmt.executeUpdate();
+		// 영향받은 행값	
+		if(modifyProductRow == 1) {
+			System.out.println(SONG + modifyProductRow + " <-- ProductDao 상품수정성공" + RESET);
+		} else {
+			System.out.println(SONG + modifyProductRow + " <-- ProductDao 상품수정실패" + RESET);
+			}
+		return modifyProductRow;
+	}
 	
-	
-	/* 상품 수정 : addProduct */
+	/* 상품 삭제 : removeProduct */
+	public int removeProduct(int productNo) throws Exception {
+		DBUtil dbUtil = new DBUtil();							// DBUtil 객체 생성
+		Connection conn = dbUtil.getConnection();				// 데이터베이스 연결을 위한 Connection 객체 생성
+		PreparedStatement removeProductStmt = null;				// 쿼리를 전송하기 위해 PreparedStatement 객체 생성
+		// SQL 쿼리문
+		String removeProductSql = "DELETE FROM product WHERE product_no = ?";
+		removeProductStmt = conn.prepareStatement(removeProductSql);
+		// 1개
+	    removeProductStmt.setInt(1, productNo);
+	    // 쿼리 실행 및 결과 저장
+		int removeProductRow = removeProductStmt.executeUpdate();
+		// 영향받은 행값	
+		if (removeProductRow == 1){
+			System.out.println(SONG + removeProductRow + " <-- ProductDao 상품삭제성공" + RESET);
+		} else {
+			System.out.println(SONG + removeProductRow + " <-- ProductDao 상품삭제실패" + RESET);
+		}
+		return removeProductRow;
+	}
 }

@@ -48,10 +48,10 @@
 	ProductDao productDao = new ProductDao();
 	int addProductRow = productDao.addProduct(product);
 	if(addProductRow == 1) {
-		System.out.println(SONG + "상품추가성공" + RESET);
+		System.out.println(SONG + addProductRow + " <-- addProductAction 상품추가성공" + RESET);
 		response.sendRedirect(request.getContextPath()+"/product/productList.jsp");
 	} else {
-		System.out.println(SONG + "상품추가실패" + RESET);
+		System.out.println(SONG + addProductRow + "<-- addProductAction 상품추가실패" + RESET);
 		response.sendRedirect(request.getContextPath()+"/product/addProduct.jsp");
 	}
 %>
