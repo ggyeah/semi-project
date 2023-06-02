@@ -5,6 +5,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+   table,td,th {border: 1px solid #000000; border-collapse: collapse;}
+</style>
 </head>
 <body>
 	<!-- 로그인 폼 -->
