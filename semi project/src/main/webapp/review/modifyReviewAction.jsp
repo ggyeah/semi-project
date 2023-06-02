@@ -20,10 +20,10 @@ if (request.getParameter("orderNo")!= null
 	String reviewContent = request.getParameter("reviewContent");
 	
 	// 디버깅
-	System.out.println(orderNo+"modifyreview orderNo");
-	System.out.println(productNo+"modifyreview productNo");
-	System.out.println(reviewTitle+"modifyreview reviewTitle");
-	System.out.println(reviewContent+"modifyreview reviewContent" );
+	System.out.println(orderNo+"<--modifyreview orderNo");
+	System.out.println(productNo+"<--modifyreview productNo");
+	System.out.println(reviewTitle+"<--modifyreview reviewTitle");
+	System.out.println(reviewContent+"<--modifyreview reviewContent" );
 	
 	//입력받은 값으로 Review 객체 생성
 	Review review = new Review();

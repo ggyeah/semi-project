@@ -22,7 +22,7 @@ public class ReviewImgDao {
         return rowCount;
     }
 //리뷰이미지를 보여지게 할때
-    public List<ReviewImg> getReviewImgsByOrderNo(int orderNo) throws Exception {
+    public List<ReviewImg> getReviewImages(int orderNo) throws Exception {
         List<ReviewImg> reviewImgs = new ArrayList<>();
 
         DBUtil dbUtil = new DBUtil();

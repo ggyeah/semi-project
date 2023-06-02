@@ -11,7 +11,7 @@ Review review = new Review();
 
 if (request.getParameter("orderNo") != null){
 	int orderNo = Integer.parseInt(request.getParameter("orderNo"));
-	System.out.println(orderNo+"<- 수정리뷰 orderNo");
+	System.out.println(orderNo+"<- ㅡmodifyreview orderNo");
 	review = reviewDao.reviewListOne(orderNo);
  }
 
@@ -32,12 +32,12 @@ if (request.getParameter("orderNo") != null){
 	<table class="table table-bordered">
 		<tr>
               <th>주문번호</th>
-              <td><%=review.getOrderNo()%></td>
+              <td><input type= "text" name = "orderNo" value ="<%=review.getOrderNo()%>" readonly="readonly"></td>
            </tr>
 		 <tr>
 		 <tr>
               <th>상품번호</th>
-              <td><%=review.getProductNo()%></td>
+              <td><input type= "text" name = "productNo" value ="<%=review.getProductNo()%>" readonly="readonly"></td>
            </tr>
 		 <tr>
 		 <tr>

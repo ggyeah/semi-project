@@ -21,7 +21,7 @@ if (request.getParameter("qNo") != null){
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body class="container">
-<h2>상세보기</h2>
+<h2>문의</h2>
 	<table class="table table-bordered">
 		
 		<tr>
