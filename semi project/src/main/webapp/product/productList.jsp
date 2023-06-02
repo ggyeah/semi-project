@@ -12,7 +12,7 @@
 </style>
 </head>
 <body>
-	<!-- 상품 리스트 출력	  + 페이징예정 -->
+	<!------------ 상품 리스트 출력	------------>
 	<table>
 		<tr>
 			<th>product_no</th>
@@ -41,5 +41,10 @@
 		}
 	%>
 	</table>
+	
+	<!-- 새로운 상품 추가하는 버튼 -->
+	<a href="<%=request.getContextPath()%>/product/addProduct.jsp">상품 추가</a>
+	
+	<!------------ 페이징 예정 ------------>
 </body>
 </html>

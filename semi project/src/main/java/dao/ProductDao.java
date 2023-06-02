@@ -116,8 +116,8 @@ public class ProductDao {
 		addProductStmt.setString(4, product.getProductStatus());
 		addProductStmt.setInt(5, product.getProductStock());
 		addProductStmt.setString(6, product.getProductInfo());
-	
-		addProductRow = addProductStmt.executeUpdate(); // 쿼리 실행 및 결과 반환
+		// 쿼리 실행 및 결과 저장
+		addProductRow = addProductStmt.executeUpdate();
 		 if(addProductRow == 1) {  
 	         System.out.println(SONG + "상품추가성공" + RESET);
 	      } else {

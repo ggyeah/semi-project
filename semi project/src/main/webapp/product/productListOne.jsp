@@ -13,8 +13,8 @@
 	/* 요청값 유효성 검사 */
 	if(request.getParameter("productNo") == null  
 		|| request.getParameter("productNo").equals("")) {
-		// teacherList.jsp으로 리다이렉트
-		response.sendRedirect(request.getContextPath() + "/teacher/selectTeacherListByPage.jsp");
+		// productList.jsp으로 리다이렉트
+		response.sendRedirect(request.getContextPath() + "/product/productList.jsp");
 		return;
 	}
 	// 유효성 검사를 통과하면 변수에 저장
@@ -76,6 +76,10 @@
 		<tr>
 			<th>updatedate</th>
 			<td><%=productOne.getUpdatedate()%></td>
+		</tr>
+		<tr>
+			<th>장바구니</th>
+			<td>대충 장바구니 버튼 들어갈 곳</td>
 		</tr>
 	</table>
 </div>
