@@ -52,6 +52,7 @@
 <body>
 <!------------  상품상세보기 ------------>
 <div>
+	<h1><%=productOne.getProductName()%> 상품 상세 페이지</h1>
 	<table>
 		<tr>
 			<th>product_no</th>
@@ -99,6 +100,12 @@
 		</tr>
 	</table>
 </div>
+	<!-- 상품정보 수정 버튼 -->
+	<a href="<%=request.getContextPath()%>/product/modifyProduct.jsp?productNo=<%=productOne.getProductNo()%>">상품 수정</a>
+	
+	<!-- 상품 삭제 버튼 -->
+	<a href="<%=request.getContextPath()%>/product/removeProduct.jsp?productNo=<%=productOne.getProductNo()%>">상품 삭제</a>
+
 <!------------  리뷰리스트  ------------>
 <div>
 <h2>상품리뷰</h2>
