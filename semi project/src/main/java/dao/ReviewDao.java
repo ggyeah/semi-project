@@ -10,13 +10,14 @@ import vo.*;
 public class ReviewDao {
 
 	//1) 리뷰리스트
-	public ArrayList<Review> reviewList(int beginRow, int rowPerPage) throws Exception {
-		ArrayList<Review> List = new ArrayList<>();
+	public ArrayList<Review> reviewList(int beginRow, int rowPerPage, int productNo) throws Exception {
+		ArrayList<Review> rList = new ArrayList<>();
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-        PreparedStatement reviewListStmt = conn.prepareStatement("SELECT order_no, product_no, review_title, review_content,createdate, updatedate FROM review LIMIT ?, ?");
-        reviewListStmt.setInt(1, beginRow);
-        reviewListStmt.setInt(2, rowPerPage);
+        PreparedStatement reviewListStmt = conn.prepareStatement("SELECT order_no, product_no, review_title, review_content,createdate, updatedate FROM review  WHERE product_no = ? LIMIT ?, ?");
+        reviewListStmt.setInt(1, productNo);
+        reviewListStmt.setInt(2, beginRow);
+        reviewListStmt.setInt(3, rowPerPage);
         
         ResultSet reviewListrs = reviewListStmt.executeQuery();
         
@@ -28,9 +29,9 @@ public class ReviewDao {
         	review.setReviewContent(reviewListrs.getString("review_content"));
         	review.setUpdatedate(reviewListrs.getString("updatedate"));
         	review.setCreatedate(reviewListrs.getString("createdate"));
-        	List.add(review);
+        	rList.add(review);
     	}
-        return List;
+        return rList;
     }
 	
 	//2) 리뷰수정
@@ -41,7 +42,7 @@ public class ReviewDao {
 	    PreparedStatement modifyReviewStmt = conn.prepareStatement("UPDATE review SET review_title = ?,review_content = ?,updatedate = now() WHERE order_no = ?");
 	    modifyReviewStmt.setString(1, review.getReviewTitle());
 	    modifyReviewStmt.setString(2, review.getReviewContent());
-	    modifyReviewStmt.setInt(4, review.getOrderNo());
+	    modifyReviewStmt.setInt(3, review.getOrderNo());
 		
 		//영향받은 행값
 		int row = modifyReviewStmt.executeUpdate();
@@ -78,7 +79,7 @@ public class ReviewDao {
 		addReviewStmt.setInt(1, review.getOrderNo());
 		addReviewStmt.setInt(2, review.getProductNo());
 		addReviewStmt.setString(3, review.getReviewTitle());
-		addReviewStmt.setString(3, review.getReviewContent());
+		addReviewStmt.setString(4, review.getReviewContent());
 		int row = addReviewStmt.executeUpdate(); 
 		if(row == 1) {  
 			System.out.println("지역추가성공");

@@ -3,6 +3,9 @@
 <%@ page import ="vo.*" %>
 <%@ page import="java.util.*"%>
 <% 
+//ANSI CODE	
+final String LIM = "\u001B[41m";
+
 request.setCharacterEncoding("utf-8");
 ReviewDao reviewDao = new ReviewDao();
 //유효값 검사 
@@ -16,14 +19,22 @@ if (request.getParameter("orderNo")!= null
 	String reviewTitle = request.getParameter("reviewTitle");
 	String reviewContent = request.getParameter("reviewContent");
 	
+	// 디버깅
+	System.out.println(orderNo+"modifyreview orderNo");
+	System.out.println(productNo+"modifyreview productNo");
+	System.out.println(reviewTitle+"modifyreview reviewTitle");
+	System.out.println(reviewContent+"modifyreview reviewContent" );
+	
 	//입력받은 값으로 Review 객체 생성
 	Review review = new Review();
+	review.setOrderNo(orderNo);
 	review.setReviewTitle(reviewTitle);
 	review.setReviewContent(reviewContent);
 	int row = reviewDao.modifyReview(review); 
+
+	response.sendRedirect(request.getContextPath() + "/product/productListOne.jsp?productNo=" +productNo);
 }
 
 
-
-response.sendRedirect(request.getContextPath() + "/review/reviewList.jsp");
 %>
+

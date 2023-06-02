@@ -11,6 +11,7 @@ Review review = new Review();
 
 if (request.getParameter("orderNo") != null){
 	int orderNo = Integer.parseInt(request.getParameter("orderNo"));
+	System.out.println(orderNo+"<- 수정리뷰 orderNo");
 	review = reviewDao.reviewListOne(orderNo);
  }
 
@@ -25,7 +26,7 @@ if (request.getParameter("orderNo") != null){
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body class="container">
-<h2>상세보기</h2>
+<h2>수정</h2>
 <form action="<%=request.getContextPath()%>/review/modifyReviewAction.jsp" method="post">
 
 	<table class="table table-bordered">

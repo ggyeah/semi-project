@@ -3,6 +3,9 @@
 <%@ page import ="vo.*" %>
 <%@ page import="java.util.*"%>
 <%
+//ANSI CODE	
+final String LIM = "\u001B[41m";
+
 //비밀번호확인 완성되면 추가 해야함 (세션아이디 값과 비밀번호를 가져와서 비교해야함)
 ReviewDao reviewDao = new ReviewDao();
 
