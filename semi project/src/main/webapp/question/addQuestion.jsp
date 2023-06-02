@@ -23,7 +23,7 @@ int productNo = Integer.parseInt(request.getParameter("productNo"));
 </head>
 <body class="container">
 <form action="<%=request.getContextPath()%>/question/addQuestionAction.jsp" method="post">
-<h1>상품리뷰</h1>
+<h1>문의</h1>
 <table class="table table-bordered">
 	<tr>
 		<td>상품번호</td>

@@ -116,13 +116,17 @@
         <th>내용</th>
         <th>작성일</th>
         <th>수정일</th>
-        <th>수정</th>
-        <th>삭제</th>
+        <th></th>
+        <th></th>
     </tr>
     <% for (Review review : rList) { %>
     <tr>
     	
-        <td><%=review.getReviewTitle()%></td>
+        <td>
+        	<a href="<%=request.getContextPath()%>/review/reviewListOne.jsp?orderNo=<%=review.getOrderNo()%>">
+				<%=review.getReviewTitle()%>
+			</a>
+		</td>
         <td><%=review.getReviewContent()%></td>
         <td><%=review.getCreatedate()%></td>
         <td><%=review.getUpdatedate()%></td>
