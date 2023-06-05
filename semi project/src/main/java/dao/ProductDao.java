@@ -21,7 +21,7 @@ public class ProductDao {
 		PreparedStatement productListStmt = null;				// 쿼리를 전송하기 위해 PreparedStatement 객체 생성
 		ResultSet productListRs = null;							// 쿼리 실행 결과를 담을 ResultSet 객체 생성
 		// SQL 쿼리문
-		String productListSql = "SELECT product_no productNo, category_name categoryName, product_name productName, product_price productPrice, product_status productStatus, product_stock productStock, product_info productInfo, createdate, updatedate FROM product LIMIT ?, ?";
+		String productListSql = "SELECT product_no productNo, category_name categoryName, product_name productName, product_price productPrice, product_status productStatus, product_stock productStock, product_info productInfo, createdate, updatedate FROM product ORDER BY createdate DESC LIMIT ?, ?";
 		productListStmt = conn.prepareStatement(productListSql);
 		// ? 2개
 		productListStmt.setInt(1, beginRow);

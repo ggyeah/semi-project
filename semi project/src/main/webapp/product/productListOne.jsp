@@ -5,6 +5,7 @@
 <%
 	// ANSI CODE	
 	final String RESET = "\u001B[0m"; 
+	final String LIM = "\u001B[41m";
 	final String KIM = "\u001B[42m";
 	final String SONG = "\u001B[43m";
 	final String YANG = "\u001B[44m";
@@ -50,6 +51,12 @@
 </style>
 </head>
 <body>
+<!------------ 상단 네비 바 ------------>
+<!-- 상단 네비 바(메인메뉴) -->
+<div>
+	<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
+</div>
+
 <!------------  상품상세보기 ------------>
 <div>
 	<h1><%=productOne.getProductName()%> 상품 상세 페이지</h1>
@@ -96,7 +103,7 @@
 		</tr>
 		<tr>
 			<th>장바구니</th>
-			<td>대충 장바구니 버튼 들어갈 곳</td>
+			<td><a href="<%=request.getContextPath()%>/cart/addCartAction.jsp?productNo=<%=productOne.getProductNo()%>">장바구니 추가</a></td>
 		</tr>
 	</table>
 </div>

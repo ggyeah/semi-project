@@ -12,14 +12,20 @@
 </style>
 </head>
 <body>
-	<!------------ 상품 리스트 출력	------------>
+<!------------ 상단 네비 바 ------------>
+<!-- 상단 네비 바(메인메뉴) -->
+<div>
+	<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
+</div>
+
+<!------------ 상품 리스트 출력	------------>
 	<table>
 		<tr>
-			<th>product_no</th>
 			<th>product_name</th>
 			<th>이미지</th>
 			<th>product_price</th>
 			<th>product_status</th>
+			<th>장바구니</th>
 		</tr>
 	<% 
 		ProductDao productDao = new ProductDao();
@@ -29,13 +35,13 @@
 		<tr>
 			<td>
 				<a href="<%=request.getContextPath()%>/product/productListOne.jsp?productNo=<%=product.getProductNo()%>">
-				<%=product.getProductNo()%>
+				<%=product.getProductName()%>
 				</a>
 			</td>
-			<td><%=product.getProductName()%></td>
 			<td>대충 음식 사진 들어갈 곳</td>
 			<td><%=product.getProductPrice()%></td>
 			<td><%=product.getProductStatus()%></td>
+			<td><a href="<%=request.getContextPath()%>/cart/addCartAction.jsp?productNo=<%=product.getProductNo()%>">장바구니 추가</a></td>
 		</tr>
 	<% 
 		}
