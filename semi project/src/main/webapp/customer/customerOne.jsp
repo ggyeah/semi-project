@@ -87,6 +87,8 @@
 				<td><%=customer.updatedate%></td>
 			</tr>
 		</table>
+		<a href="<%=request.getContextPath() %>/customer/modifyCustomer.jsp?id=<%=customer.getId() %>"><button type="button">회원정보수정</button></a>
+		<a href="<%=request.getContextPath() %>/customer/removeCustomer.jsp?id=<%=customer.getId() %>"><button type="button">탈퇴</button></a>
 	</div>
 </body>
 </html>

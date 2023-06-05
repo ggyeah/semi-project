@@ -17,14 +17,14 @@
 	if(request.getParameter("currentPage") != null) {
 	currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
-	System.out.println(YANG + currentPage + " <-- currentPage" + RESET);
+	System.out.println(YANG + currentPage + " <-- customerList currentPage" + RESET);
 	
 	// 클래스 객체 생성
 	CustomerDao dao = new CustomerDao();
 	
 	// 전체행의 수 
 	int totalRow = dao.selectCustomerCnt();
-	System.out.println(YANG + totalRow + " <-- totalRow" + RESET);
+	System.out.println(YANG + totalRow + " <-- customerList totalRow" + RESET);
 	
 	// 페이지당 행의 수
 	int rowPerPage = 20;
@@ -51,8 +51,7 @@
 		maxPage = lastPage;
 	}
 
-%>
-    
+%>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -89,6 +88,7 @@
 			%>
 		</table>
 	</div>
+	
 	<!-- 페이지 네비게이션 -->
 	<div>
 	<%
@@ -118,6 +118,5 @@
 		}
    	%>
 	</div>
-
 </body>
 </html>

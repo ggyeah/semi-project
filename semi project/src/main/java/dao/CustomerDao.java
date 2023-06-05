@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import util.DBUtil;
 import vo.Customer;
+import vo.Id;
 
 public class CustomerDao {
 	// 1) 회원 목록 조회(관리자용)
@@ -16,7 +17,7 @@ public class CustomerDao {
 		Connection conn = dbUtil.getConnection();
 		
 		// 리스트 불러오기
-		String custonerListSql ="SELECT c.id id, c.cstm_name cstmName, c.cstm_last_login cstmLastLogin, c.createdate createdate, id.acitve active FROM customer c, id_list id WHERE c.id =id.id ORDER BY createdate desc LIMIT ?, ?";
+		String custonerListSql ="SELECT c.id id, c.cstm_name cstmName, c.cstm_last_login cstmLastLogin, c.createdate createdate, id.active active FROM customer c, id_list id WHERE c.id =id.id ORDER BY cstmName LIMIT ?, ?";
 		PreparedStatement customerListStmt = conn.prepareStatement(custonerListSql);
 		customerListStmt.setInt(1, beginRow);
 		customerListStmt.setInt(2, rowPerPage);
@@ -51,7 +52,7 @@ public class CustomerDao {
 		}
 		return row;
 	}
-	// 3)회원 정보 상세 보기(관리자: 모두, 회원: 본인것만)
+	// 3) 회원 정보 상세 보기(관리자: 모두, 회원: 본인것만)
 	public Customer selectCustomerOne(String id) throws Exception {
 		// db연결
 		DBUtil dbUtil = new DBUtil();
@@ -78,9 +79,43 @@ public class CustomerDao {
 			c.setCstmLastLogin(customerOneRs.getString("cstm_last_login"));
 			c.setCreatedate(customerOneRs.getString("createdate"));
 			c.setUpdatedate(customerOneRs.getString("updatedate"));
-			c.setUpdatedate(customerOneRs.getString("updatedate"));
 		}
 		return c;
 	}
-
+	// 4) 회원 정보 수정
+		public int updateCustomer(Customer customer) throws Exception {
+			// db연결
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();
+			// 수정(update) SQL
+			String updateSql = "UPDATE customer SET cstm_name = ?, cstm_address = ?, cstm_email = ?, cstm_birth = ?, cstm_phone = ?, cstm_gender = ?, updatedate = now() WHERE id = ?";
+			PreparedStatement updateStmt = conn.prepareStatement(updateSql);
+			updateStmt.setString(1, customer.getCstmName());
+			updateStmt.setString(2, customer.getCstmAddress());
+			updateStmt.setString(3, customer.getCstmEmail());
+			updateStmt.setString(4, customer.getCstmBirth());
+			updateStmt.setString(5, customer.getCstmPhone());
+			updateStmt.setString(6, customer.getCstmGender());
+			updateStmt.setString(7, customer.getId());
+			int row = updateStmt.executeUpdate();
+						
+			return row;
+		}
+	// 5) 회원 탈퇴(활성화 여부 N으로 바꿔서 비활성화 처리)
+		public int updateCstmActive(Id idList) throws Exception {
+			// db연결
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();
+			
+			// 수정(update) SQL
+			String updateCstmActiveSql = "UPDATE id_list SET active = ? WHERE id = ? AND last_pw = ?";				
+			PreparedStatement updateCstmActiveStmt = conn.prepareStatement(updateCstmActiveSql);
+			updateCstmActiveStmt.setString(1, idList.getActive());
+			updateCstmActiveStmt.setString(2, idList.getId());
+			updateCstmActiveStmt.setString(3, idList.getLastPw());
+			int row = updateCstmActiveStmt.executeUpdate();
+											
+			return row;
+		}
+		
 }
