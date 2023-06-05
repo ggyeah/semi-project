@@ -6,6 +6,10 @@
 <% 
 //ANSI CODE	
 final String LIM = "\u001B[41m";
+final String RESET = "\u001B[0m"; 
+final String KIM = "\u001B[42m";
+final String SONG = "\u001B[43m";
+final String YANG = "\u001B[44m";
 
 request.setCharacterEncoding("utf-8");
 QuestionDao questionDao = new QuestionDao();
@@ -24,7 +28,7 @@ if (request.getParameter("qNo") != null
 	System.out.println(LIM+qNo+"modifyrquestion qNo");
 	System.out.println(qCategory+"modifyrquestion qCategory");
 	System.out.println(qTitle+"modifyrquestion qTitle");
-	System.out.println(qContent+"modifyrquestion qContent" );
+	System.out.println(qContent+"modifyrquestion qContent"+RESET);
 	
 	//입력받은 값으로 Review 객체 생성
 	Question question = new Question();

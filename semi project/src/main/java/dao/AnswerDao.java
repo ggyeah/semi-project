@@ -5,37 +5,36 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import util.DBUtil;
+import vo.Answer;
 import vo.Question;
+import vo.Review;
 
 public class AnswerDao {
 	// 1) 답변추가 (문의에 해당하는)
-		public int addQuestion(Question question) throws Exception {
+		public int addAnswer(Answer answer) throws Exception {
 			DBUtil dbUtil = new DBUtil();
 			Connection conn = dbUtil.getConnection();
-			PreparedStatement addQuestionStmt = conn.prepareStatement("INSERT INTO question (q_no, product_no, id, q_category, q_title, q_content, createdate, updatedate) VALUES(?,?,?,?,?,?, NOW(), NOW())");
-			addQuestionStmt.setInt(1, question.getqNo());
-			addQuestionStmt.setInt(2, question.getProductNo());
-			addQuestionStmt.setString(3, question.getId());
-			addQuestionStmt.setString(4, question.getqCategory());
-			addQuestionStmt.setString(5, question.getqTitle());
-			addQuestionStmt.setString(6, question.getqContent());
+			PreparedStatement addAnswerStmt = conn.prepareStatement("INSERT INTO answer (q_no, id, a_content, createdate, updatedate) VALUES(?,?,?, NOW(), NOW())");
+			addAnswerStmt.setInt(1, answer.getqNo());
+			addAnswerStmt.setString(2, answer.getId());
+			addAnswerStmt.setString(3, answer.getaContent());
 			
-			int row = addQuestionStmt.executeUpdate(); 
+			int row = addAnswerStmt.executeUpdate(); 
 			if(row == 1) {  
-				System.out.println("문의추가성공");
+				System.out.println("답변추가성공");
 			} else {
-				System.out.println("문의추가실패");
+				System.out.println("답변추가실패");
 			}	
 			return row;	
 	}
-		//2) 답변삭제 (문의에 해당하는)
-		public int removeQuestion(int qNo) throws Exception {
+		//2) 답변삭제 
+		public int removeAnswer(int aNo) throws Exception {
 			DBUtil dbUtil = new DBUtil();
 			Connection conn = dbUtil.getConnection();
-		    PreparedStatement  removeQuestionStmt = conn.prepareStatement("DELETE FROM question WHERE q_no = ?");
-		    removeQuestionStmt.setInt(1, qNo);
+		    PreparedStatement  removeAnswerStmt = conn.prepareStatement("DELETE FROM answer WHERE a_no = ?");
+		    removeAnswerStmt.setInt(1, aNo);
 		    
-		    int row = removeQuestionStmt.executeUpdate();
+		    int row = removeAnswerStmt.executeUpdate();
 			
 			if (row == 1){
 				System.out.println(row + " <- 문의삭제성공");
@@ -46,29 +45,46 @@ public class AnswerDao {
 		}
 		
 		//3)  답변보기 (문의에 해당하는)
-		public Question questionOne(int qNo) throws Exception {
+		public Answer answerOne(int qNo) throws Exception {
 			DBUtil dbUtil = new DBUtil();
 			Connection conn = dbUtil.getConnection();
-		    PreparedStatement QuestionOneStmt = conn.prepareStatement("select q_no, product_no, id, q_category, q_title, q_content, createdate, updatedate from question where q_no= ?");
+		    PreparedStatement QuestionOneStmt = conn.prepareStatement("select a_no, q_no, id, a_content, createdate, updatedate from answer where q_no= ?");
 		    QuestionOneStmt.setInt(1, qNo);
 		    
-		    ResultSet QuestionOneRs = QuestionOneStmt.executeQuery();
+		    ResultSet answerOneRs = QuestionOneStmt.executeQuery();
 		    
-		    Question question = null;
+		    Answer answer = null;
 		    
-		   if(QuestionOneRs.next()) {
-			    question = new Question();
-			    question.setqNo(QuestionOneRs.getInt("q_no"));;
-		       	question.setProductNo(QuestionOneRs.getInt("product_no"));
-		       	question.setId(QuestionOneRs.getString("id"));
-		       	question.setqCategory(QuestionOneRs.getString("q_category"));
-		       	question.setqTitle(QuestionOneRs.getString("q_title"));
-		       	question.setqContent(QuestionOneRs.getString("q_content"));
-		       	question.setUpdatedate(QuestionOneRs.getString("updatedate"));
-		       	question.setCreatedate(QuestionOneRs.getString("createdate"));
+		   if(answerOneRs.next()) {
+			   answer = new Answer();
+			   answer.setaNo(answerOneRs.getInt("a_no"));;
+			   answer.setqNo(answerOneRs.getInt("q_no"));
+			   answer.setId(answerOneRs.getString("id"));
+		       	answer.setaContent(answerOneRs.getString("a_content"));
+		       	answer.setUpdatedate(answerOneRs.getString("updatedate"));
+		       	answer.setCreatedate(answerOneRs.getString("createdate"));
 		
 	    	}
-		    return question;
+		    return answer;
 		}
 		
+		//4) 답변수정
+		public int modifyAnswer(int aNo, String aContent) throws Exception {
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();
+			
+		    PreparedStatement modifyReviewStmt = conn.prepareStatement("UPDATE answer SET a_content = ?,updatedate = now() WHERE a_no= ?");
+		    modifyReviewStmt.setString(1, aContent);
+		    modifyReviewStmt.setInt(2, aNo);
+			
+			//영향받은 행값
+			int row = modifyReviewStmt.executeUpdate();
+				
+			if(row == 1) {
+				System.out.println(row + " <- 문의수정성공");
+			} else {
+				System.out.println(row + " <- 문의수정실패");
+				}
+			return row;
+		}
 }

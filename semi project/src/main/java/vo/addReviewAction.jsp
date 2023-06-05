@@ -10,6 +10,11 @@
 <% 
 	//ANSI CODE	
 	final String LIM = "\u001B[41m";
+	final String RESET = "\u001B[0m"; 
+	final String KIM = "\u001B[42m";
+	final String SONG = "\u001B[43m";
+	final String YANG = "\u001B[44m";
+
 	
 	request.setCharacterEncoding("utf-8");
 	ReviewDao reviewDao = new ReviewDao();
@@ -35,7 +40,7 @@
 	String reviewContent = mRequest.getParameter("reviewContent");
 
 	//디버깅 
-	System.out.println(orderNo+"addReview orderNo");
+	System.out.println(LIM+ orderNo+"addReview orderNo");
 	System.out.println(productNo+"addReview productNo");
 	System.out.println(reviewTitle+"addReview reviewTitle");
 	System.out.println(reviewContent+"addReview reviewContent");
@@ -73,10 +78,11 @@
                 System.out.println("리뷰 이미지 추가 실패");
             }
     } else {
-        System.out.println("리뷰 추가 실패");
+        System.out.println("리뷰 추가 실패"+RESET);
     }
     }
+    response.sendRedirect(request.getContextPath() + "/review/reviewListOne.jsp?orderNo="+orderNo);
 }
-response.sendRedirect(request.getContextPath() + "/review/reviewList.jsp");
+
 %>
 

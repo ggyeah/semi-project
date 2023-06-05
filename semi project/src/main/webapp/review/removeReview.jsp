@@ -12,11 +12,11 @@ System.out.println(orderNo+"<- removeReview");
 <title>removeReview</title>
 </head>
 <body>
-<form action="<%=request.getContextPath()%>/review/removeReviewAction.jsp" method="post">
+<form action="<%=request.getContextPath()%>/review/removeReviewAction.jsp?orderNO=<%=orderNo%>" method="post">
 <table>
 	<tr>
 		<th>삭제하시려면 비밀번호를 입력하십시오</th>
-		<td><input type="password" name="last_pw"></td>
+		<td><input type="password" name="password"></td>
 		<td><button type="submit" class="btn btn-danger"> 삭제 </button></td>
 	</tr>
 </table>
