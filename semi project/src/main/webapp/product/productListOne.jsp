@@ -107,12 +107,18 @@
 		</tr>
 	</table>
 </div>
-	<!-- 상품정보 수정 버튼 -->
+	<!-- 상품정보 수정 및 삭제 버튼 -->
+	<%
+		//loginId가 관리자2(최고위직)일 경우에만 상품 추가 가능
+		if(session.getAttribute("loginId") != null){
+			if(session.getAttribute("loginId").equals("admin")){ 
+	%>
 	<a href="<%=request.getContextPath()%>/product/modifyProduct.jsp?productNo=<%=productOne.getProductNo()%>">상품 수정</a>
-	
-	<!-- 상품 삭제 버튼 -->
 	<a href="<%=request.getContextPath()%>/product/removeProduct.jsp?productNo=<%=productOne.getProductNo()%>">상품 삭제</a>
-
+	<%
+			}
+		}
+	%>
 <!------------  리뷰리스트  ------------>
 <div>
 <h2>상품리뷰</h2>

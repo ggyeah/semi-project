@@ -49,7 +49,16 @@
 	</table>
 	
 	<!-- 새로운 상품 추가하는 버튼 -->
-	<a href="<%=request.getContextPath()%>/product/addProduct.jsp">상품 추가</a>
+	<%
+		//loginId가 관리자2(최고위직)일 경우에만 상품 추가 가능
+		if(session.getAttribute("loginId") != null){
+			if(session.getAttribute("loginId").equals("admin")){ 
+	%>
+			<a href="<%=request.getContextPath()%>/product/addProduct.jsp">상품 추가</a>
+	<%
+			}
+		}
+	%>
 	
 	<!------------ 페이징 예정 ------------>
 </body>
