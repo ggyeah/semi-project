@@ -65,14 +65,14 @@ public class QuestionDao {
 	    PreparedStatement  removeQuestionStmt = conn.prepareStatement("DELETE FROM question WHERE q_no = ?");
 	    removeQuestionStmt.setInt(1, qNo);
 	    
-	    int row = removeQuestionStmt.executeUpdate();
+	    int questionrow = removeQuestionStmt.executeUpdate();
 		
-		if (row == 1){
-			System.out.println(row + " <- 문의삭제성공");
+		if (questionrow == 1){
+			System.out.println(questionrow + " <- 문의삭제성공");
 		} else {
-			System.out.println(row + " <- 문의삭제실패");
+			System.out.println(questionrow + " <- 문의삭제실패");
 		}
-		return row;
+		return questionrow;
 	}
 	
 	

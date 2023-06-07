@@ -109,7 +109,7 @@
 </div>
 	<!-- 상품정보 수정 및 삭제 버튼 -->
 	<%
-		//loginId가 관리자2(최고위직)일 경우에만 상품 추가 가능
+		//loginId가 관리자2(최고위직)일 경우에만 상품 수정 및 삭제 가능
 		if(session.getAttribute("loginId") != null){
 			if(session.getAttribute("loginId").equals("admin")){ 
 	%>
@@ -122,7 +122,7 @@
 <!------------  리뷰리스트  ------------>
 <div>
 <h2>상품리뷰</h2>
-<a href="">리뷰추가</a> <!-- 회원주문관리에서 리뷰작성이 가능하므로 주문관리 창으로 연결--> 
+<a href="<%=request.getContextPath()%>/orders/ordersCstmList.jsp">리뷰추가</a> 
 <table>
     <tr>
         <th>제목</th>
@@ -145,7 +145,7 @@
         <td><%=review.getUpdatedate()%></td>
         <!--  세션값으로 분기 들어가야함  -->
         <td><a href="<%=request.getContextPath()%>/review/modifyReview.jsp?orderNo=<%=review.getOrderNo()%>">수정</a></td>
-        <td><a href="<%=request.getContextPath()%>/review/removeReview.jsp?orderNo=<%=review.getOrderNo()%>">삭제</a></td>
+        <td><a href="<%=request.getContextPath()%>/review/removeReview.jsp?orderNo=<%=review.getOrderNo()%>&productNo=<%=review.getProductNo()%>">삭제</a></td>
     </tr>
     <% } %>
 </table>

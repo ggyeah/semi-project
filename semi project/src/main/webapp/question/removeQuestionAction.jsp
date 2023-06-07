@@ -3,13 +3,39 @@
 <%@ page import ="vo.*" %>
 <%@ page import="java.util.*"%>
 <%
+//ANSI CODE	
+final String LIM = "\u001B[41m";
+final String RESET = "\u001B[0m"; 
+final String KIM = "\u001B[42m";
+final String SONG = "\u001B[43m";
+final String YANG = "\u001B[44m";
 
-//비밀번호확인 완성되면 추가 해야함 (세션아이디 값과 비밀번호를 가져와서 비교해야함)
-QuestionDao questionDao = new QuestionDao();
+IdDao idDao = new IdDao();
+//세션 유효성 검사
+if(session.getAttribute("loginId") != null) {
+  String id = (String) session.getAttribute("loginId");
+  String lastPw = request.getParameter("password");
+  //디버깅
+  System.out.println(id +"<removeReviewACtion sessionId");
+  
 
-if (request.getParameter("qNo") != null){
-	int qNo = Integer.parseInt(request.getParameter("qNo"));
-	int row = questionDao.removeQuestion(qNo); 
+	// 디버깅
+	System.out.println(id + " <-- id");
+	System.out.println(lastPw + " <-- lastPw");
+
+	 
+	 int row = idDao.selectId(id,lastPw);
+	 // 디버깅
+	 System.out.println(row +"<removeReviewACtion row"); 
+	 
+  if (row == 1) {
+      // 세션 아이디와 입력된 비밀번호가 일치하면 리뷰 삭제 수행
+		if (request.getParameter("qNo") != null){
+			QuestionDao questionDao = new QuestionDao();
+			int qNo = Integer.parseInt(request.getParameter("qNo"));
+			int questionrow = questionDao.removeQuestion(qNo); 
+			response.sendRedirect(request.getContextPath() + "/home.jsp");
+		}
+	}
 }
-response.sendRedirect(request.getContextPath() + "/home.jsp");
 %>

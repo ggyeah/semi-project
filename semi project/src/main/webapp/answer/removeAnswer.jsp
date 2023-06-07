@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <% 
-if (request.getParameter("qNo")== null
-&& request.getParameter("aNo")== null){
-	
-}
-
+	if (request.getParameter("qNo")== null
+	&& request.getParameter("aNo")== null
+	&& request.getParameter("productNo")== null){
+	}
 	int qNo = Integer.parseInt(request.getParameter("qNo"));
 	int aNo = Integer.parseInt(request.getParameter("aNo"));	
+	int productNo = Integer.parseInt(request.getParameter("productNo"));	
 %>
 <!DOCTYPE html>
 <html>
@@ -16,7 +16,7 @@ if (request.getParameter("qNo")== null
 <title>removeQuestion</title>
 </head>
 <body>
-<form action="<%=request.getContextPath()%>/answer/removeAnswerAction.jsp?qNo=<%=qNo%>&aNo=<%=aNo%>" method="post">
+<form action="<%=request.getContextPath()%>/answer/removeAnswerAction.jsp?qNo=<%=qNo%>&aNo=<%=aNo%>&productNo=<%=productNo%>" method="post">
 <table>
 	<tr>
 		<th>답변을 삭제하시겠습니까?</th>

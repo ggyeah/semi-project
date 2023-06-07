@@ -34,14 +34,14 @@ public class AnswerDao {
 		    PreparedStatement  removeAnswerStmt = conn.prepareStatement("DELETE FROM answer WHERE a_no = ?");
 		    removeAnswerStmt.setInt(1, aNo);
 		    
-		    int row = removeAnswerStmt.executeUpdate();
+		    int answerrow = removeAnswerStmt.executeUpdate();
 			
-			if (row == 1){
-				System.out.println(row + " <- 문의삭제성공");
+			if (answerrow == 1){
+				System.out.println(answerrow + " <- 문의삭제성공");
 			} else {
-				System.out.println(row + " <- 문의삭제실패");
+				System.out.println(answerrow + " <- 문의삭제실패");
 			}
-			return row;
+			return answerrow;
 		}
 		
 		//3)  답변보기 (문의에 해당하는)

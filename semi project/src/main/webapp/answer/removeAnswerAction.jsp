@@ -10,17 +10,17 @@ final String KIM = "\u001B[42m";
 final String SONG = "\u001B[43m";
 final String YANG = "\u001B[44m";
 
-//비밀번호확인 완성되면 추가 해야함 (세션아이디 값과 비밀번호를 가져와서 비교해야함)
-
-
-if (request.getParameter("qNo") != null
-	&& request.getParameter("aNo") != null) {
+   	if (request.getParameter("qNo")!= null
+	&& request.getParameter("aNo")!= null
+	&& request.getParameter("productNo")!= null){
+		
 	int qNo = Integer.parseInt(request.getParameter("qNo"));
-	int aNo = Integer.parseInt(request.getParameter("aNo"));
-	
+	int aNo = Integer.parseInt(request.getParameter("aNo"));	
+	int productNo = Integer.parseInt(request.getParameter("productNo"));	
+
 	AnswerDao answerDao = new AnswerDao();
-	int row = answerDao.removeAnswer(aNo); 
-	
-	response.sendRedirect(request.getContextPath() + "/question/questionListOne.jsp?qNo="+qNo);
-}
+	int rowanswerrow = answerDao.removeAnswer(aNo); 
+            
+	 response.sendRedirect(request.getContextPath() + "/product/productListOne.jsp?productNo="+productNo);
+   	}
 %>

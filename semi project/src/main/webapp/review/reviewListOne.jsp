@@ -64,7 +64,7 @@ if (request.getParameter("orderNo") != null) {
 
 	<div>
 		<a href="<%=request.getContextPath()%>/review/modifyReview.jsp?orderNo=<%=review.getOrderNo()%>">수정</a>
-		<a href="<%=request.getContextPath()%>/review/removeReview.jsp?orderNo=<%=review.getOrderNo()%>">삭제</a>
+		<a href="<%=request.getContextPath()%>/review/removeReview.jsp?orderNo=<%=review.getOrderNo()%>&productNo=<%=review.getProductNo()%>">삭제</a>
 	</div>	
 </body>
 </html>

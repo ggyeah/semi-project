@@ -65,7 +65,7 @@ if (request.getParameter("qNo") != null){
 
 	<div>
 		<a href="<%=request.getContextPath()%>/question/modifyQuestion.jsp?qNo=<%=question.getqNo()%>">수정</a>
-		<a href="<%=request.getContextPath()%>/question/removeQuestion.jsp?qNo=<%=question.getqNo()%>">삭제</a>
+		<a href="<%=request.getContextPath()%>/question/removeQuestion.jsp?qNo=<%=question.getqNo()%>&productNo=<%=question.getProductNo()%>">삭제</a>
 	</div>	
 	
 	<!-------------------  답변---------------------->
@@ -94,7 +94,7 @@ if (request.getParameter("qNo") != null){
 	</table>	
 	<div>
 	<a href="<%=request.getContextPath()%>/answer/modifyAnswer.jsp?qNo=<%=question.getqNo()%>&aNo=<%=answer.getaNo()%>">수정</a>
-    <a href="<%=request.getContextPath()%>/answer/removeAnswer.jsp?qNo=<%=question.getqNo()%>&aNo=<%=answer.getaNo()%>">삭제</a>
+    <a href="<%=request.getContextPath()%>/answer/removeAnswer.jsp?qNo=<%=question.getqNo()%>&aNo=<%=answer.getaNo()%>&productNo=<%=question.getProductNo()%>">삭제</a>
 	</div>	
 	  <% } else { %>
 	  	<!-------------------  답변추가---------------------->

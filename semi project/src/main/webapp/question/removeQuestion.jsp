@@ -12,11 +12,11 @@ System.out.println(qNo+"<- removequestion qNo");
 <title>removeQuestion</title>
 </head>
 <body>
-<form action="<%=request.getContextPath()%>/question/removeQuestionAction.jsp" method="post">
+<form action="<%=request.getContextPath()%>/question/removeQuestionAction.jsp?qNo=<%=qNo%>" method="post">
 <table>
 	<tr>
 		<th>삭제하시려면 비밀번호를 입력하십시오</th>
-		<td><input type="password" name="last_pw"></td>
+		<td><input type="password" name="password"></td>
 		<td><button type="submit" class="btn btn-danger"> 삭제 </button></td>
 	</tr>
 </table>

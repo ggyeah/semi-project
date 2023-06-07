@@ -7,14 +7,19 @@
 <%@ page import = "com.oreilly.servlet.MultipartRequest" %>
 <%@ page import = "com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
 
-<% 	//ANSI CODE	
+<% 
+	//ANSI CODE	
 	final String LIM = "\u001B[41m";
+	final String RESET = "\u001B[0m"; 
+	final String KIM = "\u001B[42m";
+	final String SONG = "\u001B[43m";
+	final String YANG = "\u001B[44m";
 	
 	request.setCharacterEncoding("utf-8");
 	ReviewDao reviewDao = new ReviewDao();
 	ReviewImgDao reviewImgDao = new ReviewImgDao();	
     String dir = request.getServletContext().getRealPath("/reviewImgUpload");
-   	System.out.println(dir);//getRealPath 실제위치
+   	System.out.println(LIM+dir);//getRealPath 실제위치
    	
    	int max = 10 * 1024 * 1024; // 100Mbyte
    	
@@ -75,10 +80,12 @@
                 System.out.println("리뷰 이미지 추가 실패");
             }
      } else {
-        System.out.println("리뷰 추가 실패");
+        System.out.println("리뷰 추가 실패"+RESET);
+        response.sendRedirect(request.getContextPath() + "/product/productListOne.jsp?productNo="+productNo);
     		}
+	 response.sendRedirect(request.getContextPath() + "/product/productListOne.jsp?productNo="+productNo);
    		}
-    response.sendRedirect(request.getContextPath() + "/product/preductListOne.jsp?productNo="+productNo);
+  
 	}
 	%>
             
