@@ -59,17 +59,17 @@ public class ReviewDao {
 	public int removeReview(int orderNo) throws Exception {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-	    PreparedStatement removeReviewStmt = conn.prepareStatement("DELETE FROM review WHERE orderNo = ?");
+	    PreparedStatement removeReviewStmt = conn.prepareStatement("DELETE FROM review WHERE order_no = ?");
 	    removeReviewStmt.setInt(1, orderNo);
 	    
-	    int row = removeReviewStmt.executeUpdate();
+	    int reviewrow = removeReviewStmt.executeUpdate();
 		
-		if (row == 1){
-			System.out.println(row + " <- 리뷰삭제성공");
+		if (reviewrow == 1){
+			System.out.println(reviewrow + " <- 리뷰삭제성공");
 		} else {
-			System.out.println(row + " <- 리뷰삭제실패");
+			System.out.println(reviewrow + " <- 리뷰삭제실패");
 		}
-		return row;
+		return reviewrow;
 	}
 	// 4) 리뷰추가
 	public int addReview(Review review) throws Exception {
