@@ -41,20 +41,18 @@
 					<ul>
 						<li><a href="<%=request.getContextPath()%>/home.jsp">Home</a></li>
 						<li><a href="<%=request.getContextPath()%>/id/logoutAction.jsp">로그아웃</a></li>
-						<li><a href="<%=request.getContextPath()%>/customer/customerOne.jsp">마이페이지</a></li>
 						<li><a href="<%=request.getContextPath()%>/category/categoryList.jsp">카테고리 관리</a></li>
 						<li><a href="<%=request.getContextPath()%>/customer/customerList.jsp">회원 정보조회</a></li>
-						<li><a href="<%=request.getContextPath()%>/employees/employeesList.jsp">직원 추가</a></li>
+						<li><a href="<%=request.getContextPath()%>/employees/employeesList.jsp">직원 관리</a></li>
 						<li><a href="<%=request.getContextPath()%>/orders/ordersEmpList.jsp">회원 주문리스트</a></li><!-- 배송상태 변경 -->
 						<li><a href="<%=request.getContextPath()%>/discount/discountList.jsp">할인관리</a></li>
 					</ul>
 		<%
-				} else if(session.getAttribute("loginId").equals("blue")){ //loginId가 관리자1(일반 직원)일 경우
+				} else if(session.getAttribute("loginId").equals("blue")){ //loginId가 관리자1(일반 직원)일 경우 *추후 level로 변경
 		%>
 					<ul>
 						<li><a href="<%=request.getContextPath()%>/home.jsp">Home</a></li>
 						<li><a href="<%=request.getContextPath()%>/id/logoutAction.jsp">로그아웃</a></li>
-						<li><a href="<%=request.getContextPath()%>/customer/customerOne.jsp">마이페이지</a></li>
 						<li><a href="<%=request.getContextPath()%>/category/categoryList.jsp">카테고리 관리</a></li>
 						<li><a href="<%=request.getContextPath()%>/customer/customerList.jsp">회원 정보 조회</a></li><!-- 조회만 가능 -->
 					</ul>
@@ -64,9 +62,9 @@
 					<ul>
 						<li><a href="<%=request.getContextPath()%>/home.jsp">Home</a></li>
 						<li><a href="<%=request.getContextPath()%>/id/logoutAction.jsp">로그아웃</a></li>
-						<li><a href="<%=request.getContextPath()%>/customer/customerOne.jsp">마이페이지</a></li>
+						<li><a href="<%=request.getContextPath()%>/customer/customerOne.jsp?id=<%=(String)session.getAttribute("loginId")%>">마이페이지</a></li>
 						<li><a href="<%=request.getContextPath()%>/orders/ordersCstmList.jsp">나의 주문리스트</a></li><!-- 해당 고객의 주문 리스트만 보이도록 -->
-						<li><a href="<%=request.getContextPath()%>/cart/cartList.jsp">장바구니</a></li>
+						<li><a href="<%=request.getContextPath()%>/cart/cartList.jsp?id=<%=(String)session.getAttribute("loginId")%>">장바구니</a></li>
 					</ul>
 		<%			
 				}
