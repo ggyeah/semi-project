@@ -13,15 +13,16 @@ public class CartDao {
     final String KIM = "\u001B[42m";
     final String SONG = "\u001B[43m";
     final String YANG = "\u001B[44m";
-/* 로그인 사용자의 장바구니 조회/추가/수정/삭제 */	
+    
+/*-------------------- 로그인 사용자의 장바구니 조회/추가/수정/삭제 --------------------*/	
 	//장바구니 조회
-	public ArrayList<Cart> selectCart(String id) throws Exception {
+	public ArrayList<Cart> selectCart(String loginId) throws Exception {
 		ArrayList<Cart> cartList = new ArrayList<>();
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		String selectCartSql = "select cart_no, product_no, id, createdate, cart_cnt, updatedate from cart WHERE id = ? ORDER BY cart_no";
 		PreparedStatement selectCartStmt = conn.prepareStatement(selectCartSql);
-		selectCartStmt.setString(1, id);
+		selectCartStmt.setString(1, loginId);
 		System.out.println(KIM+"CartDao - selectCartSql: " + selectCartSql+RESET);
 		ResultSet rs = selectCartStmt.executeQuery();
 		//vo타입으로 변경
@@ -36,6 +37,28 @@ public class CartDao {
 		}
 		return cartList;
 	}
+	// 상세 조회
+		public Cart selectCartOne(String loginId) throws Exception{
+			Cart cart = null;
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();
+			if (loginId != null) {
+			String cartOneSql = "select cart_no, product_no, id, createdate, cart_cnt, updatedate from cart WHERE id = ? ORDER BY cart_no";
+			PreparedStatement cartOneStmt = conn.prepareStatement(cartOneSql);
+			cartOneStmt.setString(1, loginId);
+			System.out.println(KIM+"OrdersDao - cartOneSql: " + cartOneSql+RESET);
+			ResultSet cartOneRs = cartOneStmt.executeQuery();
+				if(cartOneRs.next()){
+					cart = new Cart();
+					cart.setCartNo(cartOneRs.getInt("cart_no"));
+					cart.setProductNo(cartOneRs.getInt("product_no"));
+					cart.setCreatedate(cartOneRs.getString("createdate"));
+					cart.setCartCnt(cartOneRs.getInt("cart_cnt"));
+					cart.setUpdatedate(cartOneRs.getString("updatedate"));
+				}
+			}
+			return cart;
+		}
 	//장바구니 추가(상품 리스트에서 버튼 클릭 시)
 	public int addCart(Cart cart) throws Exception {
 		DBUtil dbUtil = new DBUtil();
@@ -76,7 +99,7 @@ public class CartDao {
 		return row;
 	}
 	
-/* 비로그인 사용자의 장바구니 조회/추가/수정/삭제 */
+/*-------------------- 비로그인 사용자의 장바구니 조회/추가/수정/삭제 --------------------*/
 	
 	//비로그인자 장바구니 조회
 	public ArrayList<Cart> selectSessionCart(HttpServletRequest request) throws Exception{ //HttpServletRequest를 통해 현재 세션을 가져옴

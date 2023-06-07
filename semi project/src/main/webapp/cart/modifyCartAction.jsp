@@ -37,8 +37,8 @@
 		/* 장바구니 번호와 수량 파라미터 가져오기 */
 		int cartNo = Integer.parseInt(request.getParameter("cartNo"));
 		int cartCnt = Integer.parseInt(request.getParameter("cartCnt"));
-		System.out.println(KIM+cartNo+"<--modifyCartAction parameter cartNo"+RESET);
-		System.out.println(KIM+cartCnt+"<--modifyCartAction parameter cartCnt"+RESET);
+		System.out.println(KIM+cartNo+" <-- cart/modifyCartAction parameter cartNo"+RESET);
+		System.out.println(KIM+cartCnt+" <-- cart/modifyCartAction parameter cartCnt"+RESET);
 		
 		/* Cart 클래스에 객체를 생성하여 수정할 번호와 수량을 저장 */
 		Cart updatedCart = new Cart();
@@ -47,7 +47,7 @@
 		
 		/* 장바구니 수정 업데이트 */
 		CartDao cartDao = new CartDao();
-		cartList = cartDao.modifySessionCart(request, cartList, updatedCart);
+		cartList = cartDao.modifySessionCart(request, cartList, updatedCart); //cartDao의 modifySessionCart 메서드 사용
         session.setAttribute("cartList", cartList);
 		
 		/* redirection */
@@ -59,7 +59,9 @@
 		
 		/* 유효성 검사 */
 		if(request.getParameter("cartNo") == null
-		|| request.getParameter("cartCnt") == null){
+		|| request.getParameter("cartCnt") == null
+		|| request.getParameter("cartNo").equals("")
+		|| request.getParameter("cartCnt").equals("")){
 			//받아온 데이터가 없을 경우 List로 redirect
 			response.sendRedirect(request.getContextPath()+"/cart/cartList.jsp");
 			return;
@@ -68,8 +70,8 @@
 		/* 장바구니 번호와 수량 파라미터 가져오기 */
 		int cartNo = Integer.parseInt(request.getParameter("cartNo"));
 		int cartCnt = Integer.parseInt(request.getParameter("cartCnt"));
-		System.out.println(KIM+cartNo+"<--modifyCartAction parameter cartNo"+RESET);
-		System.out.println(KIM+cartCnt+"<--modifyCartAction parameter cartCnt"+RESET);
+		System.out.println(KIM+cartNo+" <-- cart/modifyCartAction parameter cartNo"+RESET);
+		System.out.println(KIM+cartCnt+" <-- cart/modifyCartAction parameter cartCnt"+RESET);
 		
 		/* 객체 생성 */
 		//DB에 저장된 데이터를 수정하는, modifyCart 메서드를 사용하기 위해 Dao 사용을 선언
@@ -80,19 +82,19 @@
 		
 		/* DB에 저장된 장바구니 데이터 업데이트 */
 		int row = cartDao.modifyCart(cart);
-		System.out.println(KIM+row+"<--modifyCartAcion row"+RESET);
+		System.out.println(KIM+row+" <-- cart/modifyCartAcion row"+RESET);
 		
 		/* redirection */
 		String msg = null;
 		if(row == 0){
 			// 업데이트 실패 시 메시지 설정 및 장바구니 리스트로 redirect
 			msg = URLEncoder.encode("수량 수정 실패", "utf-8");
-			response.sendRedirect(request.getContextPath()+"/cart/cartList.jsp");
+			response.sendRedirect(request.getContextPath()+"/cart/cartList.jsp?msg="+msg);
 			return;
 		} else {
 			// 업데이트 성공 시 메시지 설정 및 장바구니 리스트로 redirect
 			msg = URLEncoder.encode("수량 수정 성공", "utf-8");
-			response.sendRedirect(request.getContextPath()+"/cart/cartList.jsp");
+			response.sendRedirect(request.getContextPath()+"/cart/cartList.jsp?msg="+msg);
 			return;
 		}
 	}

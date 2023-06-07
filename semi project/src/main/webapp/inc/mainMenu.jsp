@@ -41,6 +41,7 @@
 					<ul>
 						<li><a href="<%=request.getContextPath()%>/home.jsp">Home</a></li>
 						<li><a href="<%=request.getContextPath()%>/id/logoutAction.jsp">로그아웃</a></li>
+						<li><a href="<%=request.getContextPath()%>/employees/employeesOne.jsp?id=<%=(String)session.getAttribute("loginId")%>">마이페이지</a></li>
 						<li><a href="<%=request.getContextPath()%>/category/categoryList.jsp">카테고리 관리</a></li>
 						<li><a href="<%=request.getContextPath()%>/customer/customerList.jsp">회원 정보조회</a></li>
 						<li><a href="<%=request.getContextPath()%>/employees/employeesList.jsp">직원 관리</a></li>
@@ -53,6 +54,7 @@
 					<ul>
 						<li><a href="<%=request.getContextPath()%>/home.jsp">Home</a></li>
 						<li><a href="<%=request.getContextPath()%>/id/logoutAction.jsp">로그아웃</a></li>
+						<li><a href="<%=request.getContextPath()%>/employees/employeesOne.jsp?id=<%=(String)session.getAttribute("loginId")%>">마이페이지</a></li>
 						<li><a href="<%=request.getContextPath()%>/category/categoryList.jsp">카테고리 관리</a></li>
 						<li><a href="<%=request.getContextPath()%>/customer/customerList.jsp">회원 정보 조회</a></li><!-- 조회만 가능 -->
 					</ul>

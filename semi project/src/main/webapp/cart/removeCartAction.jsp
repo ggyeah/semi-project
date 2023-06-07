@@ -37,7 +37,7 @@
 		}
 		
 		int cartNo = Integer.parseInt(request.getParameter("cartNo"));
-		System.out.println(KIM+cartNo+"<--removeCartAction parameter cartNo"+RESET);
+		System.out.println(KIM+cartNo+" <-- cart/removeCartAction parameter cartNo"+RESET);
 		
 		/* 장바구니 번호 파라미터 가져와 cart 클래스 데이터 수정 */
 		CartDao cartDao = new CartDao();
@@ -59,7 +59,7 @@
 		}
 		
 		int cartNo = Integer.parseInt(request.getParameter("cartNo"));
-		System.out.println(KIM+cartNo+"<--removeCartAction parameter cartNo"+RESET); //디버깅
+		System.out.println(KIM+cartNo+" <-- cart/removeCartAction parameter cartNo"+RESET); //디버깅
 		
 		
 		/* 장바구니 번호 파라미터를 cart 클래스의 cart 객체 변수에 할당 */
@@ -72,7 +72,7 @@
 		
 		/* 장바구니 삭제 업데이트 */
 		int row = cartDao.removeCart(cartNo);
-		System.out.println(KIM+row+"<--removeCartAcion row"+RESET); //디버깅
+		System.out.println(KIM+row+" <-- cart/removeCartAcion row"+RESET); //디버깅
 		
 		/* redirection */
 		String msg = null;

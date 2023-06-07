@@ -28,26 +28,22 @@
 				cartList = cartDao.selectCart(id);
 			}
 		// 유효성 검사
-		if(request.getParameter("product_no") == null
-		|| request.getParameter("id") == null
-		|| request.getParameter("cart_cnt") == null
-		|| request.getParameter("product_no").equals("")
-		|| request.getParameter("id").equals("")
-		|| request.getParameter("cart_cnt").equals("")){
+		if(request.getParameter("productNo") == null
+		|| request.getParameter("productNo").equals("")){
 			//받아온 데이터가 없을 경우 productListOne으로 redirect
-			int productNo = Integer.parseInt(request.getParameter("product_no"));
+			int productNo = Integer.parseInt(request.getParameter("productNo"));
 			response.sendRedirect(request.getContextPath()+"/product/productListOne.jsp?productNo="+productNo);
 			return;
 		}
 		
-		int productNo = Integer.parseInt(request.getParameter("product_no"));
+		int productNo = Integer.parseInt(request.getParameter("productNo"));
 		String id = (String)session.getAttribute("loginId");
 		int cartCnt = Integer.parseInt(request.getParameter("cart_cnt"));
 		
 		//디버깅
-		System.out.println(KIM+productNo+"<--addCartAction parameter productNo"+RESET);
-		System.out.println(KIM+id+"<--addCartAction parameter id"+RESET);
-		System.out.println(KIM+cartCnt+"<--addCartAction parameter cartCnt"+RESET);
+		System.out.println(KIM+productNo+" <-- cart/addCartAction parameter productNo"+RESET);
+		System.out.println(KIM+id+" <-- cart/addCartAction parameter id"+RESET);
+		System.out.println(KIM+cartCnt+" <-- cart/addCartAction parameter cartCnt"+RESET);
 		
 		/* 객체에 추가할 데이터 담기 */
 		Cart cart = new Cart();
@@ -68,26 +64,22 @@
 		String loginId = (String)session.getAttribute("loginId");
 		
 		/* 유효성 검사 */
-		if(request.getParameter("product_no") == null
-		|| request.getParameter("id") == null
-		|| request.getParameter("cart_cnt") == null
-		|| request.getParameter("product_no").equals("")
-		|| request.getParameter("id").equals("")
-		|| request.getParameter("cart_cnt").equals("")){
+		if(request.getParameter("productNo") == null
+		|| request.getParameter("productNo").equals("")){
 		//받아온 데이터가 없을 경우 productListOne으로 redirect
-		int productNo = Integer.parseInt(request.getParameter("product_no"));
+		int productNo = Integer.parseInt(request.getParameter("productNo"));
 		response.sendRedirect(request.getContextPath()+"/product/productListOne.jsp?productNo="+productNo);
 		return;
 		}
 		
-		int productNo = Integer.parseInt(request.getParameter("product_no"));
+		int productNo = Integer.parseInt(request.getParameter("productNo"));
 		String id = (String)session.getAttribute("loginId");
 		int cartCnt = Integer.parseInt(request.getParameter("cart_cnt"));
 		
 		//디버깅
-		System.out.println(KIM+productNo+"<--addCartAction parameter productNo"+RESET);
-		System.out.println(KIM+id+"<--addCartAction parameter id"+RESET);
-		System.out.println(KIM+cartCnt+"<--addCartAction parameter cartCnt"+RESET);
+		System.out.println(KIM+productNo+" <-- cart/addCartAction parameter productNo"+RESET);
+		System.out.println(KIM+id+" <-- cart/addCartAction parameter id"+RESET);
+		System.out.println(KIM+cartCnt+" <-- cart/addCartAction parameter cartCnt"+RESET);
 		
 		/* 객체에 추가할 데이터 담기 */
 		Cart cart = new Cart();
@@ -99,7 +91,7 @@
 		
 		/* DB에 로그인자 장바구니 데이터 추가 */
 		int row = cartDao.addCart(cart);
-		System.out.println(KIM+row+"<--addCartAcion row"+RESET);
+		System.out.println(KIM+row+" <-- cart/addCartAcion row"+RESET);
 		
 		/* redirection */
 		String msg = null;
