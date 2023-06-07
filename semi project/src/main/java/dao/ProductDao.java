@@ -29,7 +29,7 @@ public class ProductDao {
 		// 쿼리 실행 및 결과 저장
 		productListRs = productListStmt.executeQuery();
 		// ResultSet에서 데이터를 순차적으로 읽어와 Product 객체에 저장하고, productList에 추가
-		while (productListRs.next()) {
+		while(productListRs.next()) {
 			// 상품 객체 생성
 			Product product = new Product();
 			// ResultSet에서 상품 정보 추출 + 상품 객체에 저장
@@ -46,8 +46,8 @@ public class ProductDao {
 			// 상품 객체를 리스트에 추가
 			productList.add(product);
 		}
-	// 상품 리스트 반환
-	return productList;
+		// 상품 리스트 반환
+		return productList;
 	}
 	
 	
@@ -97,13 +97,12 @@ public class ProductDao {
 			productOne.setCreatedate(productOneRs.getString("createdate"));
 			productOne.setUpdatedate(productOneRs.getString("updatedate"));
 	    }
-		 return productOne;
+		return productOne;
 	}
 	
 	
 	/* 상품 추가 : addProduct */
 	public int addProduct(Product product) throws Exception {
-		int addProductRow = 0;
 		DBUtil dbUtil = new DBUtil();							// DBUtil 객체 생성
 		Connection conn = dbUtil.getConnection();				// 데이터베이스 연결을 위한 Connection 객체 생성
 		PreparedStatement addProductStmt = null;				// 쿼리를 전송하기 위해 PreparedStatement 객체 생성
@@ -118,23 +117,22 @@ public class ProductDao {
 		addProductStmt.setInt(5, product.getProductStock());
 		addProductStmt.setString(6, product.getProductInfo());
 		// 쿼리 실행 및 결과 저장
-		addProductRow = addProductStmt.executeUpdate();
+		int addProductRow = addProductStmt.executeUpdate();
 		// 영향받은 행값	
 		if(addProductRow == 1) {  
 			System.out.println(SONG + addProductRow + " <-- ProductDao 상품추가성공" + RESET);
 	    } else {
 	    	System.out.println(SONG + addProductRow + " <-- ProductDao 상품추가실패" + RESET);
 	    } 	
-	return addProductRow;
+		return addProductRow;
 	}
+	
 	
 	/* 상품 수정 : modifyProduct */
 	public int modifyProduct(Product product) throws Exception {
 		DBUtil dbUtil = new DBUtil();							// DBUtil 객체 생성
 		Connection conn = dbUtil.getConnection();				// 데이터베이스 연결을 위한 Connection 객체 생성
 		PreparedStatement modifyProductStmt = null;				// 쿼리를 전송하기 위해 PreparedStatement 객체 생성
-		System.out.println(SONG + product.getProductNo() + RESET);
-		
 		// SQL 쿼리문
 		String modifyProductSql = "UPDATE product SET category_name = ?, product_name = ?, product_price = ?, product_status = ?, product_stock = ?, product_info = ?, updatedate = NOW() WHERE product_no = ?";
 		modifyProductStmt = conn.prepareStatement(modifyProductSql);
@@ -153,9 +151,10 @@ public class ProductDao {
 			System.out.println(SONG + modifyProductRow + " <-- ProductDao 상품수정성공" + RESET);
 		} else {
 			System.out.println(SONG + modifyProductRow + " <-- ProductDao 상품수정실패" + RESET);
-			}
+		}
 		return modifyProductRow;
 	}
+	
 	
 	/* 상품 삭제 : removeProduct */
 	public int removeProduct(int productNo) throws Exception {
@@ -170,7 +169,7 @@ public class ProductDao {
 	    // 쿼리 실행 및 결과 저장
 		int removeProductRow = removeProductStmt.executeUpdate();
 		// 영향받은 행값	
-		if (removeProductRow == 1){
+		if(removeProductRow == 1){
 			System.out.println(SONG + removeProductRow + " <-- ProductDao 상품삭제성공" + RESET);
 		} else {
 			System.out.println(SONG + removeProductRow + " <-- ProductDao 상품삭제실패" + RESET);

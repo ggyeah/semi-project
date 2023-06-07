@@ -60,6 +60,17 @@
 <!------------  상품상세보기 ------------>
 <div>
 	<h1><%=productOne.getProductName()%> 상품 상세 페이지</h1>
+	<!-- 에러메세지 -->
+	<div>
+	<%
+		if(request.getParameter("msg") != null){
+	%>
+		<%=request.getParameter("msg")%>
+	<%
+		}
+	%>
+	</div>
+	
 	<table>
 		<tr>
 			<th>product_no</th>
