@@ -23,6 +23,8 @@
 	// 회원 상세 정보 보여주는 메소드 호출
 	Customer customer = dao.selectCustomerOne(id);
 	
+	
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -87,8 +89,15 @@
 				<td><%=customer.updatedate%></td>
 			</tr>
 		</table>
-		<a href="<%=request.getContextPath() %>/customer/modifyCustomer.jsp?id=<%=customer.getId() %>"><button type="button">회원정보수정</button></a>
-		<a href="<%=request.getContextPath() %>/customer/removeCustomer.jsp?id=<%=customer.getId() %>"><button type="button">탈퇴</button></a>
+	<%
+		// 로그인 회원에게만 회원탈퇴와 수정 버튼 보임(관리자에게는 안보임)
+		if(session.getAttribute("loginId").equals(customer.getId())) {
+	%>
+			<a href="<%=request.getContextPath() %>/customer/modifyCustomer.jsp?id=<%=customer.getId() %>"><button type="button">회원정보수정</button></a>
+			<a href="<%=request.getContextPath() %>/customer/removeCustomer.jsp?id=<%=customer.getId() %>"><button type="button">탈퇴</button></a>
+	<%
+		}	
+	%>
 	</div>
 </body>
 </html>

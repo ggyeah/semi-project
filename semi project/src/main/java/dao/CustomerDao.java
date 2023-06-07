@@ -60,7 +60,11 @@ public class CustomerDao {
 		
 		// 상세정보 불러오기
 		Customer c = null;
-		String customerOneSql = "SELECT id, cstm_name, cstm_address, cstm_email, cstm_birth, cstm_phone, cstm_gender, cstm_rank, cstm_point, cstm_last_login, createdate, updatedate FROM customer WHERE id = ?"; 
+		String customerOneSql = "SELECT c.id, c.cstm_name, c.cstm_address, c.cstm_email, c.cstm_birth, c.cstm_phone, c.cstm_gender, c.cstm_rank, nvl((plus.sum_point - minus.sum_point),0) point, c.cstm_last_login, c.createdate, c.updatedate\n"
+				+ "FROM customer c,\n"
+				+ "  (SELECT SUM(point) AS sum_point FROM point_history WHERE point_pm = '+') plus,\n"
+				+ "  (SELECT SUM(point) AS sum_point FROM point_history WHERE point_pm = '-') minus\n"
+				+ "WHERE c.id = ?"; 
 		PreparedStatement customerOneStmt = conn.prepareStatement(customerOneSql);
 		customerOneStmt.setString(1, id);
 		ResultSet customerOneRs = customerOneStmt.executeQuery();
@@ -75,7 +79,7 @@ public class CustomerDao {
 			c.setCstmPhone(customerOneRs.getString("cstm_phone"));
 			c.setCstmGender(customerOneRs.getString("cstm_gender"));
 			c.setCstmRank(customerOneRs.getString("cstm_rank"));
-			c.setCstmPoint(customerOneRs.getInt("cstm_point"));
+			c.setCstmPoint(customerOneRs.getInt("point"));
 			c.setCstmLastLogin(customerOneRs.getString("cstm_last_login"));
 			c.setCreatedate(customerOneRs.getString("createdate"));
 			c.setUpdatedate(customerOneRs.getString("updatedate"));
@@ -101,18 +105,17 @@ public class CustomerDao {
 						
 			return row;
 		}
-	// 5) 회원 탈퇴(활성화 여부 N으로 바꿔서 비활성화 처리)
+	// 5) 회원 탈퇴(활성화 여부 D로 바꿔서 탈퇴 처리)
 		public int updateCstmActive(Id idList) throws Exception {
 			// db연결
 			DBUtil dbUtil = new DBUtil();
 			Connection conn = dbUtil.getConnection();
 			
 			// 수정(update) SQL
-			String updateCstmActiveSql = "UPDATE id_list SET active = ? WHERE id = ? AND last_pw = ?";				
+			String updateCstmActiveSql = "UPDATE id_list SET active = 'D' WHERE id = ? AND last_pw = password(?)";				
 			PreparedStatement updateCstmActiveStmt = conn.prepareStatement(updateCstmActiveSql);
-			updateCstmActiveStmt.setString(1, idList.getActive());
-			updateCstmActiveStmt.setString(2, idList.getId());
-			updateCstmActiveStmt.setString(3, idList.getLastPw());
+			updateCstmActiveStmt.setString(1, idList.getId());
+			updateCstmActiveStmt.setString(2, idList.getLastPw());
 			int row = updateCstmActiveStmt.executeUpdate();
 											
 			return row;
