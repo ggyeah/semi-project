@@ -32,17 +32,18 @@
 	/* 1. 글에 필요한 값: beginRow, rowPerPage (oracleDB 사용시 endRow) */
 	int rowPerPage = 3;
 	int beginRow = (currentPage - 1) * rowPerPage; // ex. rowPerPage가 10일때 1, 11, 21... 출력
+	
 	//mariadb는 limit가 있어서 시작 번호와 끝번호를 따로 정해주지 않아도 됨.
 	//beginRow부터 rowPerPage까지의 데이터를 가져오는 메소드를 호출, 결과 저장
 	ArrayList<Orders> myList = ordersDao.selectCustomerOrders(beginRow, rowPerPage, loginId);//0부터 10까지
 	
 	//totalRow를 사용하기 위해 selectCustomerOrdersCnt 메소드 호출 및 변수 저장
 	int totalRow = ordersDao.selectCustomerOrdersCnt(loginId);
-
+	
 	/* 2. 하단 바에 필요한 값: minpage(이전) pageperpage maxPage(다음) */
 	int pagePerPage = 3;
 	
-	int lastPage = totalRow / pagePerPage;
+	int lastPage = totalRow / rowPerPage; // pagePerPage X
 	if(totalRow % rowPerPage != 0){
 		lastPage = lastPage + 1;
 	}
@@ -64,6 +65,11 @@
 </style>
 </head>
 <body>
+	<!-- 상단 네비 바(메인메뉴) -->
+	<div>
+		<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
+	</div>
+
 	<!-- 포인트 추가시 메세지 출력 -->
 	<div>
 			<%
@@ -104,7 +110,7 @@
 					<% 
 						if(orders.getDeliveryStatus().equals("구매확정")){
 					%>
-						<td><input type="text" value="<%=orders.getDeliveryStatus()%>" readonly="readonly"><a href="<%=request.getContextPath()%>/orders/addOrdersAction.jsp"></a></td>
+						<td><a href="<%=request.getContextPath()%>/review/addReview.jsp?orderNo=<%=orders.getOrderNo()%>&productNo=<%=orders.getProductNo()%>">리뷰작성</a></td>
 					<%
 						} else {
 					%>
@@ -123,12 +129,12 @@
 	 <div>
 		 <nav>
 			 <ul>
-				 <li>
+				 
 					<%
 					// '이전'
 					if(minPage > 1){
 					%>
-						<a href="<%=request.getContextPath()%>/teacherSubjectList.jsp?currentPage=<%=minPage-pagePerPage%>">이전</a>
+						<li><a href="<%=request.getContextPath()%>/orders/ordersCstmList.jsp?currentPage=<%=minPage-pagePerPage%>">이전</a>
 					<%		
 						}
 						// 하단 페이징 번호
@@ -139,18 +145,18 @@
 					<%			
 							} else {
 					%>
-								<li><a href="<%=request.getContextPath()%>/teacherSubjectList.jsp?currentPage=<%=i%>"><%=i%></a>&nbsp;</li>
+								<li><a href="<%=request.getContextPath()%>/orders/ordersCstmList.jsp?currentPage=<%=i%>"><%=i%></a>&nbsp;</li>
 					<%			
 							}
 						}
 						// '다음'
 						if(maxPage != lastPage){
 					%>
-						<li><a class="page-link" href ="<%=request.getContextPath()%>/teacherSubjectList.jsp?currentPage=<%=minPage+pagePerPage%>">다음</a></li>
+						<a href ="<%=request.getContextPath()%>/orders/ordersCstmList.jsp?currentPage=<%=minPage+pagePerPage%>">다음</a>
 					<%		
 						}
 					%>
-				</li>
+				
 			</ul>
 		</nav>
 	</div>

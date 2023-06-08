@@ -19,6 +19,7 @@
 	
 	// CartDao 객체 생성
 	CartDao cartDao = new CartDao();
+	
 	ArrayList<Cart> cartList = null; //장바구니 목록을 저장할 ArrayList 생성 및 초기화
 	
 	/* 로그인/비로그인 사용자의 장바구니 조회 목록 분기 */
@@ -82,10 +83,12 @@
 				<td><%=c.getProductNo()%></td>
 				<td>
 					<form action="modifyCartAction.jsp" method="post">
+						<input type="hidden" name="id" value="<%=c.getId()%>">
 						<input type="hidden" name="cartNo" value="<%=c.getCartNo()%>">
-						<!-- modifyCartAction에서, 비로그인자의 장바구니가 없을 시 productListOne으로 redirect 하기위해 productNo값을 함께 보냄 -->
 						<input type="hidden" name="productNo" value="<%=c.getProductNo()%>">
 						<input type="number" name="cartCnt" value="<%=c.getCartCnt()%>">
+						<input type="hidden" name="createdate" value="<%=c.getCreatedate()%>">
+						<input type="hidden" name="updatedate" value="<%=c.getUpdatedate()%>">
 						<input type="submit" value="수정">
 					</form>
 				</td>	
@@ -93,9 +96,12 @@
 				<td><%=c.getUpdatedate()%></td>
 				<td>
 					<form action="removeCartAction.jsp" method="post">
+					<input type="hidden" name="id" value="<%=c.getId()%>">
 						<input type="hidden" name="cartNo" value="<%=c.getCartNo()%>">
-						<!-- removeCartAction에서, 비로그인자의 장바구니가 없을 시 productListOne으로 redirect 하기위해 productNo값을 함께 보냄 -->
 						<input type="hidden" name="productNo" value="<%=c.getProductNo()%>">
+						<input type="hidden" name="cartCnt" value="<%=c.getCartCnt()%>">
+						<input type="hidden" name="createdate" value="<%=c.getCreatedate()%>">
+						<input type="hidden" name="updatedate" value="<%=c.getUpdatedate()%>">
 						<input type="submit" value="삭제">
 					</form>
 				</td>

@@ -41,7 +41,7 @@
 	/* 2. 하단 바에 필요한 값: minpage(이전) pageperpage maxPage(다음) */
 	int pagePerPage = 3;
 	
-	int lastPage = totalRow / pagePerPage;
+	int lastPage = totalRow / rowPerPage;
 	if(totalRow % rowPerPage != 0){
 		lastPage = lastPage + 1;
 	}
@@ -63,6 +63,11 @@
 </style>
 </head>
 <body>
+	<!-- 상단 네비 바(메인메뉴) -->
+	<div>
+		<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
+	</div>
+	
 	<div>
 			<%
 				if(request.getParameter("msg")!=null){
@@ -121,7 +126,7 @@
 					// '이전'
 					if(minPage > 1){
 					%>
-						<a href="<%=request.getContextPath()%>/teacherSubjectList.jsp?currentPage=<%=minPage-pagePerPage%>">이전</a>
+						<a href="<%=request.getContextPath()%>/orders/ordersEmpList.jsp?currentPage=<%=minPage-pagePerPage%>">이전</a>
 					<%		
 						}
 						// 하단 페이징 번호
@@ -132,14 +137,14 @@
 					<%			
 							} else {
 					%>
-								<li><a href="<%=request.getContextPath()%>/teacherSubjectList.jsp?currentPage=<%=i%>"><%=i%></a>&nbsp;</li>
+								<li><a href="<%=request.getContextPath()%>/orders/ordersEmpList.jsp?currentPage=<%=i%>"><%=i%></a>&nbsp;</li>
 					<%			
 							}
 						}
 						// '다음'
 						if(maxPage != lastPage){
 					%>
-						<li><a class="page-link" href ="<%=request.getContextPath()%>/teacherSubjectList.jsp?currentPage=<%=minPage+pagePerPage%>">다음</a></li>
+						<li><a class="page-link" href ="<%=request.getContextPath()%>/orders/ordersEmpList.jsp?currentPage=<%=minPage+pagePerPage%>">다음</a></li>
 					<%		
 						}
 					%>

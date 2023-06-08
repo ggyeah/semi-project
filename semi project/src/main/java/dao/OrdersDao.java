@@ -145,7 +145,7 @@ public class OrdersDao {
 		int customerOrdersCntRow = 0;
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		String customerOrdersCntSql = "SELECT count(*) count FROM orders WHERE id = ?";
+		String customerOrdersCntSql = "SELECT count(order_no) count FROM orders WHERE id = ?";
 		PreparedStatement customerOrdersCntStmt = conn.prepareStatement(customerOrdersCntSql);
 		customerOrdersCntStmt.setString(1, loginId);
 		System.out.println(KIM+"OrdersDao - customerOrdersCntSql: " + customerOrdersCntSql+RESET);
@@ -158,23 +158,30 @@ public class OrdersDao {
 	}
 	// 고객 주문 추가
 	public int addCustomerOrders(Orders orders) throws Exception{
+		int row = 0;
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		//주문 추가 시 결제완료(기본값)으로 변경됨
-		String addCustomerOrdersSql = "INSERT INTO orders(product_no, id, delivery_status, order_cnt, order_price, createdate, updatedate) values(?, ?, ?, ?, ?, NOW(), NOW())";
+		String addCustomerOrdersSql = "INSERT INTO orders(product_no, id, delivery_status, order_cnt, order_price, createdate, updatedate) values(?, ?, '결제완료', ?, ?, NOW(), NOW())";
 		PreparedStatement addCustomerOrdersStmt = conn.prepareStatement(addCustomerOrdersSql);
 		addCustomerOrdersStmt.setInt(1, orders.getProductNo());
 		addCustomerOrdersStmt.setString(2, orders.getId());
-		addCustomerOrdersStmt.setString(3, orders.getDeliveryStatus());
-		addCustomerOrdersStmt.setInt(4, orders.getOrderCnt());
-		addCustomerOrdersStmt.setInt(5, orders.getOrderPrice());
+		addCustomerOrdersStmt.setInt(3, orders.getOrderCnt());
+		addCustomerOrdersStmt.setInt(4, orders.getOrderPrice());
 		System.out.println("OrdersDao - addCustomerOrdersSql: " + addCustomerOrdersSql);
-		int row = addCustomerOrdersStmt.executeUpdate();
-
+		row = addCustomerOrdersStmt.executeUpdate();
+		
+		if(row == 1) {
+				String removeCartSql = "DELETE FROM cart WHERE product_no = ?";
+				PreparedStatement removeCartStmt = conn.prepareStatement(removeCartSql);
+				removeCartStmt.setInt(1, orders.getProductNo());
+				removeCartStmt.executeUpdate();
+			}
+		
 		return row;
 	}
 	
-	// 고객 주문 수정 ("구매확정"으로 변경) (구매확정시 포인트 10씩 증가)
+	// 고객 주문 수정 ("구매확정"으로 변경) (구매확정시 포인트 1000씩 증가)
 	public int modifyCustomerOrders(String loginId) throws Exception {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
