@@ -78,6 +78,7 @@
 			<% //Cart 클래스의 객체 c를 cartList에서 가져와 반복 처리
 				for(Cart c : cartList){
 			%>
+			<!-- 수정/삭제를 위해 필요한 값은 hidden으로 넘김 -->
 			<tr>
 				<td><%=c.getCartNo()%></td>
 				<td><%=c.getProductNo()%></td>

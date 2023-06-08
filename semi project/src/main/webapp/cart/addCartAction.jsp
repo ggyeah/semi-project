@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.net.*" %>
+<%@ page import="java.time.*" %>
+<%@ page import="java.time.format.*" %>
 <%@ page import="dao.*"%>
 <%@ page import="vo.*"%>
 <%@ page import="java.util.*" %>
@@ -38,21 +40,45 @@
 		
 		int productNo = Integer.parseInt(request.getParameter("productNo"));
 		String id = (String)session.getAttribute("loginId");
-		int cartCnt = Integer.parseInt(request.getParameter("cart_cnt"));
-		
 		//디버깅
 		System.out.println(KIM+productNo+" <-- cart/addCartAction parameter productNo"+RESET);
 		System.out.println(KIM+id+" <-- cart/addCartAction parameter id"+RESET);
-		System.out.println(KIM+cartCnt+" <-- cart/addCartAction parameter cartCnt"+RESET);
 		
+		// 현재 날짜/시간
+        LocalDateTime now = LocalDateTime.now();
+        // 현재 날짜/시간 출력
+        System.out.println(now); // 2022-05-03T15:52:21.419878100
+		
+        // 포맷팅
+        String formatedNow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        // 포맷팅 현재 날짜/시간 출력
+        System.out.println(formatedNow); // 2022-05-03 15:52:21
+        
 		/* 객체에 추가할 데이터 담기 */
 		Cart cart = new Cart();
 		cart.setProductNo(productNo);
 		cart.setId(id);
-		cart.setCartCnt(cartCnt);
+		cart.setCartNo(productNo);
+		cart.setCartCnt(1);
+		cart.setCreatedate(formatedNow);
+		cart.setUpdatedate(formatedNow);
+		
+		CartDao cartDao = new CartDao();
+		
+		 /* 세션 장바구니에 같은 상품 있을 시 redirect */
+		int sessionCartRow = cartDao.cartCnt(request, productNo);
+		System.out.println(KIM+sessionCartRow+" <-- cart/addCartAcion sessionCartRow"+RESET);
+		
+		/* redirection */
+		String msg = null;
+		if(sessionCartRow > 0){
+			msg = URLEncoder.encode("이미 장바구니에 존재하는 상품입니다.", "utf-8");
+			System.out.println(KIM+"장바구니 중복"+RESET);
+			response.sendRedirect(request.getContextPath()+"/product/productListOne.jsp?productNo="+productNo+"&msg="+msg);
+			return;
+		}
 
 		/* 세션에 비로그인자 장바구니 데이터 추가 */
-		CartDao cartDao = new CartDao();
         cartList = cartDao.addSessionCart(request, cartList, cart);
 		
 		/* redirection */
@@ -74,34 +100,41 @@
 		
 		int productNo = Integer.parseInt(request.getParameter("productNo"));
 		String id = (String)session.getAttribute("loginId");
-		int cartCnt = Integer.parseInt(request.getParameter("cart_cnt"));
 		
 		//디버깅
 		System.out.println(KIM+productNo+" <-- cart/addCartAction parameter productNo"+RESET);
 		System.out.println(KIM+id+" <-- cart/addCartAction parameter id"+RESET);
-		System.out.println(KIM+cartCnt+" <-- cart/addCartAction parameter cartCnt"+RESET);
 		
 		/* 객체에 추가할 데이터 담기 */
 		Cart cart = new Cart();
 		cart.setProductNo(productNo);
 		cart.setId(id);
-		cart.setCartCnt(cartCnt);
 		
 		CartDao cartDao = new CartDao();
-		
 		/* DB에 로그인자 장바구니 데이터 추가 */
-		int row = cartDao.addCart(cart);
-		System.out.println(KIM+row+" <-- cart/addCartAcion row"+RESET);
+		int ckRow = cartDao.checkCart(cart, loginId);
+		System.out.println(KIM+ckRow+" <-- cart/addCartAcion ckRow"+RESET);
+		
 		
 		/* redirection */
 		String msg = null;
+		if(ckRow > 0){
+			msg = URLEncoder.encode("이미 장바구니에 존재하는 상품입니다.", "utf-8");
+			System.out.println(KIM+"장바구니 중복"+RESET);
+			response.sendRedirect(request.getContextPath()+"/product/productListOne.jsp?productNo="+productNo+"&msg="+msg);
+			return;
+		}
+		
+		int row = cartDao.addCart(cart);
+		System.out.println(KIM+row+" <-- cart/addCartAcion row"+RESET);
 		if(row == 0){
 			// 추가 실패 시 메시지 설정 및 상품 리스트로 redirect
 			msg = URLEncoder.encode("장바구니 추가 실패", "utf-8");
-			response.sendRedirect(request.getContextPath()+"/product/productListOne.jsp?productNo="+productNo);
+			response.sendRedirect(request.getContextPath()+"/product/productListOne.jsp?productNo="+productNo+"&msg="+msg);
 			return;
 		} else {
 			// 추가 성공 시 장바구니 리스트로 redirect
+			System.out.println(KIM+"장바구니 추가 성공"+RESET);
 			response.sendRedirect(request.getContextPath()+"/cart/cartList.jsp");
 			return;
 		}

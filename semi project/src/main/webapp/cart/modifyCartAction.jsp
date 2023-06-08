@@ -36,23 +36,38 @@
 		
 		/* 장바구니 번호와 수량 파라미터 가져오기 */
 		int cartNo = Integer.parseInt(request.getParameter("cartNo"));
+		int productNo = Integer.parseInt(request.getParameter("productNo"));
+		String id = (String)session.getAttribute("loginId");
 		int cartCnt = Integer.parseInt(request.getParameter("cartCnt"));
 		System.out.println(KIM+cartNo+" <-- cart/modifyCartAction parameter cartNo"+RESET);
+		System.out.println(KIM+productNo+" <-- cart/modifyCartAction parameter productNo"+RESET);
+		System.out.println(KIM+id+" <-- cart/modifyCartAction parameter id"+RESET);
 		System.out.println(KIM+cartCnt+" <-- cart/modifyCartAction parameter cartCnt"+RESET);
 		
 		/* Cart 클래스에 객체를 생성하여 수정할 번호와 수량을 저장 */
 		Cart updatedCart = new Cart();
 		updatedCart.setCartNo(cartNo);
 		updatedCart.setCartCnt(cartCnt);
+		updatedCart.setProductNo(productNo);
+		updatedCart.setId(id);
 		
 		/* 장바구니 수정 업데이트 */
 		CartDao cartDao = new CartDao();
-		cartList = cartDao.modifySessionCart(request, cartList, updatedCart); //cartDao의 modifySessionCart 메서드 사용
-        session.setAttribute("cartList", cartList);
 		
+		int row = cartDao.cartCnt(request, productNo);
+		
+		if(row == 0){
+			response.sendRedirect(request.getContextPath()+"/cart/cartList.jsp");
+			System.out.println(KIM+row+" <-- modifyCartAction row == 0"+RESET);
+			return;
+		} else {
+			cartList = cartDao.modifySessionCart(request, cartList, updatedCart); //cartDao의 modifySessionCart 메서드 사용
+	        session.setAttribute("cartList", cartList);
+	        System.out.println(KIM+row+" <-- modifyCartAction row == 1"+RESET);     
 		/* redirection */
-		response.sendRedirect(request.getContextPath()+"/cart/cartList.jsp");
-		return;
+	        response.sendRedirect(request.getContextPath()+"/cart/cartList.jsp");
+	        return;
+		}
 		
 	} else { //2. 로그인한 사용자의 경우 DB에 저장된 장바구니 데이터를 삭제
 		String loginId = (String)session.getAttribute("loginId");

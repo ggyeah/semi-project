@@ -38,13 +38,16 @@
 		
 		int cartNo = Integer.parseInt(request.getParameter("cartNo"));
 		System.out.println(KIM+cartNo+" <-- cart/removeCartAction parameter cartNo"+RESET);
+		int productNo = Integer.parseInt(request.getParameter("productNo"));
+		String id = (String)session.getAttribute("loginId");
+		int cartCnt = Integer.parseInt(request.getParameter("cartCnt"));
 		
 		/* 장바구니 번호 파라미터 가져와 cart 클래스 데이터 수정 */
 		CartDao cartDao = new CartDao();
 		cartDao.removeSessionCart(request, cartNo);
         
 		/* redirection */
-		response.sendRedirect(request.getContextPath()+"/cart/cartList.jsp");
+		response.sendRedirect(request.getContextPath() + "/cart/cartList.jsp");
 		return;
 	
 	} else { //2. 로그인한 사용자의 경우 장바구니 데이터를 DB에 추가

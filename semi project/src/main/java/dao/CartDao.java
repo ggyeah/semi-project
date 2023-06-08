@@ -59,19 +59,40 @@ public class CartDao {
 			}
 			return cart;
 		}
-	//장바구니 추가(상품 리스트에서 버튼 클릭 시)
-	public int addCart(Cart cart) throws Exception {
+		
+	// 이미 장바구니에 담긴 상품의 개수
+		public int checkCart(Cart cart, String loginId) throws Exception {
+			int ckRow = 0;
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();
+			if(cart != null) {
+				String checkCartSql = "SELECT COUNT(product_no) count FROM cart WHERE product_no = ? AND id=?";
+				PreparedStatement checkCartStmt = conn.prepareStatement(checkCartSql);
+				checkCartStmt.setInt(1, cart.getProductNo());
+				checkCartStmt.setString(2, loginId);
+				ResultSet checkCartRs = checkCartStmt.executeQuery();
+				if(checkCartRs.next()) {
+					ckRow = checkCartRs.getInt("count");
+					return ckRow;
+				}
+			}
+			return ckRow;
+		}
+	
+	// 장바구니 추가 (장바구니에 같은 상품 번호가 없을 경우)
+	public int addCart(Cart cart) throws Exception{
+		int row =0;
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		String addCartSql = "INSERT INTO cart(cart_no, product_no, id, createdate, cart_cnt, updatedate) values(?, ?, ?, NOW(), ?, NOW())";
+		String addCartSql = "INSERT INTO cart(cart_no, product_no, id, createdate, cart_cnt, updatedate) values(?, ?, ?, NOW(), 1, NOW())";
 		PreparedStatement addCartStmt = conn.prepareStatement(addCartSql);
 		addCartStmt.setInt(1, cart.getCartNo());
 		addCartStmt.setInt(2, cart.getProductNo());
 		addCartStmt.setString(3, cart.getId());
-		addCartStmt.setInt(4, cart.getCartCnt());
-		int row = addCartStmt.executeUpdate();
+		row = addCartStmt.executeUpdate();
 		System.out.println(KIM+"CartDao - addCartSql: " + addCartSql+RESET);
 		return row;
+		
 	}
 	
 	//장바구니 수량 수정
@@ -112,6 +133,23 @@ public class CartDao {
 	    }
 	    return cartList; // 장바구니 목록을 반환
 	}
+	//비로그인자 장바구니 중복 상품 개수 조회
+	public int cartCnt(HttpServletRequest request, int productNo) {
+	    int row = 0;
+		HttpSession session = request.getSession();
+	    ArrayList<Cart> cartList = (ArrayList<Cart>) session.getAttribute("cartList");
+	    
+	    if (cartList != null) {
+	        for (Cart cart : cartList) {
+	            if (cart.getProductNo() == productNo) {
+	                row++;
+	                return row;
+	            }
+	        }
+	    }
+	    
+	    return row;
+	}
 	
 	//비로그인자 장바구니 추가
 	public ArrayList<Cart> addSessionCart(HttpServletRequest request, ArrayList<Cart> cartList, Cart cart) throws Exception{
@@ -126,6 +164,7 @@ public class CartDao {
 	    
 	    return cartList; //업데이트된 장바구니 목록을 반환
 	}
+	
 	//비로그인자 장바구니 수정
 	public ArrayList<Cart> modifySessionCart(HttpServletRequest request, ArrayList<Cart> cartList, Cart updatedCart) throws Exception {
 	    HttpSession session = request.getSession();
@@ -143,7 +182,6 @@ public class CartDao {
 	        }
 	        session.setAttribute("cartList", cartList); // 업데이트된 장바구니 목록을 세션에 다시 저장
 	    }
-
 	    return cartList; // 업데이트된 장바구니 목록을 반환
 	}
 	
