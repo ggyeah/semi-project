@@ -36,6 +36,7 @@ public class CustomerDao {
 		}
 		return list;
 	}
+	
 	// 2) 회원 전체row
 	public int selectCustomerCnt() throws Exception {
 		// db 연결
@@ -52,6 +53,7 @@ public class CustomerDao {
 		}
 		return row;
 	}
+	
 	// 3) 회원 정보 상세 보기(관리자: 모두, 회원: 본인것만)
 	public Customer selectCustomerOne(String id) throws Exception {
 		// db연결
@@ -60,11 +62,7 @@ public class CustomerDao {
 		
 		// 상세정보 불러오기
 		Customer c = null;
-		String customerOneSql = "SELECT c.id, c.cstm_name, c.cstm_address, c.cstm_email, c.cstm_birth, c.cstm_phone, c.cstm_gender, c.cstm_rank, nvl((plus.sum_point - minus.sum_point),0) point, c.cstm_last_login, c.createdate, c.updatedate\n"
-				+ "FROM customer c,\n"
-				+ "  (SELECT SUM(point) AS sum_point FROM point_history WHERE point_pm = '+') plus,\n"
-				+ "  (SELECT SUM(point) AS sum_point FROM point_history WHERE point_pm = '-') minus\n"
-				+ "WHERE c.id = ?"; 
+		String customerOneSql = "SELECT id, cstm_name, cstm_address, cstm_email, cstm_birth, cstm_phone, cstm_gender, cstm_rank, cstm_point, cstm_last_login, createdate, updatedate FROM customer WHERE id = ?";
 		PreparedStatement customerOneStmt = conn.prepareStatement(customerOneSql);
 		customerOneStmt.setString(1, id);
 		ResultSet customerOneRs = customerOneStmt.executeQuery();
@@ -86,6 +84,7 @@ public class CustomerDao {
 		}
 		return c;
 	}
+	
 	// 4) 회원 정보 수정
 		public int updateCustomer(Customer customer) throws Exception {
 			// db연결
@@ -105,6 +104,7 @@ public class CustomerDao {
 						
 			return row;
 		}
+		
 	// 5) 회원 탈퇴(활성화 여부 D로 바꿔서 탈퇴 처리)
 		public int updateCstmActive(Id idList) throws Exception {
 			// db연결
@@ -118,6 +118,29 @@ public class CustomerDao {
 			updateCstmActiveStmt.setString(2, idList.getLastPw());
 			int row = updateCstmActiveStmt.executeUpdate();
 											
+			return row;
+		}
+		
+	// 6) 회원 가입
+		public int insertCustomer(Customer addCustomer) throws Exception {
+			// db연결
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();
+			
+			// 추가(insert) SQL
+			String insertCstmSql = "INSERT INTO customer(id, cstm_name, cstm_address, cstm_email, cstm_birth, cstm_phone, cstm_gender, cstm_agree, createdate, updatedate) VALUES(?, ?, ?, ?, ?, ?, ?, ?, now(), now())";
+			PreparedStatement insertCstmStmt = conn.prepareStatement(insertCstmSql);
+			insertCstmStmt.setString(1, addCustomer.id);
+			insertCstmStmt.setString(2, addCustomer.cstmName);
+			insertCstmStmt.setString(3, addCustomer.cstmAddress);
+			insertCstmStmt.setString(4, addCustomer.cstmEmail);
+			insertCstmStmt.setString(5, addCustomer.cstmBirth);
+			insertCstmStmt.setString(6, addCustomer.cstmPhone);
+			insertCstmStmt.setString(7, addCustomer.cstmGender);
+			insertCstmStmt.setString(8, addCustomer.cstmAgree);
+			System.out.println(insertCstmSql);
+			int row = insertCstmStmt.executeUpdate();
+			 
 			return row;
 		}
 		
