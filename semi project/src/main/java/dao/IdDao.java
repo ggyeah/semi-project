@@ -6,11 +6,12 @@ import java.sql.ResultSet;
 
 import util.DBUtil;
 import vo.Id;
+import vo.PwHistory;
 
 public class IdDao {
 	// 1) 로그인 
     public int selectId(String id, String lastPw) throws Exception {
-       // db연결
+    	// db연결
        DBUtil dbUtil = new DBUtil();
        Connection conn = dbUtil.getConnection();
        
@@ -27,9 +28,7 @@ public class IdDao {
     	   row = 1;
        }
        return row;
-       
 	}
-			
 		
 	// 2) 활성화 여부 
 		public int activeId(Id loginId) throws Exception {
@@ -50,9 +49,60 @@ public class IdDao {
 				row = 1;
 			}
 			return row;
-			
 		}
 		
+	// 3) id 중복체크
+		public int ckId(String id) throws Exception {
+			// db연결
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();
+			
+			// Id 중복 체크 SQL
+			int row = 0;
+			String ckIdSql = "SELECT count(*) FROM id_list WHERE id = ?";
+			PreparedStatement ckIdStmt = conn.prepareStatement(ckIdSql);
+			ckIdStmt.setString(1, id);
+			System.out.println(ckIdStmt);
+			ResultSet ckIdRs = ckIdStmt.executeQuery();
+			
+			if(ckIdRs.next()) {
+				row = ckIdRs.getInt("count(*)");
+			}
+			return row;
+		}
 		
+	// 4) 회원가입 / 직원 추가시 id_list 추가 
+		public int insertId(Id addIdList) throws Exception {
+			// db연결
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();
+			
+			// 추가(insert) SQL
+			String insertIdSql = "INSERT INTO id_list(id, last_pw, createdate) VALUES(?, PASSWORD(?), now())";
+			PreparedStatement insertIdStmt = conn.prepareStatement(insertIdSql);
+			insertIdStmt.setString(1, addIdList.id);
+			insertIdStmt.setString(2, addIdList.lastPw);
+			System.out.println(insertIdSql);
+			int row = insertIdStmt.executeUpdate();
+			 
+			return row;
+		}
+		
+	// 5) 회원가입 / 직원 추가시 pw_hitory 추가 
+		public int insertPw(PwHistory addPwHistory) throws Exception {
+			// db연결
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();
+					
+			// 추가(insert) SQL
+			String insertPwSql = "INSERT INTO pw_history(id, pw, createdate) VALUES(?, PASSWORD(?), now())";
+			PreparedStatement insertPwStmt = conn.prepareStatement(insertPwSql);
+			insertPwStmt.setString(1, addPwHistory.id);
+			insertPwStmt.setString(2, addPwHistory.pw);
+			System.out.println(insertPwSql);
+			int row = insertPwStmt.executeUpdate();
+					 
+			return row;
+		}
 
 }
