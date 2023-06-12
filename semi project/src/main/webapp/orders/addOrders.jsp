@@ -17,11 +17,12 @@
 	System.out.println(KIM+loginId+" <--addOrders loginId param"+RESET);
 	
 	/* 유효성 검사 */
-	if(loginId == null){
+	if(loginId == null
+	|| request.getParameter("productNo")==null){
 		response.sendRedirect(request.getContextPath()+"/home.jsp");
 		return;
 	}
-	
+
 	int productNo = Integer.parseInt(request.getParameter("productNo"));
 	System.out.println(KIM+loginId+" <-- addOrders id parameter"+RESET);
 	System.out.println(KIM+productNo+" <-- addOrders productNo parameter"+RESET);
@@ -67,6 +68,8 @@
 				
 			<tr>
 				<th><h2>배송지 정보</h2></th>
+				<td><a href="<%=request.getContextPath()%>/address/addressList.jsp" class="delivery-change" onclick="openUserDeliveryListPop();"><span class="">배송지관리</span></a></td>
+			
 			</tr>
 			<tr>
 				<td>받는분
@@ -74,8 +77,8 @@
 				</td>
 			</tr>
 			<tr>	
-				<td>최근 배송지 <!-- 수정 예정 -->
-					<td><input type="text" name="address" value="<%=customerOne.getCstmAddress()%>"><a href="<%=request.getContextPath()%>/address/addressList.jsp">주소 리스트</a></td>
+				<td>기본 배송지 <!-- 수정 예정 -->
+					<td><input type="text" name="address" value="<%=customerOne.getCstmAddress()%>"></td>
 				</td>
 			</tr>
 			<tr>	
