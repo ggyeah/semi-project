@@ -4,7 +4,7 @@
 <%@ page import ="vo.*" %>
 <%
 
-	//ANSI CODE	
+	// ANSI CODE	
 	final String RESET = "\u001B[0m"; 
 	final String LIM = "\u001B[41m";
 	final String KIM = "\u001B[42m";
@@ -41,11 +41,11 @@
 	// 클래스 객체 생성
 	EmployeesDao dao = new EmployeesDao();
 	
-	// remove 메서드 호출
+	// update 메서드 호출
 	int remove = dao.updateEmpActive(idList);
 	
 	if(remove == 1){
-		System.out.println("employees 삭제(활성화 N)성공");
+		System.out.println(YANG + "employees 활성화여부 변경 성공" +RESET);
 	} 
 	
 	response.sendRedirect(request.getContextPath() + "/employees/employeesList.jsp");

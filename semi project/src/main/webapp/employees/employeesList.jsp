@@ -27,7 +27,7 @@
 	System.out.println(YANG + totalRow + " <-- employeesList totalRow" + RESET);
 		
 	// 페이지당 행의 수
-	int rowPerPage = 20;
+	int rowPerPage = 10;
 		
 	// 시작 행 번호
 	int beginRow = (currentPage-1) * rowPerPage;

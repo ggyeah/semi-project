@@ -37,6 +37,7 @@ public class EmployeesDao {
 			}
 			return list;
 		}
+		
 	// 2) 직원 전체row
 		public int selectEmployeesCnt() throws Exception {
 			// db 연결
@@ -53,6 +54,7 @@ public class EmployeesDao {
 			}
 			return row;
 		}
+		
 	// 3) 수정 하기위해 직원 정보 상세 불러오기(관리자2: 모두, 관리자1: 본인것만)
 		public Employees selectEmployeesOne(String id) throws Exception {
 			// db연결
@@ -78,7 +80,7 @@ public class EmployeesDao {
 			return e;
 		}
 
-	// ) 직원수정(관리자2용)
+	// 4) 직원수정(관리자2용)
 		public int updateEmployees(Employees employees) throws Exception {
 			// db연결
 			DBUtil dbUtil = new DBUtil();
@@ -95,7 +97,7 @@ public class EmployeesDao {
 			return row;
 		}
 		
-	// ) 직원 삭제(관리자2용 : 삭제버튼 누르면 활성화가 Y에서 N으로 바꿈) 
+	// 5) 직원 삭제(관리자2용 : 삭제버튼 누르면 활성화가 Y에서 N으로 바꿈) 
 		public int updateEmpActive(Id idList) throws Exception {
 			// db연결
 			DBUtil dbUtil = new DBUtil();
@@ -108,6 +110,24 @@ public class EmployeesDao {
 			updateEmpActiveStmt.setString(2, idList.getId());
 			int row = updateEmpActiveStmt.executeUpdate();
 											
+			return row;
+		}
+		
+	// 6) 직원 추가
+		public int insertEmployees(Employees addEmployees) throws Exception {
+			// db연결
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();
+			
+			// 입력(insert) SQL
+			String insertEmpSql = "INSERT INTO employees(id, emp_name, emp_level, createdate, updatedate) VALUES(?, ?, ?, now(), now())";
+			PreparedStatement insertEmpStmt = conn.prepareStatement(insertEmpSql);
+			insertEmpStmt.setString(1, addEmployees.id);
+			insertEmpStmt.setString(2, addEmployees.empName);
+			insertEmpStmt.setInt(3, addEmployees.empLevel);
+			System.out.println(insertEmpSql);
+			int row = insertEmpStmt.executeUpdate();
+			 
 			return row;
 		}
 
