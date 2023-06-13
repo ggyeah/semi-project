@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="dao.*" %>
+<%@ page import="vo.*" %>
+<%@ page import="java.util.*" %>
 <%
 	/* 디버깅 색깔 지정 */
 	// ANSI CODE   
@@ -10,7 +13,9 @@
 	
 	// (비)로그인 사용자 확인
 	System.out.println(KIM+session.getAttribute("loginId")+" <-- mainMenu loginId"+RESET);
-
+	// 관리자 1의 level값을 가져옴
+	EmployeesDao employeesDao = new EmployeesDao();
+	ArrayList<Employees> list = employeesDao.oneEmployeesList();
 %>
 <!DOCTYPE html>
 <html>
@@ -34,8 +39,11 @@
 			</ul>
 	<!--------------------------- 2. 로그인자 ---------------------------->	
 		
-		<%	// 2. loginId가 있는 사람(가입된 사람)
-			} else if(session.getAttribute("loginId") != null){
+		<%	
+			// 2. loginId가 있는 사람(가입된 사람)
+			} 
+			for(Employees e : list){
+			if(session.getAttribute("loginId") != null){
 				if(session.getAttribute("loginId").equals("admin")){ //loginId가 관리자2(최고위직)일 경우
 		%>	
 					<ul>
@@ -49,14 +57,14 @@
 						<li><a href="<%=request.getContextPath()%>/discount/discountList.jsp">할인관리</a></li>
 					</ul>
 		<%
-				} else if(session.getAttribute("loginId").equals("blue")){ //loginId가 관리자1(일반 직원)일 경우 *추후 level로 변경
+				} else if(e.empLevel==1){ //loginId가 관리자1(일반 직원)일 경우
 		%>
 					<ul>
 						<li><a href="<%=request.getContextPath()%>/home.jsp">Home</a></li>
 						<li><a href="<%=request.getContextPath()%>/id/logoutAction.jsp">로그아웃</a></li>
 						<li><a href="<%=request.getContextPath()%>/employees/employeesOne.jsp?id=<%=(String)session.getAttribute("loginId")%>">마이페이지</a></li>
 						<li><a href="<%=request.getContextPath()%>/category/categoryList.jsp">카테고리 관리</a></li>
-						<li><a href="<%=request.getContextPath()%>/customer/customerList.jsp">회원 정보 조회</a></li><!-- 조회만 가능 -->
+						<li><a href="<%=request.getContextPath()%>/customer/customerList.jsp">회원 정보 조회</a></li><!-- 조회 가능 -->
 					</ul>
 		<%		
 				} else { //loginId가 일반 고객 회원일 경우
@@ -71,6 +79,7 @@
 		<%			
 				}
 			}
+		}
 		%>
 	</div>
 </body>
