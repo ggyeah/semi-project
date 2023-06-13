@@ -6,12 +6,22 @@
 AnswerDao answerDao = new AnswerDao();
 Answer answer = null;
 
+
 if (request.getParameter("aNo") != null
 	&&(request.getParameter("qNo") != null)){
 	int aNo = Integer.parseInt(request.getParameter("aNo"));
 	int qNo = Integer.parseInt(request.getParameter("qNo"));
 	answer = answerDao.answerOne(qNo);
  }
+
+//본인이 작성한 문의거나 관리자2가 아니면 홈으로 되돌아감
+if (session.getAttribute("loginId") != null) {
+   String loginId = (String) session.getAttribute("loginId");
+   if (!loginId.equals("admin") && (answer == null || !loginId.equals(answer.getId()))) {
+      response.sendRedirect(request.getContextPath() + "/home.jsp");
+   }
+}
+
 %>
 <!DOCTYPE html>
 <html>

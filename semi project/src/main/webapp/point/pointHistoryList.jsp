@@ -3,11 +3,17 @@
 <%@ page import = "dao.*" %>
 <%@ page import = "java.util.*" %>
 <%
+
 PointHistoryDao pointHistoryDao = new PointHistoryDao();
+
 int beginRow = 0;
 int rowPerPage = 10;
 String id = (String)session.getAttribute("loginId");
-ArrayList<PointHistory> pList = pointHistoryDao.pointHIstoryList(beginRow, rowPerPage, id);
+
+ArrayList<PointHistory> pList = pointHistoryDao.pointHistoryList(beginRow, rowPerPage, id);
+
+int pointSum = pointHistoryDao.sumPoint(id);
+
 %>
 <!DOCTYPE html>
 <html>
@@ -25,6 +31,7 @@ ArrayList<PointHistory> pList = pointHistoryDao.pointHIstoryList(beginRow, rowPe
         <th>+,-</th>
         <th>포인트</th>
         <th>포인트적립일</th>
+        <th>포인트총합</th>
     </tr>
     <% for (PointHistory pointHistory : pList) { %>
     <tr>
@@ -34,7 +41,7 @@ ArrayList<PointHistory> pList = pointHistoryDao.pointHIstoryList(beginRow, rowPe
         <td><%=pointHistory.getPointPm()%></td>
         <td><%=pointHistory.getPoint()%></td>
         <td><%=pointHistory.getCreatedate()%></td>
-    </tr>
+        <td><%=pointSum%></td>
     <% } %>
 </table>
 </body>

@@ -92,19 +92,36 @@ if (request.getParameter("qNo") != null){
               <th>수정일</th>
               <td><%=answer.getUpdatedate()%></td>
            </tr>
-	</table>	
+	</table>
+<% // 로그인 상태이고 본인이 작성한 문의거나 관리자2만 수정삭제가 보임 
+    if (session.getAttribute("loginId") != null && (session.getAttribute("loginId").equals(answer.getId()) || session.getAttribute("loginId").equals("admin"))) { %>	
 	<div>
 	<a href="<%=request.getContextPath()%>/answer/modifyAnswer.jsp?qNo=<%=question.getqNo()%>&aNo=<%=answer.getaNo()%>">수정</a>
     <a href="<%=request.getContextPath()%>/answer/removeAnswer.jsp?qNo=<%=question.getqNo()%>&aNo=<%=answer.getaNo()%>&productNo=<%=question.getProductNo()%>">삭제</a>
 	</div>	
-	  <% } else { %>
+	  <%}} else { %>
 	  	<!-------------------  답변추가---------------------->
+<% 
+//관리자만 답변을 남길 수 있게
+EmployeesDao dao = new EmployeesDao();
+ArrayList<Employees> list = dao.selectEmployeesList(); 
 
+boolean checkId = false;
+String loginId = (String) session.getAttribute("loginId");
+if (loginId != null) {
+for (Employees e : list){
+   if (session.getAttribute("loginId").equals(e.getId())){
+      checkId = true;
+      break;
+   		}
+   }
+}
+if (checkId){%>
 	<h3>답변</h3>
 	<form action="<%=request.getContextPath()%>/answer/addAnswerAction.jsp?qNo=<%=question.getqNo()%>" method="post">
 	<table class="table table-bordered">
 		<tr>
-			<td>문의번호:<%=question.getqNo()%> 아이디 : <!--  세션값으로 변경해야함 일단 테스트용 --><input type="text" name="id" value="admin" readonly="readonly"></td>
+		    <td>문의번호: <%=question.getqNo()%> 아이디: <input type="text" name="id" value="<%=session.getAttribute("loginId")%>" readonly="readonly"></td>
 		</tr>
 		<tr>
 			<td><textarea rows="2" cols="60" name="aContent"></textarea>
@@ -112,7 +129,7 @@ if (request.getParameter("qNo") != null){
 		</tr>
 	</table>
 	</form> 
-	  <% } %>
-		
+	  <% }} %>
+
 </body>
 </html>

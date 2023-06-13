@@ -1,3 +1,6 @@
+<%@page import="vo.*"%>
+<%@page import="java.util.*"%>
+<%@page import="dao.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <% 
@@ -8,6 +11,22 @@
 	int qNo = Integer.parseInt(request.getParameter("qNo"));
 	int aNo = Integer.parseInt(request.getParameter("aNo"));	
 	int productNo = Integer.parseInt(request.getParameter("productNo"));	
+	
+	//클래스 객체 생성
+	EmployeesDao dao = new EmployeesDao();
+	ArrayList<Employees> list = dao.selectEmployeesList(); 
+	
+	//관리자가 아니면 답변을 삭제 할 수없음
+	boolean checkId = false;
+	for (Employees e : list){
+	   if (session.getAttribute("loginId").equals(e.getId())){
+	      checkId = true;
+	      break;
+	   }
+	}
+	if (checkId==false){
+		response.sendRedirect(request.getContextPath() + "/home.jsp");
+	}
 %>
 <!DOCTYPE html>
 <html>

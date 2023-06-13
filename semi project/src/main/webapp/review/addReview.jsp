@@ -3,15 +3,22 @@
 <%@ page import ="vo.*" %>
 <%@ page import="java.util.*" %>
 <%
+//인코딩
 response.setCharacterEncoding("utf-8");
 
 if (request.getParameter("orderNo") != null
 	&&request.getParameter("projectNo") != null){
-		int orderNo = Integer.parseInt(request.getParameter("orderNo"));
-		int productNo = Integer.parseInt(request.getParameter("productNo"));
+	 response.sendRedirect(request.getContextPath() + "/home.jsp");
 }
 
+int orderNo = Integer.parseInt(request.getParameter("orderNo"));
+int productNo = Integer.parseInt(request.getParameter("productNo"));
 
+//로그인 상태가 아니면 리뷰를 작성할 수 없음
+if(session.getAttribute("loginId") == null) {
+ response.sendRedirect(request.getContextPath() + "/review/reviewListOne.jsp?orderNo="+orderNo);
+}	
+String loginId = (String)session.getAttribute("loginId");
 %>
 <!DOCTYPE html>
 <html>
@@ -27,15 +34,15 @@ if (request.getParameter("orderNo") != null
 <table class="table table-bordered">
 	<tr>
 		<td>주문번호</td>
-		<td><input type="text" name="orderNo" value="orderNo"></td>
+		<td><input type="text" name="orderNo" value="<%=orderNo%>"></td>
 	</tr>
 	<tr>
 		<td>상품번호</td>
-		<td><input type="text" name="productNo" value="productNo"></td>
+		<td><input type="text" name="productNo" value="<%=productNo%>"></td>
 	</tr>
 	<tr>
 		<td>id</td>
-		<td><input type="text" name="id" value="id"></td>
+		<td><input type="text" name="id" value="<%=loginId%>"></td>
 	</tr>
 	<tr>
 		<td>제목</td>

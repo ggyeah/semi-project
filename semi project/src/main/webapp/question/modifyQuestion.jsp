@@ -9,11 +9,13 @@ QuestionDao questionDao = new QuestionDao();
 
 Question question = new Question();
 
-if (request.getParameter("qNo") != null){
-	int qNo = Integer.parseInt(request.getParameter("qNo"));
-	question = questionDao.questionOne(qNo);
+if (request.getParameter("qNo") == null){
+	response.sendRedirect(request.getContextPath() + "/home.jsp");
  }
 
+int qNo = Integer.parseInt(request.getParameter("qNo"));
+question = questionDao.questionOne(qNo);
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -24,6 +26,7 @@ if (request.getParameter("qNo") != null){
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body class="container">
+<% if(session.getAttribute("loginId").equals(question.getId())) {%>
 <h2>수정</h2>
 <form action="<%=request.getContextPath()%>/question/modifyQuestionAction.jsp?qNo=<%=question.getqNo()%>" method="post">
 
@@ -76,6 +79,6 @@ if (request.getParameter("qNo") != null){
 	</tr>
 </table>
 </form>
-
+<%}%>
 </body>
 </html>

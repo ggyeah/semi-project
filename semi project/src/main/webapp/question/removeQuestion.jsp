@@ -4,6 +4,10 @@
 int qNo= Integer.parseInt(request.getParameter("qNo"));
 
 System.out.println(qNo+"<- removequestion qNo");
+//로그인상태가 아니면 홈으로 돌아감
+if(session.getAttribute("loginId") == null) {
+response.sendRedirect(request.getContextPath() + "/home.jsp");
+}
 	%>
 <!DOCTYPE html>
 <html>

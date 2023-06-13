@@ -3,6 +3,10 @@
 <%@ page import = "dao.*" %>
 <%@ page import = "java.util.*" %>
 <%
+//관리자 2가 아니면 홈으로 되돌아감
+if (!session.getAttribute("loginId").equals("admin")) { 	
+response.sendRedirect(request.getContextPath() + "/home.jsp");
+}
 
 DiscountDao discountDao = new DiscountDao();
 ArrayList<Discount> dList = discountDao.discountList(0,10);

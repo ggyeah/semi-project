@@ -3,7 +3,12 @@
 <%@ page import="java.util.*" %>
 <%@ page import ="vo.*" %>
 <%
+//인코딩
 request.setCharacterEncoding("utf-8");
+//주문번호가 넘어오지 않으면 홈으로 돌아가게
+if (request.getParameter("orderNo") == null){
+	 response.sendRedirect(request.getContextPath() + "/home.jsp");
+}
 
 ReviewDao reviewDao = new ReviewDao();
 ReviewImgDao reviewImgDao = new ReviewImgDao();
@@ -11,14 +16,11 @@ ReviewImgDao reviewImgDao = new ReviewImgDao();
 Review review = new Review();
 List<ReviewImg> reviewImgs = new ArrayList<>();
 
-if (request.getParameter("orderNo") != null){
-	int orderNo = Integer.parseInt(request.getParameter("orderNo"));
-	System.out.println(orderNo+"<- ㅡmodifyreview orderNo");
-	review = reviewDao.reviewListOne(orderNo);
-	 reviewImgs = reviewImgDao.getReviewImages(orderNo); 
- }
+int orderNo = Integer.parseInt(request.getParameter("orderNo"));
+System.out.println(orderNo+"<- ㅡmodifyreview orderNo");
 
-
+review = reviewDao.reviewListOne(orderNo);
+reviewImgs = reviewImgDao.getReviewImages(orderNo); 
 %>
 <!DOCTYPE html>
 <html>
@@ -29,6 +31,7 @@ if (request.getParameter("orderNo") != null){
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body class="container">
+<% if(session.getAttribute("loginId").equals(review.getId())) {%>
 <h2>수정</h2>
 <form action="<%=request.getContextPath()%>/review/modifyReviewAction.jsp" method="post" enctype="multipart/form-data">
 
@@ -41,6 +44,11 @@ if (request.getParameter("orderNo") != null){
 		 <tr>
               <th>상품번호</th>
               <td><input type= "text" name = "productNo" value ="<%=review.getProductNo()%>" readonly="readonly"></td>
+           </tr>
+		 <tr>
+		 <tr>
+              <th>아이디</th>
+              <td><input type= "text" name = "productNo" value ="<%=review.getId()%>" readonly="readonly"></td>
            </tr>
 		 <tr>
 		 <tr>
@@ -63,7 +71,7 @@ if (request.getParameter("orderNo") != null){
            </tr>
            <tr>
               <th>수정일</th>
-              <td><%=review.getUpdatedate()%></td>
+              <td><%=review.getCreatedate()%></td>
            </tr>
 	<tr>
 		<th>수정하시겠습니까?</th>
@@ -71,6 +79,6 @@ if (request.getParameter("orderNo") != null){
 	</tr>
 </table>
 </form>
-
+<% }%>
 </body>
 </html>

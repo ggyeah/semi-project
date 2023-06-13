@@ -10,8 +10,13 @@ if(request.getParameter("productNo") == null
 response.sendRedirect(request.getContextPath() + "/product/productList.jsp");
 return;
 }
-
 int productNo = Integer.parseInt(request.getParameter("productNo"));
+
+//로그인 상태가 아니면 문의를 작성할 수없음
+if(session.getAttribute("loginId") == null) {
+response.sendRedirect(request.getContextPath() + "/product/productListOne.jsp?productNo="+productNo);
+}	
+String loginId = (String)session.getAttribute("loginId");
 %>
 <!DOCTYPE html>
 <html>
@@ -31,7 +36,7 @@ int productNo = Integer.parseInt(request.getParameter("productNo"));
 	</tr>
 	<tr>
 		<td>아이디</td> <!--  세션 값 받아와서 넣어야함 -->
-		<td><input type="text" name="id" value="user1" readonly="readonly"></td>
+		<td><input type="text" name="id" value="<%=loginId%>" readonly="readonly"></td>
 	</tr>
 	<tr>
 	    <td>카테고리</td>
