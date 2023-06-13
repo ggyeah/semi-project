@@ -16,6 +16,17 @@
 	// 관리자 1의 level값을 가져옴
 	EmployeesDao employeesDao = new EmployeesDao();
 	ArrayList<Employees> list = employeesDao.oneEmployeesList();
+	
+	boolean checkId = false;
+	String loginId = (String) session.getAttribute("loginId");
+	if (loginId != null) {
+	for (Employees e : list){
+	   if (session.getAttribute("loginId").equals(e.getId())){
+	      checkId = true;
+	      break;
+	   		}
+	   }
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -57,7 +68,7 @@
 						<li><a href="<%=request.getContextPath()%>/discount/discountList.jsp">할인관리</a></li>
 					</ul>
 		<%
-				} else if(e.empLevel==1){ //loginId가 관리자1(일반 직원)일 경우
+				} else if(checkId){//loginId가 관리자1(일반 직원)일 경우
 		%>
 					<ul>
 						<li><a href="<%=request.getContextPath()%>/home.jsp">Home</a></li>
