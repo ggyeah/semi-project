@@ -4,11 +4,14 @@
 <%@ page import="java.util.*" %>
 <%
 response.setCharacterEncoding("utf-8");
+
 if (request.getParameter("orderNo") != null
 	&&request.getParameter("projectNo") != null){
 		int orderNo = Integer.parseInt(request.getParameter("orderNo"));
 		int productNo = Integer.parseInt(request.getParameter("productNo"));
 }
+
+
 %>
 <!DOCTYPE html>
 <html>
@@ -29,6 +32,10 @@ if (request.getParameter("orderNo") != null
 	<tr>
 		<td>상품번호</td>
 		<td><input type="text" name="productNo" value="productNo"></td>
+	</tr>
+	<tr>
+		<td>id</td>
+		<td><input type="text" name="id" value="id"></td>
 	</tr>
 	<tr>
 		<td>제목</td>

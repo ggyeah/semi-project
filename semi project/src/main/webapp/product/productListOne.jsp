@@ -133,15 +133,19 @@
 <!------------  리뷰리스트  ------------>
 <div>
 <h2>상품리뷰</h2>
+<%// 로그인상태에서만 리뷰추가를 할 수 있게 : 리뷰추가를 누르면 본인 주문리스트로 넘어감 
+if(session.getAttribute("loginId") != null) { %>
 <a href="<%=request.getContextPath()%>/orders/ordersCstmList.jsp">리뷰추가</a> 
+<% } %>
 <table>
     <tr>
         <th>제목</th>
         <th>내용</th>
+        <th>아이디</th>
         <th>작성일</th>
         <th>수정일</th>
-        <th></th>
-        <th></th>
+        <th>수정</th>
+        <th>삭제</th>
     </tr>
     <% for (Review review : rList) { %>
     <tr>
@@ -151,19 +155,25 @@
 				<%=review.getReviewTitle()%>
 			</a>
 		</td>
+		<td><%=review.getId()%></td>
         <td><%=review.getReviewContent()%></td>
         <td><%=review.getCreatedate()%></td>
         <td><%=review.getUpdatedate()%></td>
-        <!--  세션값으로 분기 들어가야함  -->
+        <% // 로그인 상태이고 본인이 작성한 리뷰만 수정삭제가 보임 
+        if (session.getAttribute("loginId") != null && session.getAttribute("loginId").equals(review.getId())) { %>
         <td><a href="<%=request.getContextPath()%>/review/modifyReview.jsp?orderNo=<%=review.getOrderNo()%>">수정</a></td>
         <td><a href="<%=request.getContextPath()%>/review/removeReview.jsp?orderNo=<%=review.getOrderNo()%>&productNo=<%=review.getProductNo()%>">삭제</a></td>
+    	<% } %>
     </tr>
     <% } %>
 </table>
 <!------------  문의리스트  ------------>
 <div>
 <h2>문의내역</h2>
+<% //로그인상태에서만 문의추가 할 수 있게 
+if(session.getAttribute("loginId") != null) { %>
 <a href="<%=request.getContextPath()%>/question/addQuestion.jsp?productNo=<%=productNo%>">문의추가</a> 
+<% } %>
 <table>
     <tr>
         <th>아이디</th>

@@ -14,7 +14,7 @@ public class ReviewDao {
 		ArrayList<Review> rList = new ArrayList<>();
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-        PreparedStatement reviewListStmt = conn.prepareStatement("SELECT order_no, product_no, review_title, review_content,createdate, updatedate FROM review  WHERE product_no = ? LIMIT ?, ?");
+        PreparedStatement reviewListStmt = conn.prepareStatement("SELECT order_no, product_no, id, review_title, review_content,createdate, updatedate FROM review  WHERE product_no = ? LIMIT ?, ?");
         reviewListStmt.setInt(1, productNo);
         reviewListStmt.setInt(2, beginRow);
         reviewListStmt.setInt(3, rowPerPage);
@@ -25,6 +25,7 @@ public class ReviewDao {
         	Review review = new Review();
         	review.setOrderNo(reviewListrs.getInt("order_no"));
         	review.setProductNo(reviewListrs.getInt("product_no"));
+        	review.setId(reviewListrs.getString("id"));
         	review.setReviewTitle(reviewListrs.getString("review_title"));
         	review.setReviewContent(reviewListrs.getString("review_content"));
         	review.setUpdatedate(reviewListrs.getString("updatedate"));
@@ -75,11 +76,12 @@ public class ReviewDao {
 	public int addReview(Review review) throws Exception {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		PreparedStatement addReviewStmt = conn.prepareStatement("INSERT INTO review (order_no, product_no, review_title, review_content,createdate, updatedate) VALUES(?,?,?,?, NOW(), NOW())");
+		PreparedStatement addReviewStmt = conn.prepareStatement("INSERT INTO review (order_no, product_no, id, review_title, review_content,createdate, updatedate) VALUES(?,?,?,?,?, NOW(), NOW())");
 		addReviewStmt.setInt(1, review.getOrderNo());
 		addReviewStmt.setInt(2, review.getProductNo());
-		addReviewStmt.setString(3, review.getReviewTitle());
-		addReviewStmt.setString(4, review.getReviewContent());
+		addReviewStmt.setString(3, review.getId());
+		addReviewStmt.setString(4, review.getReviewTitle());
+		addReviewStmt.setString(5, review.getReviewContent());
 		int row = addReviewStmt.executeUpdate(); 
 		if(row == 1) {  
 			System.out.println("지역추가성공");
@@ -109,7 +111,7 @@ public class ReviewDao {
 		public Review reviewListOne(int orderNo) throws Exception {
 			DBUtil dbUtil = new DBUtil();
 			Connection conn = dbUtil.getConnection();
-		    PreparedStatement reviewOneStmt = conn.prepareStatement("select order_no, product_no, review_title, review_content,createdate, updatedate from review where order_no = ?");
+		    PreparedStatement reviewOneStmt = conn.prepareStatement("select order_no, product_no, id, review_title, review_content,createdate, updatedate from review where order_no = ?");
 		    reviewOneStmt.setInt(1, orderNo);
 		    
 		    ResultSet reviewOneRs = reviewOneStmt.executeQuery();
@@ -120,6 +122,7 @@ public class ReviewDao {
 	        	review = new Review();
 	        	review.setOrderNo(reviewOneRs.getInt("order_no"));
 	        	review.setProductNo(reviewOneRs.getInt("product_no"));
+	        	review.setId(reviewOneRs.getString("id"));
 	        	review.setReviewTitle(reviewOneRs.getString("review_title"));
 	        	review.setReviewContent(reviewOneRs.getString("review_content"));
 	        	review.setUpdatedate(reviewOneRs.getString("updatedate"));

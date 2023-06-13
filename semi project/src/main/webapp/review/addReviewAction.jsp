@@ -30,16 +30,18 @@
 	//요청값 유효성 검사 
 	if (mRequest.getParameter("orderNo")!= null
 		&& mRequest.getParameter("productNo") != null
+		&& mRequest.getParameter("id") != null
 		&& mRequest.getParameter("reviewTitle") != null
 		&& mRequest.getParameter("reviewContent") != null){
 	//폼에서 전달된 파라미터 값 가져오기
 	int orderNo = Integer.parseInt(mRequest.getParameter("orderNo"));
 	int productNo = Integer.parseInt(mRequest.getParameter("productNo"));
+	String id = mRequest.getParameter("id");
 	String reviewTitle = mRequest.getParameter("reviewTitle");
 	String reviewContent = mRequest.getParameter("reviewContent");
 	
 	//디버깅 
-	System.out.println(orderNo+"addReview orderNo");
+	System.out.println(LIM + orderNo+"addReview orderNo");
 	System.out.println(productNo+"addReview productNo");
 	System.out.println(reviewTitle+"addReview reviewTitle");
 	System.out.println(reviewContent+"addReview reviewContent");
@@ -48,6 +50,7 @@
 	Review review = new Review();
 	review.setOrderNo(orderNo);
 	review.setProductNo(productNo);
+	review.setId(id);
 	review.setReviewTitle(reviewTitle);
 	review.setReviewContent(reviewContent);
 	
@@ -77,7 +80,7 @@
             if (rowCount == 1) {
                 System.out.println("리뷰 이미지 추가 성공");
             } else {
-                System.out.println("리뷰 이미지 추가 실패");
+                System.out.println("리뷰 이미지 추가 실패" + RESET);
             }
      } else {
         System.out.println("리뷰 추가 실패"+RESET);

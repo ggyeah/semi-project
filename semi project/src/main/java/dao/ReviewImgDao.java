@@ -9,7 +9,7 @@ import util.*;
 import vo.*;
 
 import java.io.*;
-	// 1) 리뷰이미지를 추가할때
+		// 1) 리뷰이미지를 추가할때
 	public class ReviewImgDao {
 	    public int addReviewImg(ReviewImg reviewImg) throws Exception {
 	        DBUtil dbUtil = new DBUtil();
@@ -24,7 +24,7 @@ import java.io.*;
 	
 	        return row;
 	    }
-	// 2) 리뷰이미지를 보여지게 할때
+	    // 2) 리뷰이미지를 보여지게 할때
 	    public List<ReviewImg> getReviewImages(int orderNo) throws Exception {
 	        List<ReviewImg> reviewImgs = new ArrayList<>();
 	

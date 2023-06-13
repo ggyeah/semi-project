@@ -3,6 +3,7 @@ package vo;
 public class Review {
 	private int orderNo;
 	private int productNo;
+	private String id;
 	private String reviewTitle;
 	private String reviewContent;
 	private String updatedate;
@@ -18,6 +19,12 @@ public class Review {
 	}
 	public void setProductNo(int productNo) {
 		this.productNo = productNo;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 	public String getReviewTitle() {
 		return reviewTitle;
