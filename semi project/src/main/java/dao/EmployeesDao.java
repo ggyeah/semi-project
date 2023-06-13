@@ -130,5 +130,54 @@ public class EmployeesDao {
 			 
 			return row;
 		}
-
+	// 7) 전체관리자조회 // 세션값 분기를위해 관리자 아이디를 가져올 수 있도록하려고 만들어둠
+	public ArrayList<Employees> selectEmployeesList() throws Exception {
+	    // db연결
+	    DBUtil dbUtil = new DBUtil();
+	    Connection conn = dbUtil.getConnection();
+	    
+	    // 리스트 불러오기
+	    String employeesListSql = "SELECT id, emp_name, emp_level, createdate, updatedate FROM employees";
+	    PreparedStatement employeesListStmt = conn.prepareStatement(employeesListSql);
+	    ResultSet employeesListRs = employeesListStmt.executeQuery();
+	    
+	    ArrayList<Employees> list = new ArrayList<>();
+	    while (employeesListRs.next()) {
+	        Employees e = new Employees();
+	        e.setId(employeesListRs.getString("id"));
+	        e.setEmpName(employeesListRs.getString("emp_name"));
+	        e.setEmpLevel(employeesListRs.getInt("emp_level"));
+	        e.setCreatedate(employeesListRs.getString("createdate"));
+	        e.setUpdatedate(employeesListRs.getString("updatedate"));
+	        
+	        list.add(e);
+	    }
+	    return list;
+	}
+	
+	// 7) 관리자1 조회 // 세션값 분기를위해 관리자1 아이디를 가져올 수 있도록하려고 만들어둠
+	public ArrayList<Employees> oneEmployeesList() throws Exception {
+	    // db연결
+	    DBUtil dbUtil = new DBUtil();
+	    Connection conn = dbUtil.getConnection();
+	    
+	    // 리스트 불러오기
+	    String employeesListSql = "SELECT id, emp_name, emp_level, createdate, updatedate FROM employees WHERE emp_level = 1";
+	    PreparedStatement employeesListStmt = conn.prepareStatement(employeesListSql);
+	    ResultSet employeesListRs = employeesListStmt.executeQuery();
+	    
+	    ArrayList<Employees> list = new ArrayList<>();
+	    while (employeesListRs.next()) {
+	        Employees e = new Employees();
+	        e.setId(employeesListRs.getString("id"));
+	        e.setEmpName(employeesListRs.getString("emp_name"));
+	        e.setEmpLevel(employeesListRs.getInt("emp_level"));
+	        e.setCreatedate(employeesListRs.getString("createdate"));
+	        e.setUpdatedate(employeesListRs.getString("updatedate"));
+	        list.add(e);
+	    }
+	    return list;
+	}
 }
+
+
