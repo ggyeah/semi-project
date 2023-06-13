@@ -94,6 +94,7 @@
 		if(session.getAttribute("loginId").equals(customer.getId())) {
 	%>
 			<a href="<%=request.getContextPath() %>/customer/modifyCustomer.jsp?id=<%=customer.getId() %>"><button type="button">회원정보수정</button></a>
+			<a href="<%=request.getContextPath() %>/id/modifyFw.jsp?id=<%=customer.getId() %>"><button type="button">비밀번호변경</button></a>
 			<a href="<%=request.getContextPath() %>/customer/removeCustomer.jsp?id=<%=customer.getId() %>"><button type="button">탈퇴</button></a>
 	<%
 		}	
