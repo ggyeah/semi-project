@@ -9,19 +9,18 @@ import vo.Id;
 import vo.PwHistory;
 
 public class IdDao {
-	// 1) 로그인 
-    public int selectId(String id, String lastPw) throws Exception {
+	// 1) 로그인 (활성화 Y)
+    public int selectId(Id loginId) throws Exception {
     	// db연결
        DBUtil dbUtil = new DBUtil();
        Connection conn = dbUtil.getConnection();
        
        //로그인 폼에 입력한 아이디와 비밀번호가 id_list에 있는 아이디, 비밀번호와 일치하는지 확인
        int row = 0;
-       String loginSql = "SELECT id, last_pw FROM id_list where id = ? AND last_pw = PASSWORD(?)";
+       String loginSql = "SELECT id, last_pw, active FROM id_list where id = ? AND last_pw = PASSWORD(?) last_";
        PreparedStatement loginStmt = conn.prepareStatement(loginSql);
-       loginStmt.setString(1, id);
-       loginStmt.setString(2, lastPw);
-       System.out.println(loginStmt);
+       loginStmt.setString(1, loginId.id);
+       loginStmt.setString(2, loginId.lastPw);
        ResultSet loginRs = loginStmt.executeQuery();
        
        if(loginRs.next()) {
@@ -30,19 +29,18 @@ public class IdDao {
        return row;
 	}
 		
-	// 2) 활성화 여부 
+	// 2) 로그인 ( 활성화 D, N)
 		public int activeId(Id loginId) throws Exception {
 			// db연결
 			DBUtil dbUtil = new DBUtil();
 			Connection conn = dbUtil.getConnection();
 			
-			// 활성화 여부(active) : N -> 휴면계정
+			// 활성화 여부(active) : N -> 휴면계정 / D -> 탈퇴회원
 			int row = 0;
-			String activeSql = "SELECT id, active FROM id_list where id = ? AND active = 'N' ";
+			String activeSql = "SELECT id, active FROM id_list where id = ? AND active = 'D' ";
 			PreparedStatement activeStmt = conn.prepareStatement(activeSql);
 			activeStmt.setString(1, loginId.id);
 			activeStmt.setString(2, loginId.lastPw);
-			System.out.println(activeStmt);
 			ResultSet activeRs = activeStmt.executeQuery();
 			
 			if(activeRs.next()) {
@@ -62,7 +60,6 @@ public class IdDao {
 			String ckIdSql = "SELECT count(*) FROM id_list WHERE id = ?";
 			PreparedStatement ckIdStmt = conn.prepareStatement(ckIdSql);
 			ckIdStmt.setString(1, id);
-			System.out.println(ckIdStmt);
 			ResultSet ckIdRs = ckIdStmt.executeQuery();
 			
 			if(ckIdRs.next()) {
@@ -82,13 +79,12 @@ public class IdDao {
 			PreparedStatement insertIdStmt = conn.prepareStatement(insertIdSql);
 			insertIdStmt.setString(1, addIdList.id);
 			insertIdStmt.setString(2, addIdList.lastPw);
-			System.out.println(insertIdSql);
 			int row = insertIdStmt.executeUpdate();
 			 
 			return row;
 		}
 		
-	// 5) 회원가입 / 직원 추가시 pw_hitory 추가 
+	// 5) 회원가입 / 직원 추가 / 비밀번호 변경시 pw_hitory 추가 
 		public int insertPw(PwHistory addPwHistory) throws Exception {
 			// db연결
 			DBUtil dbUtil = new DBUtil();
@@ -99,10 +95,60 @@ public class IdDao {
 			PreparedStatement insertPwStmt = conn.prepareStatement(insertPwSql);
 			insertPwStmt.setString(1, addPwHistory.id);
 			insertPwStmt.setString(2, addPwHistory.pw);
-			System.out.println(insertPwSql);
 			int row = insertPwStmt.executeUpdate();
 					 
 			return row;
 		}
-
+		
+	// 6) 비밀번호 갯수 세기
+		public int cntPw(String id) throws Exception {
+			// db연결
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();
+			
+			// select SQL
+			int row = 0;
+			String cntPwSql = "SELECT COUNT(*) FROM pw_history WHERE id = ?";
+			PreparedStatement cntPwStmt = conn.prepareStatement(cntPwSql);
+			cntPwStmt.setString(1, id);
+			ResultSet cntPwRs = cntPwStmt.executeQuery();
+	
+			if(cntPwRs.next()) {
+				row = cntPwRs.getInt("count(*)");
+			}
+			return row;
+		}
+		
+	// 7) 비밀번호 삭제
+		public int deletePw(String id) throws Exception {
+			// db연결
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();	
+			
+			// 삭제(delete) SQL
+			String deletePwSql = "DELETE FROM pw_history WHERE id = ? AND createdate = (SELECT createdate  FROM pw_history WHERE id = ? ORDER BY createdate DESC LIMIT 1)";
+			PreparedStatement deletePwStmt = conn.prepareStatement(deletePwSql);
+			deletePwStmt.setString(1, id);
+			deletePwStmt.setString(2, id);
+			int row = deletePwStmt.executeUpdate();
+			
+			return row;
+		}
+		
+	// 8) id_list에 last_pw 업데이트
+		public int updatePw(Id modifyIdList) throws Exception{
+			// db연결
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();	
+			
+			// update SQL
+			String updatePwSql = "UPDATE id_list SET last_pw = PASSWORD(?) WHERE id = ?";
+			PreparedStatement updatePwStmt = conn.prepareStatement(updatePwSql);
+			updatePwStmt.setString(1, modifyIdList.lastPw);
+			updatePwStmt.setString(2, modifyIdList.id);
+			int row = updatePwStmt.executeUpdate();
+			
+			return row;
+		}
+		
 }
