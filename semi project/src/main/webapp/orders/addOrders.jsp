@@ -3,7 +3,6 @@
 <%@ page import="vo.*" %>
 <%@ page import="java.util.*" %>
 <%
-	
 	/* 디버깅 색깔 지정 */
 	// ANSI CODE   
 	final String RESET = "\u001B[0m"; 
@@ -12,27 +11,36 @@
 	final String SONG = "\u001B[43m";
 	final String YANG = "\u001B[44m";
 	
+	/* 인코딩 */
+	response.setCharacterEncoding("utf-8");
+	
 	/* 세션값 확인 */
 	String loginId = (String)session.getAttribute("loginId");
 	System.out.println(KIM+loginId+" <--addOrders loginId param"+RESET);
 	
 	/* 유효성 검사 */
-	if(loginId == null
-	|| request.getParameter("productNo")==null){
+	if(session.getAttribute("loginId") == null
+	|| request.getParameter("productNo") == null){
 		response.sendRedirect(request.getContextPath()+"/home.jsp");
 		return;
 	}
-
+	
+	String id = loginId;
 	int productNo = Integer.parseInt(request.getParameter("productNo"));
 	System.out.println(KIM+loginId+" <-- addOrders id parameter"+RESET);
 	System.out.println(KIM+productNo+" <-- addOrders productNo parameter"+RESET);
 	
-	String id = loginId;
 	CustomerDao customerDao = new CustomerDao();
 	Customer customerOne = customerDao.selectCustomerOne(id);
 	
 	CartDao cartDao = new CartDao();
 	Cart cart = cartDao.selectCartOne(loginId);
+	String address= "";
+	
+	// 배송지를 변경했을 시 변경된 주소를 address 변수에 복사
+	if(request.getParameter("check") != null){
+		address = request.getParameter("check");
+	}
 	
 	OrdersDao ordersDao = new OrdersDao();
 	
@@ -51,7 +59,7 @@
 <title>addOrders</title>
 </head>
 <body>
-	<form action="addOrdersAction.jsp" method="post">
+	<form action="<%=request.getContextPath()%>/orders/addOrdersAction.jsp" method="post">
 	<input type="hidden" name="productNo" value="<%=cart.getProductNo()%>">
 		<table>
 			<tr>
@@ -64,11 +72,11 @@
 			</tr>
 		</table>
 		
-		<table>	
+		<table>
 				
 			<tr>
 				<th><h2>배송지 정보</h2></th>
-				<td><a href="<%=request.getContextPath()%>/address/addressList.jsp" class="delivery-change" onclick="openUserDeliveryListPop();"><span class="">배송지관리</span></a></td>
+				<td><a href="<%=request.getContextPath()%>/address/addressList.jsp?from=addOrders&productNo=<%=cart.getProductNo()%>" class="delivery-change" onclick="openUserDeliveryListPop();"><span class="">배송지관리</span></a></td>
 			
 			</tr>
 			<tr>
@@ -77,8 +85,8 @@
 				</td>
 			</tr>
 			<tr>	
-				<td>기본 배송지 <!-- 수정 예정 -->
-					<td><input type="text" name="address" value="<%=customerOne.getCstmAddress()%>"></td>
+				<td>배송지
+					<td><input type="text" name="address" value="<%=address%>"></td>
 				</td>
 			</tr>
 			<tr>	

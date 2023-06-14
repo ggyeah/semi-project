@@ -12,7 +12,7 @@
 	final String YANG = "\u001B[44m";
 	
 	/* 인코딩 */
-	request.setCharacterEncoding("utf-8");
+	response.setCharacterEncoding("utf-8");
 	
 	/* 유효성 검사 */
 	if(request.getParameter("productNo") == null

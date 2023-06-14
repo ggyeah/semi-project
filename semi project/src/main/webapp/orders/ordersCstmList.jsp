@@ -107,7 +107,7 @@
 					<td><%=orders.getOrderPrice()%></td>
 					<td><%=orders.getCreatedate()%></td>
 					<td><%=orders.getUpdatedate()%></td>
-					<% 
+					<% //이미 구매확정 버튼을 눌렀을 시 addReview 할 수 있도록
 						if(orders.getDeliveryStatus().equals("구매확정")){
 					%>
 						<td><a href="<%=request.getContextPath()%>/review/addReview.jsp?orderNo=<%=orders.getOrderNo()%>&productNo=<%=orders.getProductNo()%>">리뷰작성</a></td>

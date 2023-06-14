@@ -3,6 +3,9 @@
 <%@ page import="vo.*" %>
 <%@ page import="java.util.*" %>
 <%
+	/* 인코딩 */
+	response.setCharacterEncoding("utf-8");	
+
 	/* 디버깅 색깔 지정 */
 	// ANSI CODE   
 	final String RESET = "\u001B[0m"; 
@@ -12,17 +15,22 @@
 	final String YANG = "\u001B[44m";
 
 	/* 유효성 검사 */
-	if(session.getAttribute("loginId") == null){
+	if(session.getAttribute("loginId") == null
+	|| request.getParameter("productNo") == null){
 		response.sendRedirect(request.getContextPath()+"/home.jsp");
 		return;
 	}
+	
 	/* 세션값 ID 변수에 저장 */
 	String loginId = (String)session.getAttribute("loginId");
-	System.out.println(KIM+loginId+" <--address loginId param"+RESET);
+	int productNo = Integer.parseInt(request.getParameter("productNo"));
+	System.out.println(KIM+loginId+" <--addressList loginId param"+RESET);
+	System.out.println(KIM+productNo+" <--addressList productNo param"+RESET);
 	
 	AddressDao addressDao = new AddressDao();
 	Address adderss = new Address();
 	ArrayList<Address> addressList = addressDao.selectAddress(loginId);
+	ArrayList<Address> defaultAddressList = addressDao.selectDefaultAddress(loginId);
 	
 %>
 <!DOCTYPE html>
@@ -34,16 +42,6 @@
 	#yellow {background-color:yellow;}
 	table,td,th {border: 1px solid #000000; border-collapse: collapse; table-layout: fixed;}
 </style>
-<script>
-    function removeAddress(addressNo) {
-        var result = confirm("정말로 삭제하시겠습니까?");
-        if (result) {
-            // 확인 버튼을 눌렀을 때
-            var form = document.getElementById("removeForm_" + addressNo);
-            form.submit(); // 폼 제출
-        }
-    }
-</script>
 </head>
 <body>
 	<div>
@@ -64,67 +62,136 @@
 	<%
 		if(addressList == null || addressList.isEmpty()){
 	%>
-		<h2>최근 배송지가 없습니다.</h2>
+		<h2>배송지를 추가하세요.</h2>
 	<%
 		} else {
 	%>
-	
-		<% //Address 클래스의 객체 a를 addressList만큼 가져와 반복 처리
-			for(Address a : addressList){
-		%>
-		<table>
-			<tr>
-				<td colspan="2"><%=a.getAddressName()%></td><!-- 배송지 이름 -->
-				<%
-					if(a.getDefaultAddress().equals("Y")){
-				%>
-					<td colspan="2" id="yellow">기본배송지</td><!-- 기본 배송지 표시 -->
-				<%
+		<h5>기본 배송지</h5>
+	<%		
+		  boolean defaultAddressExists = false; // 기본 배송지 존재 여부 체크 변수
+             for(Address a : addressList){
+                 if(a.getDefaultAddress().equals("Y")){
+                     defaultAddressExists = true; // 기본 배송지가 존재함
+                     break;
+                 }
+              }
+              if(defaultAddressExists){
+				for(Address b : defaultAddressList){
+	%>				
+					<table>
+						<tr>
+							<td colspan="2"><%=b.getAddressName()%></td><!-- 배송지 이름 -->
+							<td colspan="2" id="yellow">기본배송지</td><!-- 기본 배송지 표시 -->
+						</tr>
+					</table>
+					<table>
+						<tr>	
+							<th>주소</th>
+							<th>최근 사용일</th>
+							<th>생성일</th>
+							<th>수정일</th>
+							<th>수정</th>
+							<th>삭제</th>
+							<th>선택</th>
+						</tr>
+				
+						<tr>
+							<td><%=b.getAddress()%></td>
+							<td><%=b.getAddressLastDate()%></td>
+							<td><%=b.getCreatedate()%></td>
+							<td><%=b.getUpdatedate()%></td>
+							<td>
+								<form action="<%=request.getContextPath()%>/address/modifyAddress.jsp" method="post">
+									<input type="hidden" name="addressNo" value="<%=b.getAddressNo()%>">
+									<input type="hidden" name="id" value="<%=b.getId()%>">
+									<input type="hidden" name="addressName" value="<%=b.getAddressName()%>">
+									<input type="hidden" name="address" value="<%=b.getAddress()%>">
+									<input type="hidden" name="createdate" value="<%=b.getCreatedate()%>">
+									<input type="hidden" name="updatedate" value="<%=b.getUpdatedate()%>">
+									<input type="submit" value="수정">
+								</form>
+							</td>
+							<td>
+								<form action="<%=request.getContextPath()%>/address/removeAddressAction.jsp" method="post">
+									<input type="hidden" name="id" value="<%=b.getId()%>">
+									<input type="hidden" name="addressNo" value="<%=b.getAddressNo()%>">
+									<input type="hidden" name="addressName" value="<%=b.getAddressName()%>">
+									<input type="submit" value="삭제">
+								</form>
+							</td>
+							 <td>
+			                      <a type="button" href="<%=request.getContextPath()%>/orders/addOrders.jsp?check=<%=b.getAddress()%>&productNo=<%=productNo%>">선택</a>
+			                </td>
+						</tr>
+					</table>
+			<%		
 					}
-				%>
-			</tr>
-		</table>
-		<table>
-			<tr>	
-				<th>주소</th>
-				<th>생성일</th>
-				<th>수정일</th>
-				<th>수정</th>
-				<th>삭제<th>
-			</tr>
-	
-			<tr>
-				<td><%=a.getAddress()%></td>
-				<td><%=a.getCreatedate()%></td>
-				<td><%=a.getUpdatedate()%></td>
-				<td>
-					<form action="<%=request.getContextPath()%>/modifyAddress.jsp" method="post">
-						<input type="hidden" name="addressNo" value="<%=a.getAddressNo()%>">
-						<input type="hidden" name="id" value="<%=a.getId()%>">
-						<input type="hidden" name="addressName" value="<%=a.getAddressName()%>">
-						<input type="hidden" name="address" value="<%=a.getAddress()%>">
-						<input type="hidden" name="createdate" value="<%=a.getCreatedate()%>">
-						<input type="hidden" name="updatedate" value="<%=a.getUpdatedate()%>">
-						<input type="submit" value="수정">
-					</form>
-				</td>
-				<td>
-					<form id="removeForm_<%=a.getAddressNo()%>" action="<%=request.getContextPath()%>/removeAddressAction.jsp" method="post">
-						<input type="hidden" name="id" value="<%=a.getId()%>">
-						<input type="hidden" name="addressNo" value="<%=a.getAddressNo()%>">
-						<input type="hidden" name="addressName" value="<%=a.getAddressName()%>">
-						<a href="javascript:void(0)" onclick="removeAddress(<%=a.getAddressNo()%>)">삭제</a>
-					</form>
-				</td>
-			</tr>
-	<%
-			}		
-		}
-	%>
-		</table>
-		<div>
-			<a href="<%=request.getContextPath()%>/address/addAddress.jsp">배송지 추가</a>
-		</div>
-</div>
+				}
+           %>
+      		<h5>일반 배송지</h5>
+      		<%	
+				for(Address a : addressList){
+			%>
+						<table>
+							<tr>
+								<td colspan="2"><%=a.getAddressName()%></td><!-- 배송지 이름 -->
+							</tr>
+						</table>
+						<table>
+							<tr>	
+								<th>주소</th>
+								<th>최근 사용일</th>
+								<th>생성일</th>
+								<th>수정일</th>
+								<th>수정</th>
+								<th>삭제</th>
+								<th>선택</th>
+							</tr>
+					
+							<tr>
+								<td><%=a.getAddress()%></td>
+								<td><%=a.getAddressLastDate()%></td>
+								<td><%=a.getCreatedate()%></td>
+								<td><%=a.getUpdatedate()%></td>
+								<td>
+									<form action="<%=request.getContextPath()%>/address/modifyAddress.jsp" method="post">
+										<input type="hidden" name="addressNo" value="<%=a.getAddressNo()%>">
+										<input type="hidden" name="id" value="<%=a.getId()%>">
+										<input type="hidden" name="addressName" value="<%=a.getAddressName()%>">
+										<input type="hidden" name="address" value="<%=a.getAddress()%>">
+										<input type="hidden" name="createdate" value="<%=a.getCreatedate()%>">
+										<input type="hidden" name="updatedate" value="<%=a.getUpdatedate()%>">
+										<input type="submit" value="수정">
+									</form>
+								</td>
+								<td>
+									<form action="<%=request.getContextPath()%>/address/removeAddressAction.jsp" method="post">
+										<input type="hidden" name="id" value="<%=a.getId()%>">
+										<input type="hidden" name="addressNo" value="<%=a.getAddressNo()%>">
+										<input type="hidden" name="addressName" value="<%=a.getAddressName()%>">
+										<input type="submit" value="삭제">
+									</form>
+								</td>
+								 <td>
+				                      <a type="button" href="<%=request.getContextPath()%>/orders/addOrders.jsp?check=<%=a.getAddress()%>&productNo=<%=productNo%>">선택</a>
+				                </td>
+							</tr>
+					<%		
+							}
+						}
+					%>
+						</table>
+						
+			<div>
+				<a href="<%=request.getContextPath()%>/address/addAddress.jsp">배송지 추가</a>
+			</div>
+		<%	 // 선택된 주소가 없을 경우: 다시 주문폼으로
+			if(request.getParameter("from").equals("addOrders")){
+		%>		
+				<a type="button" href="<%=request.getContextPath()%>/orders/addOrders.jsp?productNo=<%=productNo%>">이전</a>
+		<%
+			}
+		%>
+	</div>
 </body>
 </html>
