@@ -20,7 +20,7 @@
 				</tr>
 				<tr>
 					<td>비밀번호</td>
-					<td><input type="password" name="lastPw"></td>
+					<td><input type="password" name="pw"></td>
 				</tr>
 			</table>
 			<button type="submit">로그인</button>

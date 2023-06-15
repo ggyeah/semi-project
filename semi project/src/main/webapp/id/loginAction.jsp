@@ -22,25 +22,37 @@
 
 	// 요청값 변수 선언
 	String id = request.getParameter("id");
-	String lastPw = request.getParameter("lastPw");
+	String pw = request.getParameter("pw");
    
 	// 디버깅
 	System.out.println(YANG + id + " <-- id" + RESET);
-	System.out.println(YANG + lastPw + " <-- lastPw" + RESET);
+	System.out.println(YANG + pw + " <-- pw" + RESET);
    
+	// 요청값 객체에 묶어 저장
+	Id loginId = new Id();
+	loginId.id = id;
+	loginId.lastPw = pw;
+	
 	// sql 클래스 객체 생성
 	IdDao dao = new IdDao();
    
 	// 로그인 메서드 호출
-	int login = dao.selectId(id, lastPw);
-   
+	int login = dao.selectId(loginId);
+	
+	String empCstm = null;
+	if(login == 1){
+		empCstm = dao.selectEmpCstm(loginId);
+		System.out.println(empCstm);
+	}
+	
+	
+   /*
 	if(login == 1) { //로그인 성공
-		session.setAttribute("loginId", id);
+		session.setAttribute("loginId", loginId.id);
 		System.out.println(YANG + "로그인 성공 세션정보 : " + session.getAttribute("loginId") + RESET);
 		response.sendRedirect(request.getContextPath()+"/home.jsp");
 	} else { // 로그인 실패
 		System.out.println(YANG + "로그인 실패" + RESET);
 		response.sendRedirect(request.getContextPath()+"/home.jsp");
-	}
-
+*/
 %>

@@ -9,7 +9,7 @@ import vo.Id;
 import vo.PwHistory;
 
 public class IdDao {
-	// 1) 로그인 (활성화 Y)
+	// 1) 로그인
     public int selectId(Id loginId) throws Exception {
     	// db연결
        DBUtil dbUtil = new DBUtil();
@@ -17,7 +17,7 @@ public class IdDao {
        
        //로그인 폼에 입력한 아이디와 비밀번호가 id_list에 있는 아이디, 비밀번호와 일치하는지 확인
        int row = 0;
-       String loginSql = "SELECT id, last_pw, active FROM id_list where id = ? AND last_pw = PASSWORD(?) last_";
+       String loginSql = "SELECT id, last_pw, active FROM id_list WHERE id = ? AND last_pw = PASSWORD(?) AND active = 'Y'";
        PreparedStatement loginStmt = conn.prepareStatement(loginSql);
        loginStmt.setString(1, loginId.id);
        loginStmt.setString(2, loginId.lastPw);
@@ -29,24 +29,31 @@ public class IdDao {
        return row;
 	}
 		
-	// 2) 로그인 ( 활성화 D, N)
-		public int activeId(Id loginId) throws Exception {
+	// 2) 로그인시 직원 회원 구분
+		public String selectEmpCstm(Id loginId) throws Exception {
 			// db연결
 			DBUtil dbUtil = new DBUtil();
 			Connection conn = dbUtil.getConnection();
 			
 			// 활성화 여부(active) : N -> 휴면계정 / D -> 탈퇴회원
-			int row = 0;
-			String activeSql = "SELECT id, active FROM id_list where id = ? AND active = 'D' ";
-			PreparedStatement activeStmt = conn.prepareStatement(activeSql);
-			activeStmt.setString(1, loginId.id);
-			activeStmt.setString(2, loginId.lastPw);
-			ResultSet activeRs = activeStmt.executeQuery();
+			String empCstm = null;
+			String empSql = "SELECT id FROM employees where id = ?";
+			PreparedStatement empStmt = conn.prepareStatement(empSql);
+			empStmt.setString(1, loginId.id);
+			ResultSet empRs = empStmt.executeQuery();
 			
-			if(activeRs.next()) {
-				row = 1;
+			String cstmSql = "SELECT id FROM customer where id = ?";
+			PreparedStatement cstmStmt = conn.prepareStatement(cstmSql);
+			cstmStmt.setString(1, loginId.id);
+			ResultSet cstmRs = cstmStmt.executeQuery();
+			
+			if(empRs.next()) {
+				empCstm = "직원";
+			} else if(cstmRs.next()) {
+				empCstm = "회원";
 			}
-			return row;
+			return empCstm;
+			
 		}
 		
 	// 3) id 중복체크
