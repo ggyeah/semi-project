@@ -13,14 +13,15 @@
 	
 	// (비)로그인 사용자 확인
 	System.out.println(KIM+session.getAttribute("loginId")+" <-- mainMenu loginId"+RESET);
+	
 	// 관리자 1의 level값을 가져옴
 	EmployeesDao employeesDao = new EmployeesDao();
-	ArrayList<Employees> list = employeesDao.oneEmployeesList();
+	ArrayList<Employees> oneEmployeesList = employeesDao.oneEmployeesList();
 	
 	boolean checkId = false;
 	String loginId = (String) session.getAttribute("loginId");
 	if (loginId != null) {
-	for (Employees e : list){
+	for (Employees e : oneEmployeesList){
 	   if (session.getAttribute("loginId").equals(e.getId())){
 	      checkId = true;
 	      break;
@@ -53,7 +54,6 @@
 		<%	
 			// 2. loginId가 있는 사람(가입된 사람)
 			} 
-			for(Employees e : list){
 			if(session.getAttribute("loginId") != null){
 				if(session.getAttribute("loginId").equals("admin")){ //loginId가 관리자2(최고위직)일 경우
 		%>	
@@ -90,7 +90,6 @@
 		<%			
 				}
 			}
-		}
 		%>
 	</div>
 </body>

@@ -140,7 +140,7 @@ public class EmployeesDao {
 	    PreparedStatement employeesListStmt = conn.prepareStatement(employeesListSql);
 	    ResultSet employeesListRs = employeesListStmt.executeQuery();
 	    
-	    ArrayList<Employees> list = new ArrayList<>();
+	    ArrayList<Employees> selectEmployeesList = new ArrayList<>();
 	    while (employeesListRs.next()) {
 	        Employees e = new Employees();
 	        e.setId(employeesListRs.getString("id"));
@@ -149,33 +149,33 @@ public class EmployeesDao {
 	        e.setCreatedate(employeesListRs.getString("createdate"));
 	        e.setUpdatedate(employeesListRs.getString("updatedate"));
 	        
-	        list.add(e);
+	        selectEmployeesList.add(e);
 	    }
-	    return list;
+	    return selectEmployeesList;
 	}
 	
-	// 7) 관리자1 조회 // 세션값 분기를위해 관리자1 아이디를 가져올 수 있도록하려고 만들어둠
+	// 8) 관리자1 조회 // 세션값 분기를위해 관리자1 아이디를 가져올 수 있도록하려고 만들어둠
 	public ArrayList<Employees> oneEmployeesList() throws Exception {
 	    // db연결
 	    DBUtil dbUtil = new DBUtil();
 	    Connection conn = dbUtil.getConnection();
 	    
 	    // 리스트 불러오기
-	    String employeesListSql = "SELECT id, emp_name, emp_level, createdate, updatedate FROM employees WHERE emp_level = 1";
-	    PreparedStatement employeesListStmt = conn.prepareStatement(employeesListSql);
-	    ResultSet employeesListRs = employeesListStmt.executeQuery();
+	    String oneEmployeesListSql = "SELECT id, emp_name, emp_level, createdate, updatedate FROM employees WHERE emp_level = 1";
+	    PreparedStatement oneEmployeesListStmt = conn.prepareStatement(oneEmployeesListSql);
+	    ResultSet oneEmployeesListRs = oneEmployeesListStmt.executeQuery();
 	    
-	    ArrayList<Employees> list = new ArrayList<>();
-	    while (employeesListRs.next()) {
+	    ArrayList<Employees> oneEmployeesList = new ArrayList<>();
+	    while (oneEmployeesListRs.next()) {
 	        Employees e = new Employees();
-	        e.setId(employeesListRs.getString("id"));
-	        e.setEmpName(employeesListRs.getString("emp_name"));
-	        e.setEmpLevel(employeesListRs.getInt("emp_level"));
-	        e.setCreatedate(employeesListRs.getString("createdate"));
-	        e.setUpdatedate(employeesListRs.getString("updatedate"));
-	        list.add(e);
+	        e.setId(oneEmployeesListRs.getString("id"));
+	        e.setEmpName(oneEmployeesListRs.getString("emp_name"));
+	        e.setEmpLevel(oneEmployeesListRs.getInt("emp_level"));
+	        e.setCreatedate(oneEmployeesListRs.getString("createdate"));
+	        e.setUpdatedate(oneEmployeesListRs.getString("updatedate"));
+	        oneEmployeesList.add(e);
 	    }
-	    return list;
+	    return oneEmployeesList;
 	}
 }
 
