@@ -125,7 +125,6 @@ public class EmployeesDao {
 			insertEmpStmt.setString(1, addEmployees.id);
 			insertEmpStmt.setString(2, addEmployees.empName);
 			insertEmpStmt.setInt(3, addEmployees.empLevel);
-			System.out.println(insertEmpSql);
 			int row = insertEmpStmt.executeUpdate();
 			 
 			return row;
