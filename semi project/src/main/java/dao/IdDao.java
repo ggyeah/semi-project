@@ -56,6 +56,7 @@ public class IdDao {
 			
 		}
 		
+	// 3) 회원 최근 방문 시간 체크	
 	// 3) id 중복체크
 		public int ckId(String id) throws Exception {
 			// db연결

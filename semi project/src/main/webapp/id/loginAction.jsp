@@ -39,10 +39,17 @@
 	// 로그인 메서드 호출
 	int login = dao.selectId(loginId);
 	
+	// 직원인지 고객인지 구분하는 메서드 호출
 	String empCstm = null;
 	if(login == 1){
 		empCstm = dao.selectEmpCstm(loginId);
 		System.out.println(empCstm);
+	}
+	
+	if(empCstm.equals("직원")){
+		session.setAttribute("loginId", loginId.id);
+		System.out.println(YANG + "로그인 성공 세션정보 : " + session.getAttribute("loginId") + RESET);
+		response.sendRedirect(request.getContextPath()+"/home.jsp");
 	}
 	
 	
