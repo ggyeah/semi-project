@@ -27,6 +27,14 @@ reviewImgs = reviewImgDao.getReviewImages(orderNo);
 <head>
 <meta charset="UTF-8">
 <title>modifyReview</title>
+<script type="text/javascript">
+  function removeCheck() {
+    if (confirm("정말삭제하시겠습니까?")) {
+      document.removefrm.submit();
+    }
+    return false; // 기본 동작 중지
+  }
+</script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -48,7 +56,7 @@ reviewImgs = reviewImgDao.getReviewImages(orderNo);
 		 <tr>
 		 <tr>
               <th>아이디</th>
-              <td><input type= "text" name = "productNo" value ="<%=review.getId()%>" readonly="readonly"></td>
+              <td><input type= "text" name = "id" value ="<%=review.getId()%>" readonly="readonly"></td>
            </tr>
 		 <tr>
 		 <tr>
@@ -56,9 +64,17 @@ reviewImgs = reviewImgDao.getReviewImages(orderNo);
               <td><input type= "text" name = "reviewTitle" value ="<%=review.getReviewTitle()%>"></td>
          </tr>
           <tr>
-            <th>reviewImg(수정전 파일 : <%=reviewImgs.get(0).getReviewSaveFilename()%>)</th>
-            <td>
-               <input type="file" name="reviewImg">
+          	<td>
+		        <% if (reviewImgs.size() > 0) { %>
+		            수정 전 파일: <%= reviewImgs.get(0).getReviewSaveFilename() %>
+		          <a href="<%=request.getContextPath()%>/review/removeReviewImgAction.jsp?orderNo=<%=orderNo%>" onclick="return removeCheck()">삭제</a>
+		          </td>
+		          <td>
+		            <input type="file" name="reviewImg">
+		        <% } else { %>
+		            수정 전 파일 없음</td>
+		          <td><input type="file" name="reviewImg">
+		        <% } %>
             </td>
          </tr>
 		<tr>

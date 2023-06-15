@@ -20,6 +20,14 @@ if (request.getParameter("qNo") != null){
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript">
+  function removeCheck() {
+    if (confirm("정말삭제하시겠습니까?")) {
+      document.removefrm.submit();
+    }
+    return false; // 기본 동작 중지
+  }
+</script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -97,7 +105,7 @@ if (request.getParameter("qNo") != null){
     if (session.getAttribute("loginId") != null && (session.getAttribute("loginId").equals(answer.getId()) || session.getAttribute("loginId").equals("admin"))) { %>	
 	<div>
 	<a href="<%=request.getContextPath()%>/answer/modifyAnswer.jsp?qNo=<%=question.getqNo()%>&aNo=<%=answer.getaNo()%>">수정</a>
-    <a href="<%=request.getContextPath()%>/answer/removeAnswer.jsp?qNo=<%=question.getqNo()%>&aNo=<%=answer.getaNo()%>&productNo=<%=question.getProductNo()%>">삭제</a>
+    <a href="<%=request.getContextPath()%>/answer/removeAnswerAction.jsp?qNo=<%=question.getqNo()%>&aNo=<%=answer.getaNo()%>&productNo=<%=question.getProductNo()%>" onclick="return removeCheck()">삭제</a>
 	</div>	
 	  <%}} else { %>
 	  	<!-------------------  답변추가---------------------->

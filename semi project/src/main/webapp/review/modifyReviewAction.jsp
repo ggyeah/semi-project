@@ -54,34 +54,64 @@
         // 리뷰 수정
         int row = reviewDao.modifyReview(review);
         
-        // 이전 파일 삭제
-        int deleteImgRow = reviewImgDao.deleteReviewImgFile(orderNo, dir);
-        if (deleteImgRow == 1) {
-            System.out.println("이전 파일 삭제 성공");
-        } else {
-            System.out.println("이전 파일 삭제 실패");
-        }
-        
-        // 리뷰 이미지 수정
-        if (mRequest.getFilesystemName("reviewImg") != null) {
-            String type = mRequest.getContentType("reviewImg");
-            String originFilename = mRequest.getOriginalFileName("reviewImg");
-            String saveFilename = mRequest.getFilesystemName("reviewImg");
-            
-            ReviewImg reviewImg = new ReviewImg();
-            reviewImg.setOrderNo(orderNo);
-            reviewImg.setReviewOriFilename(originFilename);
-            reviewImg.setReviewSaveFilename(saveFilename);
-            reviewImg.setReviewFiletype(type);
-            
-            int rowCount = reviewImgDao.updateReviewImg(reviewImg);
-            if (rowCount == 1) {
-                System.out.println("리뷰 이미지 수정 성공");
-            } else {
-                System.out.println("리뷰 이미지 수정 실패" +RESET);
-            }
-        }
-        
-        response.sendRedirect(request.getContextPath() + "/review/reviewListOne.jsp?orderNo=" + orderNo);
+    	if (row==1){// 리뷰가 수정됐을때
+	    	 // 이전 리뷰 이미지가 있는지 확인
+	    	 
+			List<ReviewImg> reviewImages = reviewImgDao.getReviewImages(orderNo);
+			boolean hasReviewImages = !reviewImages.isEmpty();
+			// 1)DB에 이전 파일이 있고 리뷰이미지가 넘어왔을때 (이전파일삭제+수정)
+	        if (hasReviewImages == true && (mRequest.getFilesystemName("reviewImg") != null)) {
+	        	
+	            int deleteImgRow = reviewImgDao.deleteImgFile(orderNo, dir);
+	            if (deleteImgRow == 1) {
+	                System.out.println("이전 파일 삭제 성공");
+	            } else {
+	                System.out.println("이전 파일 삭제 실패");
+	            }
+	            String type = mRequest.getContentType("reviewImg");
+	            String originFilename = mRequest.getOriginalFileName("reviewImg");
+	            String saveFilename = mRequest.getFilesystemName("reviewImg");
+	            
+	            ReviewImg reviewImg = new ReviewImg();
+	            reviewImg.setOrderNo(orderNo);
+	            reviewImg.setReviewOriFilename(originFilename);
+	            reviewImg.setReviewSaveFilename(saveFilename);
+	            reviewImg.setReviewFiletype(type);
+	            // 리뷰이미지 DB수정
+	   	 	 int rowCount = reviewImgDao.updateReviewImg(reviewImg);
+	   		
+	            if (row == 1) {
+	                System.out.println("리뷰 이미지 추가 성공");
+	            } else {
+	                System.out.println("리뷰 이미지 없음" + RESET);
+	            }
+		    //2) DB에 이전파일이 없고 리뷰이미지가 넘어왔을때(리뷰이미지 추가) 
+	        } else if(hasReviewImages == false && (mRequest.getFilesystemName("reviewImg") != null)){
+		     
+		         String type = mRequest.getContentType("reviewImg");
+		         String originFilename = mRequest.getOriginalFileName("reviewImg");
+		         String saveFilename = mRequest.getFilesystemName("reviewImg");
+		         
+		         ReviewImg reviewImg = new ReviewImg();
+		         reviewImg.setOrderNo(orderNo);
+		         reviewImg.setReviewOriFilename(originFilename);
+		         reviewImg.setReviewSaveFilename(saveFilename);
+		         reviewImg.setReviewFiletype(type);
+		         
+		   	 	 int rowCount = reviewImgDao.addReviewImg(reviewImg);
+		   		
+		            if (row == 1) {
+		                System.out.println("리뷰 이미지 추가 성공");
+		            } else {
+		                System.out.println("리뷰 이미지 없음" + RESET);
+		            }
+	         
+		     //3) 이전리뷰이미지는 있는데 넘어온 리뷰이미지가 없을때(이전파일삭제)//4) 이전리뷰이미지도 없고 넘어온 리뷰이미지도 없을때
+    		}else{
+    			
+		    } 
     }
+  
+    response.sendRedirect(request.getContextPath() + "/review/reviewListOne.jsp?orderNo=" + orderNo);
+    } 
 %>

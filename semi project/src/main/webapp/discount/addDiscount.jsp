@@ -5,7 +5,7 @@
 <%
 response.setCharacterEncoding("utf-8");
 // 관리자 2가 아니면 홈으로 되돌아감
-if (session.getAttribute("loginId").equals("admin")) { 	
+if (!session.getAttribute("loginId").equals("admin")) { 	
 response.sendRedirect(request.getContextPath() + "/home.jsp");
 }
 

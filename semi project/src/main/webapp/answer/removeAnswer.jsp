@@ -16,7 +16,7 @@
 	EmployeesDao dao = new EmployeesDao();
 	ArrayList<Employees> list = dao.selectEmployeesList(); 
 	
-	//관리자가 아니면 답변을 삭제 할 수없음
+	//관리자가 아니면 답변을 삭제 할 수없음 // 이전에서는 삭제버튼이작성자와 관리자2만 보이게 지정되어있지만 여기서 작성자 이름을 받을 수없어 이중검사.
 	boolean checkId = false;
 	for (Employees e : list){
 	   if (session.getAttribute("loginId").equals(e.getId())){

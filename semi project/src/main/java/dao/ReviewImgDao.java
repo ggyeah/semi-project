@@ -9,7 +9,7 @@ import util.*;
 import vo.*;
 
 import java.io.*;
-		// 1) 리뷰이미지를 추가할때
+	// 1) 리뷰이미지를 추가할때
 	public class ReviewImgDao {
 	    public int addReviewImg(ReviewImg reviewImg) throws Exception {
 	        DBUtil dbUtil = new DBUtil();
@@ -48,7 +48,7 @@ import java.io.*;
 	
 	        return reviewImgs;
 	    }
-	    // 3) 리뷰 이미지 삭제
+	    // 3) 리뷰 이미지 삭제 (파일과 데이터베이스 모두다)
 	    public int deleteReviewImgFile(int orderNo, String dir) throws Exception {
 	        DBUtil dbUtil = new DBUtil();
 	        Connection conn = dbUtil.getConnection();
@@ -61,6 +61,10 @@ import java.io.*;
 	            if (file.exists()) {
 	                file.delete();
 	            }
+	            // 데이터베이스에서 리뷰 이미지 정보 삭제
+	            PreparedStatement deleteStmt = conn.prepareStatement("DELETE FROM review_img WHERE order_no = ?");
+	            deleteStmt.setInt(1, orderNo);
+	            deleteStmt.executeUpdate();
 	        }
 	        return 1;
 	    }
@@ -80,5 +84,21 @@ import java.io.*;
 	        return row;
 	    }
 	
-	    
+	    // 5) 리뷰 이미지파일삭제 (파일만)
+	    public int deleteImgFile(int orderNo, String dir) throws Exception {
+	        DBUtil dbUtil = new DBUtil();
+	        Connection conn = dbUtil.getConnection();
+	        PreparedStatement stmt = conn.prepareStatement("SELECT review_save_filename FROM review_img WHERE order_no = ?");
+	        stmt.setInt(1, orderNo);
+	        ResultSet rs = stmt.executeQuery();
+	        if (rs.next()) {
+	            String saveFilename = rs.getString("review_save_filename");
+	            File file = new File(dir, saveFilename);
+	            if (file.exists()) {
+	                file.delete();
+	            }
+
+	        }
+	        return 1;
+	    }
 	}

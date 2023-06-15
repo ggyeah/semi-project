@@ -80,13 +80,14 @@
             if (rowCount == 1) {
                 System.out.println("리뷰 이미지 추가 성공");
             } else {
-                System.out.println("리뷰 이미지 추가 실패" + RESET);
+                System.out.println("리뷰 이미지 없음" + RESET);
             }
+            response.sendRedirect(request.getContextPath() + "/product/productListOne.jsp?productNo=" + productNo);
      } else {
         System.out.println("리뷰 추가 실패"+RESET);
         response.sendRedirect(request.getContextPath() + "/product/productListOne.jsp?productNo="+productNo);
     		}
-	 response.sendRedirect(request.getContextPath() + "/product/productListOne.jsp?productNo="+productNo);
+	
    		}
   
 	}

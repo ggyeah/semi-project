@@ -16,6 +16,14 @@ ArrayList<Discount> dList = discountDao.discountList(0,10);
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript">
+  function removeCheck() {
+    if (confirm("해당 상품의 할인을 삭제하시겠습니까?")) {
+      document.removefrm.submit();
+    }
+    return false; // 기본 동작 중지
+  }
+</script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -41,18 +49,31 @@ ArrayList<Discount> dList = discountDao.discountList(0,10);
 	        <td><%= discount.getProductNo() %></td>
 	        <td><%= discount.getCategoryName() %></td>
 			<td>
-				<a href="<%=request.getContextPath()%>/discount/addDiscount.jsp?productNo=<%=discount.getProductNo()%>">
+				<a href="<%=request.getContextPath()%>/product/productListOne.jsp?productNo=<%=discount.getProductNo()%>">
 	      		<%= discount.getProductName() %></a>
 	      	</td>
 	        <td><%= discount.getProductStatus() %></td>
 	        <td><%= discount.getProductStock() %></td>
-	        <td><%= discount.getDiscountRate() %></td>
+			<td>
+			    <%
+			    double discountRate = discount.getDiscountRate();
+			    if (discountRate == 0.0) {
+			    %>
+			        <a href="<%=request.getContextPath()%>/discount/addDiscount.jsp?productNo=<%=discount.getProductNo()%>">
+			            할인추가
+			        </a>
+			    <%
+			    } else {
+			        out.print(discountRate);
+			    }
+			    %>
+			</td>
 	        <td><%= discount.getDiscountedPrice() %></td>
 	        <% 
-	    	if(discount != null) { 
+	        if (discountRate != 0.0) { 
 	        %>
 			<td><a href="<%=request.getContextPath()%>/discount/modifyDiscount.jsp?productNo=<%=discount.getProductNo()%>">수정</a></td>
-			<td><a href="<%=request.getContextPath()%>/discount/removeDiscount.jsp?productNo=<%=discount.getProductNo()%>">삭제</a></td>
+			<td><a href="<%=request.getContextPath()%>/discount/removeDiscountAction.jsp?productNo=<%=discount.getProductNo()%>" onclick="return removeCheck()">삭제</a></td>
 		</tr>
 	<% 
 			}

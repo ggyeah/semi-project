@@ -25,11 +25,47 @@ String loginId = (String)session.getAttribute("loginId");
 <head>
 <meta charset="UTF-8">
 <title>addReview</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-</head>
+<script>
+$(document).ready(function() {
+    // 시작시 title 입력 폼에 포커스
+    $('#title').focus();
+    
+    // 유효성 체크 함수
+    function validateForm() {
+        let allCheck = true; // allCheck 변수 초기화
+
+        if ($('#title').val() == '') {
+            $('#titleMsg').text('제목을 입력하세요');
+            $('#title').focus();
+            allCheck = false;
+        } else {
+            $('#titleMsg').text('');
+        }
+
+        if ($('#content').val() == '') {
+            $('#contentMsg').text('내용을 입력하세요');
+            $('#content').focus();
+            allCheck = false;
+        } else {
+            $('#contentMsg').text('');
+        }
+        
+        return allCheck;
+    }
+    $('#signinBtn').click(function(e) {
+        e.preventDefault(); // 기본 동작 방지
+
+        if (validateForm()) {
+            $('#signinForm').submit();
+        }
+    });
+});
+</script></head>
 <body class="container">
-<form action="<%=request.getContextPath()%>/review/addReviewAction.jsp" method="post"  enctype="multipart/form-data">
+<form id="signinForm" action="<%=request.getContextPath()%>/review/addReviewAction.jsp" method="post"  enctype="multipart/form-data">
 <h1>상품리뷰</h1>
 <table class="table table-bordered">
 	<tr>
@@ -41,23 +77,25 @@ String loginId = (String)session.getAttribute("loginId");
 		<td><input type="text" name="productNo" value="<%=productNo%>"></td>
 	</tr>
 	<tr>
-		<td>id</td>
+		<td>아이디 </td>
 		<td><input type="text" name="id" value="<%=loginId%>"></td>
 	</tr>
 	<tr>
 		<td>제목</td>
-		<td><input type="text" name="reviewTitle"></td>
+		<td><input type="text" name="reviewTitle"  id="title">
+		<span id="titleMsg" class="msg"></span></td>
 	</tr>
 	<tr>
 		<td>내용</td>
-		<td><input type="text" name="reviewContent"></td>
+		<td><input type="text" name="reviewContent"  id="content">
+			<span id="contentMsg" class="msg"></span></td>
 	</tr>
 	<tr>
-	 <td><input type="file" name="reviewImg" required="required"></td>
+	 <td><input type="file" name="reviewImg"></td>
 	</tr>
 	<tr>
 		<td>
-		<button type="submit" class="btn btn-danger"> 추가 </button>
+		<button type="submit" class="btn btn-danger"  id="signinBtn"> 추가 </button>
 		</td>
 	</tr>
 </table>

@@ -49,7 +49,11 @@ reviewImgs = reviewImgDao.getReviewImages(orderNo);
          </tr>
 		 <tr>
               <th>사진</th>
+               <% if (reviewImgs.size() > 0) { %>
               <td><img src="<%=request.getContextPath() + "/reviewImgUpload/" + reviewImgs.get(0).getReviewSaveFilename()%>"></td>
+           	  <% } else { %>
+       		 <td>이미지 없음</td>
+    		<% } %>
            </tr>
 		  <tr>
               <th>내용</th>

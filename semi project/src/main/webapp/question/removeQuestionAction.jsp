@@ -13,20 +13,19 @@ final String YANG = "\u001B[44m";
 IdDao idDao = new IdDao();
 //세션 유효성 검사
 if(session.getAttribute("loginId") != null) {
-  String id = (String) session.getAttribute("loginId");
-  String lastPw = request.getParameter("password");
-  //디버깅
-  System.out.println(id +"<removeReviewACtion sessionId");
-  
+	// 요청값 객체에 묶어 저장
+	Id loginId = new Id();
+	loginId.id = (String) session.getAttribute("loginId");
+	loginId.lastPw = request.getParameter("password");
 
 	// 디버깅
-	System.out.println(id + " <-- id");
-	System.out.println(lastPw + " <-- lastPw");
+	System.out.println(loginId.id + " <-- id");
+	System.out.println(loginId.lastPw + " <-- lastPw");
 
 	 
-	 int row = idDao.selectId(id,lastPw);
+	 int row = idDao.selectId(loginId);
 	 // 디버깅
-	 System.out.println(row +"<removeReviewACtion row"); 
+	 System.out.println(row +"<removeQuestionACtion row"); 
 	 
   if (row == 1) {
       // 세션 아이디와 입력된 비밀번호가 일치하면 리뷰 삭제 수행

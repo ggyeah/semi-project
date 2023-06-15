@@ -17,6 +17,14 @@
 <head>
 <meta charset="UTF-8">
 <title>removeQuestion</title>
+<script type="text/javascript">
+  function removeCheck() {
+    if (confirm("해당 상품의 할인을 삭제하시겠습니까?")) {
+      document.removefrm.submit();
+    }
+    return false; // 기본 동작 중지
+  }
+</script>
 </head>
 <body>
 <form action="<%=request.getContextPath()%>/discount/removeDiscountAction.jsp?productNo=<%=productNo%>" method="post">
