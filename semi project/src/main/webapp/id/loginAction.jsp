@@ -57,19 +57,21 @@
 	// 고객이면 최근 방문 시간 체크하는메서드 호출
 	}else if (empCstm.equals("고객")){
 		lastLogin = dao.selectCstmLastLogin(loginId);
-		System.out.println(YANG + lastLogin + RESET);		
+		System.out.println(YANG + lastLogin + RESET);	
+		
+		if(lastLogin.equals("정상계정")){
+			session.setAttribute("loginId", loginId.id);
+			System.out.println(YANG + "로그인 성공 세션정보 : " + session.getAttribute("loginId") + RESET);
+			response.sendRedirect(request.getContextPath()+"/home.jsp");
+		}else if(lastLogin.equals("휴면계정")){
+			System.out.println(YANG + loginId.id + " : 마지막 로그인 날짜 6개월 이상 -> 휴면처리"+ RESET);
+			response.sendRedirect(request.getContextPath()+"/home.jsp");
+		} else {
+			System.out.println(YANG + loginId.id + " : 탈퇴회원"+ RESET);
+			response.sendRedirect(request.getContextPath()+"/home.jsp");
+		}
 	}
 		
-	if(lastLogin.equals("정상계정")){
-		session.setAttribute("loginId", loginId.id);
-		System.out.println(YANG + "로그인 성공 세션정보 : " + session.getAttribute("loginId") + RESET);
-		response.sendRedirect(request.getContextPath()+"/home.jsp");
-	}else if(lastLogin.equals("휴면계정")){
-		System.out.println(YANG + loginId.id + " : 마지막 로그인 날짜 6개월 이상 -> 휴면처리"+ RESET);
-		response.sendRedirect(request.getContextPath()+"/home.jsp");
-	} else {
-		System.out.println(YANG + loginId.id + " : 탈퇴회원"+ RESET);
-		response.sendRedirect(request.getContextPath()+"/home.jsp");
-	}
+	
 
 %>
