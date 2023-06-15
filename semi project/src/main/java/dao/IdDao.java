@@ -9,9 +9,46 @@ import vo.Id;
 import vo.PwHistory;
 
 public class IdDao {
-	// 1) 로그인
-    public int selectId(Id loginId) throws Exception {
+	// 1-1) 로그인
+    public String login(Id loginId) throws Exception {
     	// db연결
+       DBUtil dbUtil = new DBUtil();
+       Connection conn = dbUtil.getConnection();
+       
+       // 로그인 폼에 입력한 아이디와 비밀번호가 id_list에 있는 아이디, 비밀번호와 일치하는지 확인
+       String login= null;
+       String loginYSql = "SELECT * FROM id_list WHERE id = ? AND last_pw = PASSWORD(?) AND active = 'Y'";
+       PreparedStatement loginYStmt = conn.prepareStatement(loginYSql);
+       loginYStmt.setString(1, loginId.id);
+       loginYStmt.setString(2, loginId.lastPw);
+       ResultSet loginYRs = loginYStmt.executeQuery();
+       
+       String loginDSql = "SELECT * FROM id_list WHERE id = ? AND last_pw = PASSWORD(?) AND active = 'D'";
+       PreparedStatement loginDStmt = conn.prepareStatement(loginDSql);
+       loginDStmt.setString(1, loginId.id);
+       loginDStmt.setString(2, loginId.lastPw);
+       ResultSet loginDRs = loginDStmt.executeQuery();
+       
+       String loginNSql = "SELECT * FROM id_list WHERE id = ? AND last_pw = PASSWORD(?) AND active = 'N'";
+       PreparedStatement loginNStmt = conn.prepareStatement(loginNSql);
+       loginNStmt.setString(1, loginId.id);
+       loginNStmt.setString(2, loginId.lastPw);
+       ResultSet loginNRs = loginNStmt.executeQuery();
+       
+       if(loginYRs.next()) {
+    	   login = "정상계정";
+       } else if(loginDRs.next()) {
+    	   login = "탈퇴계정";
+       } else if(loginNRs.next()) {
+    	   login = "휴면계정";
+       } else {
+    	   login = "";
+       }
+       return login;
+	}
+    // 1-2) 비밀번호 확인
+    public int selectId(Id loginId) throws Exception {
+       // db연결
        DBUtil dbUtil = new DBUtil();
        Connection conn = dbUtil.getConnection();
        
@@ -24,10 +61,10 @@ public class IdDao {
        ResultSet loginRs = loginStmt.executeQuery();
        
        if(loginRs.next()) {
-    	   row = 1;
+          row = 1;
        }
        return row;
-	}
+   }
 		
 	// 2) 로그인시 직원 회원 구분
 		public String selectEmpCstm(Id loginId) throws Exception {

@@ -37,14 +37,26 @@
 	IdDao dao = new IdDao();
    
 	// 로그인 메서드 호출
-	int login = dao.selectId(loginId);
-	
-	// 직원인지 고객인지 구분하는 메서드 호출
-	String empCstm = null;
+	String login = dao.login(loginId);
 	String lastLogin = null;
-	if(login == 1){
+	
+	// id, pw, active 확인
+	String empCstm = null;
+	if(login.equals("정상계정")){ // 정상계정이면 직원인지 고객인지 구분하는 메서드 호출
 		empCstm = dao.selectEmpCstm(loginId);
 		System.out.println(YANG + empCstm + RESET);
+	} else if(login.equals("탈퇴계정")){
+		System.out.println(YANG + loginId.id + " : 탈퇴회원"+ RESET);
+		response.sendRedirect(request.getContextPath()+"/home.jsp");
+		return;
+	} else if(login.equals("휴면계정")){
+		System.out.println(YANG + loginId.id + " : 휴면계정"+ RESET);
+		response.sendRedirect(request.getContextPath()+"/home.jsp");
+		return;
+	} else{
+		System.out.println(YANG + loginId.id + " : 로그인 실패"+ RESET);
+		response.sendRedirect(request.getContextPath()+"/home.jsp");
+		return;
 	}
 	
 	// 직원이면 로그인
@@ -53,25 +65,20 @@
 		System.out.println(YANG + "로그인 성공 세션정보 : " + session.getAttribute("loginId") + RESET);
 		response.sendRedirect(request.getContextPath()+"/home.jsp");
 	
-	
 	// 고객이면 최근 방문 시간 체크하는메서드 호출
 	}else if (empCstm.equals("고객")){
 		lastLogin = dao.selectCstmLastLogin(loginId);
 		System.out.println(YANG + lastLogin + RESET);	
-		
-		if(lastLogin.equals("정상계정")){
+			
+		if(lastLogin.equals("정상계정")){ // 마지막 방문일 6개월 미만이면 로그인 성공 (마지막 방문일 현재시간으로 업데이트 -> 세션에 저장)
 			session.setAttribute("loginId", loginId.id);
 			System.out.println(YANG + "로그인 성공 세션정보 : " + session.getAttribute("loginId") + RESET);
 			response.sendRedirect(request.getContextPath()+"/home.jsp");
-		}else if(lastLogin.equals("휴면계정")){
+		}else if(lastLogin.equals("휴면계정")){ // 마지막 방문일 6개월 이상이면 휴면처리(active Y -> N)
 			System.out.println(YANG + loginId.id + " : 마지막 로그인 날짜 6개월 이상 -> 휴면처리"+ RESET);
 			response.sendRedirect(request.getContextPath()+"/home.jsp");
-		} else {
-			System.out.println(YANG + loginId.id + " : 탈퇴회원"+ RESET);
-			response.sendRedirect(request.getContextPath()+"/home.jsp");
-		}
+		} 
 	}
-		
 	
 
 %>
