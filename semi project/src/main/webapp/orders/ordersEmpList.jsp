@@ -100,14 +100,26 @@
 					<td><%=orders.getProductNo()%></td>
 					<td><%=orders.getId()%></td>
 					<td><%=orders.getDeliveryStatus()%></td>
-					<td><!-- '결제완료','주문취소','배송중','배송완료','구매확정' -->
+					<!-- '결제완료','주문취소','배송중','배송완료','구매확정' -->
 					 <form action="<%=request.getContextPath()%>/orders/modifyEmpAction.jsp" method="post">
 				       <input type="hidden" name="orderNo" value="<%=orders.getOrderNo()%>">
-				      <label><input type="radio" name="empOrdersModify" value="배송중">배송중</label>
-				      <label><input type="radio" name="empOrdersModify" value="배송완료">배송완료</label>
-				      <label><input type="submit" value="수정"></label>
+				       <% // 사용자가 구매확정 버튼을 눌렀을 시 배송 상태 변경 불가
+				       	 if(orders.getDeliveryStatus().equals("구매확정")){
+				       %>
+				       		<td> </td>
+				       <%	
+				       	} else {
+				       %>
+						      <td>
+							      <label><input type="radio" name="empOrdersModify" value="배송중">배송중</label>
+							      <label><input type="radio" name="empOrdersModify" value="배송완료">배송완료</label>
+							      <label><input type="submit" value="수정"></label>
+						      </td>
+				      <%
+				       	}
+				      %>
 				    </form>
-				    </td>
+				    
 					<td><%=orders.getOrderCnt()%></td>
 					<td><%=orders.getOrderPrice()%></td>
 					<td><%=orders.getCreatedate()%></td>

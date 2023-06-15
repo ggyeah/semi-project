@@ -107,14 +107,14 @@
 					<td><%=orders.getOrderPrice()%></td>
 					<td><%=orders.getCreatedate()%></td>
 					<td><%=orders.getUpdatedate()%></td>
-					<% //이미 구매확정 버튼을 눌렀을 시 addReview 할 수 있도록
+					<% // 이미 구매확정 버튼을 눌렀을 시 addReview로 이동
 						if(orders.getDeliveryStatus().equals("구매확정")){
 					%>
 						<td><a href="<%=request.getContextPath()%>/review/addReview.jsp?orderNo=<%=orders.getOrderNo()%>&productNo=<%=orders.getProductNo()%>">리뷰작성</a></td>
-					<%
-						} else {
-					%>
-						<td><!-- '결제완료'-> '구매확정' -->
+					<%	// 배송완료일 때 구매확정 할 수 있도록 설정
+						} else if(orders.getDeliveryStatus().equals("배송완료")){
+					%>		
+						<td>
 							<button><a type="button" href="<%=request.getContextPath()%>/orders/modifyCstmAction.jsp?orderNo=<%=orders.getOrderNo()%>&loginId=<%=loginId%>&deliveryStatus=<%=orders.getDeliveryStatus()%>">구매확정</a></button>
 					    </td>
 				    <%

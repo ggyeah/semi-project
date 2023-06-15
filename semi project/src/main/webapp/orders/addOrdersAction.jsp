@@ -12,16 +12,20 @@
 	final String YANG = "\u001B[44m";
 	
 	/* 인코딩 */
-	response.setCharacterEncoding("utf-8");
+	request.setCharacterEncoding("utf-8");
 	
 	/* 유효성 검사 */
 	if(request.getParameter("productNo") == null
 		|| request.getParameter("orderCnt") == null
 		|| request.getParameter("orderPrice") == null
+		|| request.getParameter("address") == null
 		|| request.getParameter("productNo").equals("")
 		|| request.getParameter("orderCnt").equals("")
-		|| request.getParameter("orderPrice").equals("")){
-		response.sendRedirect(request.getContextPath()+"/orders/ordersCstmList.jsp");
+		|| request.getParameter("orderPrice").equals("")
+		|| request.getParameter("address").equals("")){
+		String msg = "input all";
+		int productNo = Integer.parseInt(request.getParameter("productNo"));
+		response.sendRedirect(request.getContextPath()+"/orders/addOrders.jsp?productNo="+productNo+"&msg="+msg);
 		return;
 		}
 	

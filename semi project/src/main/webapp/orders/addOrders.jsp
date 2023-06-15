@@ -12,7 +12,7 @@
 	final String YANG = "\u001B[44m";
 	
 	/* 인코딩 */
-	response.setCharacterEncoding("utf-8");
+	request.setCharacterEncoding("utf-8");
 	
 	/* 세션값 확인 */
 	String loginId = (String)session.getAttribute("loginId");
@@ -59,6 +59,17 @@
 <title>addOrders</title>
 </head>
 <body>
+<!----------------------- 메세지 ----------------------->
+	<div>
+			<%
+				if(request.getParameter("msg")!=null){
+			%>
+				<%=request.getParameter("msg")%>
+			<%
+				}
+			%>		
+	</div>
+<!----------------------- 주문 추가 폼 ----------------------->	
 	<form action="<%=request.getContextPath()%>/orders/addOrdersAction.jsp" method="post">
 	<input type="hidden" name="productNo" value="<%=cart.getProductNo()%>">
 		<table>
@@ -76,7 +87,7 @@
 				
 			<tr>
 				<th><h2>배송지 정보</h2></th>
-				<td><a href="<%=request.getContextPath()%>/address/addressList.jsp?from=addOrders&productNo=<%=cart.getProductNo()%>" class="delivery-change" onclick="openUserDeliveryListPop();"><span class="">배송지관리</span></a></td>
+				<td><a href="<%=request.getContextPath()%>/address/addressList.jsp?productNo=<%=cart.getProductNo()%>" class="delivery-change" onclick="openUserDeliveryListPop();"><span class="">배송지관리</span></a></td>
 			
 			</tr>
 			<tr>

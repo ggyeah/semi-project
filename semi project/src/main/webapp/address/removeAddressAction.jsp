@@ -22,15 +22,16 @@
 		return;
 	}
 	String loginId = (String)session.getAttribute("loginId");
+	int productNo = Integer.parseInt(request.getParameter("productNo"));
+	System.out.println(KIM+productNo+" <-- removeAddressAction parameter productNo"+RESET);
 	
 	/* 유효성 검사 */
 	if(request.getParameter("addressNo") == null){
-		response.sendRedirect(request.getContextPath()+"/address/addressList.jsp");
+		response.sendRedirect(request.getContextPath()+"/address/addressList.jsp?productNo="+productNo);
 		return;
 	}
 	int addressNo = Integer.parseInt(request.getParameter("addressNo"));
-	System.out.println(KIM+addressNo+" <-- removeAddressAction parameter addressNo"+RESET); //디버깅
-	
+	System.out.println(KIM+addressNo+" <-- removeAddressAction parameter addressNo"+RESET);
 	/* addressDao를 사용을 위한 선언 */
 	AddressDao addressDao = new AddressDao();
 	
@@ -43,12 +44,11 @@
 	if(row == 0){
 		// 삭제 실패 시 메시지 설정 및 address 리스트로 redirect
 		msg = URLEncoder.encode("삭제 실패", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/address/addressList.jsp?msg="+msg);
+		response.sendRedirect(request.getContextPath()+"/address/addressList.jsp?productNo="+productNo+"&msg="+msg);
 		return;
 	} else {
-		// 삭제 성공 시 메시지 설정 및 address 리스트로 redirect
-		msg = URLEncoder.encode("삭제 성공", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/address/addressList.jsp?msg="+msg);
+		// 삭제 성공 시
+		response.sendRedirect(request.getContextPath()+"/address/addressList.jsp?productNo="+productNo);
 		return;
 	}
 %>

@@ -170,7 +170,15 @@ public class OrdersDao {
 		addCustomerOrdersStmt.setInt(4, orders.getOrderPrice());
 		System.out.println("OrdersDao - addCustomerOrdersSql: " + addCustomerOrdersSql);
 		row = addCustomerOrdersStmt.executeUpdate();
-		
+		// 주문 추가 시 address_last_date = NOW()
+		 if (row == 1) {
+		        String updateAddressLastDateSql = "UPDATE address SET address_last_date = NOW() WHERE address_no IN (SELECT address_no FROM orders WHERE product_no = ? AND id = ?)";
+		        PreparedStatement updateAddressLastDateStmt = conn.prepareStatement(updateAddressLastDateSql);
+		        updateAddressLastDateStmt.setInt(1, orders.getProductNo());
+		        updateAddressLastDateStmt.setString(2, orders.getId());
+		        updateAddressLastDateStmt.executeUpdate();
+		    }
+		// 주문 추가 시 cart에 있던 목록 삭제
 		if(row == 1) {
 				String removeCartSql = "DELETE FROM cart WHERE product_no = ?";
 				PreparedStatement removeCartStmt = conn.prepareStatement(removeCartSql);

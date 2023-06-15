@@ -30,7 +30,7 @@ public class AddressDao {
 		}
 		return list;
 	}
-	// 1-1) 기본 배송지 조회
+	// 2) 기본 배송지 조회
 	public ArrayList<Address> selectDefaultAddress(String loginId) throws Exception {
 		ArrayList<Address> list = new ArrayList<>();
 		DBUtil dbUtil = new DBUtil();
@@ -55,37 +55,82 @@ public class AddressDao {
 		}
 		return list;
 	}
-	// 2) 배송지 추가
+	// 3) 배송지 상세 조회
+	public Address selectAddressOne(String id, int addressNo) throws Exception {
+		Address address = null;
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String addressOneSql = "select address_no, id, address_name, address, address_last_date, default_address, createdate, updatedate from address where id = ? and address_no=?";
+		PreparedStatement addressOneStmt = conn.prepareStatement(addressOneSql);
+		addressOneStmt.setString(1, id);
+		addressOneStmt.setInt(2, addressNo);
+		ResultSet selectAddressOneRs = addressOneStmt.executeQuery();
+		if(selectAddressOneRs.next()){
+			address = new Address();
+			address.setAddressNo(selectAddressOneRs.getInt("address_no"));
+			address.setId(selectAddressOneRs.getString("id"));
+			address.setAddressName(selectAddressOneRs.getString("address_name"));
+			address.setAddress(selectAddressOneRs.getString("address"));
+			address.setAddressLastDate(selectAddressOneRs.getString("address_last_date"));
+			address.setDefaultAddress(selectAddressOneRs.getString("default_address"));
+			address.setCreatedate(selectAddressOneRs.getString("createdate"));
+			address.setUpdatedate(selectAddressOneRs.getString("updatedate"));
+		}
+		return address;
+	}
+	// 4) 배송지 추가
 		public int addAddress(Address address) throws Exception {
 			DBUtil dbUtil = new DBUtil();
 			Connection conn = dbUtil.getConnection();
-			String addAddressSql = "INSERT INTO address(id, address_name, address, address_last_date, default_address, createdate, updatedate) values(?, ?, ?, NOW(), ?, NOW(), NOW())";
-			PreparedStatement addAddressStmt = conn.prepareStatement(addAddressSql);
-			addAddressStmt.setString(1, address.getId());
-			addAddressStmt.setString(2, address.getAddressName());
-			addAddressStmt.setString(3, address.getAddress());
-			addAddressStmt.setString(4, address.getDefaultAddress());
-			int row = addAddressStmt.executeUpdate();
-			System.out.println("AddressDao - addAddressSql: " + addAddressSql);
-			return row;
+			
+			// 기존의 기본 배송지를 'N'으로 업데이트
+	        if (address.getDefaultAddress().equals("Y")) {
+	            String modifyDefaultAddressSql = "UPDATE address SET default_address='N', updatedate=NOW() WHERE id=? AND default_address='Y'";
+	            PreparedStatement modifyDefaultAddressStmt = conn.prepareStatement(modifyDefaultAddressSql);
+	            modifyDefaultAddressStmt.setString(1, address.getId());
+	            modifyDefaultAddressStmt.executeUpdate();
+	        }
+
+	        // 주소 추가
+	        String addAddressSql = "INSERT INTO address(id, address_name, address, address_last_date, default_address, createdate, updatedate) VALUES (?, ?, ?, ?, ?, NOW(), NOW())";
+	        PreparedStatement addAddressStmt = conn.prepareStatement(addAddressSql);
+	        addAddressStmt.setString(1, address.getId());
+	        addAddressStmt.setString(2, address.getAddressName());
+	        addAddressStmt.setString(3, address.getAddress());
+	        addAddressStmt.setString(4, address.getAddressLastDate());
+	        addAddressStmt.setString(5, address.getDefaultAddress() != null ? address.getDefaultAddress() : "N");
+	        int row = addAddressStmt.executeUpdate();
+
+	        return row;
 		}
 	
-	// 3) 배송지 수정
+	// 5) 배송지 수정
 		public int modifyAddress(Address address) throws Exception {
 			DBUtil dbUtil = new DBUtil();
 			Connection conn = dbUtil.getConnection();
-			String modifyAddressSql = "UPDATE address SET address_name=?, address=?, address_last_date=?, default_address=?, updatedate=NOW() WHERE subject_no=?";
+			String modifyAddressSql = "UPDATE address SET address_name=?, address=?, default_address=?, updatedate=NOW() WHERE address_no=?";
 			PreparedStatement modifyAddressStmt = conn.prepareStatement(modifyAddressSql);
 			modifyAddressStmt.setString(1, address.getAddressName());
 			modifyAddressStmt.setString(2, address.getAddress());
-			modifyAddressStmt.setString(3, address.getAddressLastDate());
-			modifyAddressStmt.setString(4, address.getDefaultAddress());
-			modifyAddressStmt.setString(5, address.getId());
+			modifyAddressStmt.setString(3, address.getDefaultAddress());
+			modifyAddressStmt.setInt(4, address.getAddressNo());
 			int row = modifyAddressStmt.executeUpdate();
-			System.out.println("AddressDao - modifyAddressSql: " + modifyAddressSql);
+			System.out.println("AddressDao - modifyAddress: " + modifyAddressSql);
 			return row;
 		}
-	// 4) 배송지 삭제
+	// 5-1) 기본 배송지 수정
+		public int modifyDefaultAddress(String id) throws Exception {
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();
+            String deleteDefaultAddressSql = "UPDATE address SET default_address='N' WHERE id = ? AND default_address='Y'";
+            PreparedStatement deleteDefaultAddressStmt = conn.prepareStatement(deleteDefaultAddressSql);
+            deleteDefaultAddressStmt.setString(1, id);
+            int row = deleteDefaultAddressStmt.executeUpdate();
+            System.out.println("AddressDao - modifyAddress - deleteDefaultAddressSql: " + deleteDefaultAddressSql);
+            return row;
+		}
+		
+	// 6) 배송지 삭제
 		public int removeAddress(int addressNo) throws Exception {
 			DBUtil dbUtil = new DBUtil();
 			Connection conn = dbUtil.getConnection();
@@ -96,4 +141,5 @@ public class AddressDao {
 			System.out.println("AddressDao - removeAddressSql: " + removeAddressSql);
 			return row;
 		}
+		
 }

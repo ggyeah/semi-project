@@ -4,7 +4,7 @@
 <%@ page import="java.net.*" %>
 <%
 	/* 인코딩 */
-	response.setCharacterEncoding("utf-8");	
+	request.setCharacterEncoding("utf-8");	
 
 	/* 디버깅 색깔 지정 */
 	// ANSI CODE   
@@ -26,7 +26,7 @@
 		response.sendRedirect(request.getContextPath()+"/address/addAddress.jsp?msg="+msg);
 		return;
 	}
-	
+	int productNo = Integer.parseInt(request.getParameter("productNo"));
 	String loginId = (String)session.getAttribute("loginId");
 	String addAddressName = request.getParameter("addAddressName");
 	String addAddress = request.getParameter("addAddress");
@@ -50,11 +50,10 @@
 	String msg = null;
 	if(row == 0){
 		msg = URLEncoder.encode("추가 실패", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/address/addressList.jsp?msg="+msg);
+		response.sendRedirect(request.getContextPath()+"/address/addAddress.jsp?msg="+msg);
 		return;
 	} else {
-		msg = URLEncoder.encode("추가 성공", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/address/addressList.jsp?msg="+msg);
+		response.sendRedirect(request.getContextPath()+"/address/addressList.jsp?productNo="+productNo);
 		return;
 	}
 

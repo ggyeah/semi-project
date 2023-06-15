@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	/* 인코딩 */
-	response.setCharacterEncoding("utf-8");	
+	request.setCharacterEncoding("utf-8");
+	int productNo = Integer.parseInt(request.getParameter("productNo"));
 %>
 <!DOCTYPE html>
 <html>
@@ -22,6 +23,7 @@
 	</div>
 <!---------------------- 배송지 추가 ---------------------->
 	<form action="<%=request.getContextPath()%>/address/addAddressAction.jsp" method="post">
+	<input type="hidden" name="productNo" value="<%=productNo%>">
 		<table>
 			<tr>
 				<th>배송지명</th>
