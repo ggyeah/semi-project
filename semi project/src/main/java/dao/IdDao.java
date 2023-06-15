@@ -15,7 +15,7 @@ public class IdDao {
        DBUtil dbUtil = new DBUtil();
        Connection conn = dbUtil.getConnection();
        
-       //로그인 폼에 입력한 아이디와 비밀번호가 id_list에 있는 아이디, 비밀번호와 일치하는지 확인
+       // 로그인 폼에 입력한 아이디와 비밀번호가 id_list에 있는 아이디, 비밀번호와 일치하는지 확인
        int row = 0;
        String loginSql = "SELECT id, last_pw, active FROM id_list WHERE id = ? AND last_pw = PASSWORD(?) AND active = 'Y'";
        PreparedStatement loginStmt = conn.prepareStatement(loginSql);
@@ -35,7 +35,7 @@ public class IdDao {
 			DBUtil dbUtil = new DBUtil();
 			Connection conn = dbUtil.getConnection();
 			
-			// 활성화 여부(active) : N -> 휴면계정 / D -> 탈퇴회원
+			// 직원테이블과 고객테이블에서 id조회 
 			String empCstm = null;
 			String empSql = "SELECT id FROM employees where id = ?";
 			PreparedStatement empStmt = conn.prepareStatement(empSql);
@@ -50,13 +50,44 @@ public class IdDao {
 			if(empRs.next()) {
 				empCstm = "직원";
 			} else if(cstmRs.next()) {
-				empCstm = "회원";
+				empCstm = "고객";
 			}
 			return empCstm;
 			
 		}
 		
-	// 3) 회원 최근 방문 시간 체크	
+	// 3) 고객 최근 방문 시간 체크	
+		public String selectCstmLastLogin(Id loginId) throws Exception {
+			// db연결
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();
+			
+			// 고객의 최근 방문 시간이 6개월 이상 이면 휴면처리 / 미만이면 로그인성공하고 마지막 로그인 시간 업데이트
+			int row = 0;
+			String cstmLastLogin = null;
+			String cstmSql = "SELECT id FROM customer WHERE id= ? and cstm_last_login <= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)";
+			PreparedStatement cstmStmt = conn.prepareStatement(cstmSql);
+			cstmStmt.setString(1, loginId.id);
+			ResultSet cstmRs = cstmStmt.executeQuery();
+			if(cstmRs.next()) {
+				row = 1;
+			}
+			if(row == 1) {
+				String updateLastLoginSql = "UPDATE id_list SET active = 'N' WHERE id = ?"; 
+				PreparedStatement updateLastLoginStmt = conn.prepareStatement(updateLastLoginSql);
+				updateLastLoginStmt.setString(1, loginId.id);
+				int cstmRow = updateLastLoginStmt.executeUpdate();
+				cstmLastLogin = "휴면계정";
+			} else {
+				String updateLastLoginSql = "UPDATE customer SET cstm_last_login = now() WHERE id = ?"; 
+				PreparedStatement updateLastLoginStmt = conn.prepareStatement(updateLastLoginSql);
+				updateLastLoginStmt.setString(1, loginId.id);
+				int cstmRow = updateLastLoginStmt.executeUpdate();
+				cstmLastLogin = "정상계정";
+			}
+			return cstmLastLogin;
+		}
+		
 	// 3) id 중복체크
 		public int ckId(String id) throws Exception {
 			// db연결
