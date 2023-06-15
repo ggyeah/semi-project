@@ -2,6 +2,8 @@
 <%@ page import ="vo.*" %>
 <%@ page import ="dao.*" %>
 <%@ page import="java.util.*"%>
+<%@ page import = "com.oreilly.servlet.MultipartRequest" %>
+<%@ page import = "com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
 <% 
 	// 인코딩 처리
 	request.setCharacterEncoding("UTF-8");
@@ -17,14 +19,30 @@
 	 
 	// 에러메시지 담을 때 사용할 변수
 	String msg = null;
-
+	
 	/* 세션 유효성 검사 */
+	
+	
+	
+	ProductDao productDao = new ProductDao();
+	Product product = new Product();
+	ProductImgDao productImgDao = new ProductImgDao();
+    ProductImg productImg = new ProductImg();
+    String dir = request.getServletContext().getRealPath("/productImgUpload");
+  	// getRealPath 실제위치
+    System.out.println(SONG + dir + RESET);
+   	
+ 	// request객체를 MultipartRequest의 API를 사용할 수 있도록 랩핑 
+ 	// new MultipartRequest(원본request, 업로드폴더, 최대파일사이즈byte, 인코딩, 중복이름정책)
+	// DefaultFileRenamePolicy() 파일 중복이름정책 : 업로드 폴더내 동일한 이름이 있으면 뒤에 숫자를 추가
+   	int max = 10 * 1024 * 1024; // 최대파일사이즈byte : 100Mbyte
+	MultipartRequest mRequest = new MultipartRequest(request, dir, max, "utf-8", new DefaultFileRenamePolicy());
+   	
 	
 	
 	
 	/* 요청값 유효성검사 */
 	
-
 	
 	
 	// 유효성 검사 통과하면 -> 폼에서 입력된 상품 정보를 가져와서 변수에 저장
@@ -46,10 +64,8 @@
 	System.out.println(SONG + productNo + RESET);
 
 	
-	// ProductDao 객체 생성
-	ProductDao productDao = new ProductDao();
-	// Product 객체 생성 및 요청값 저장
-	Product product = new Product();
+	//---------- 상품수정 ----------//
+	// Product 객체에 요청값 저장
 	product.setCategoryName(categoryName);
 	product.setProductName(productName);
 	product.setProductPrice(productPrice);

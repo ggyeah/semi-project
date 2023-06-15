@@ -21,10 +21,16 @@
 	// 유효성 검사를 통과하면 변수에 저장
 	int productNo = Integer.parseInt(request.getParameter("productNo"));
 	// 디버깅
-	System.out.println(SONG + productNo + RESET);
+	System.out.println(SONG + productNo + " <-- 상품번호" + RESET);
+	
+	
 	ProductDao prodDao = new ProductDao(); // ProductDao 객체 생성
 	Product productOne = prodDao.ProductListOne(productNo); // productNo 매개변수로 productOne 메서드 호출하여, 상세보기에 표시할 productOne 객체 가져오기
-
+	
+	ProductImgDao productImgDao = new ProductImgDao();
+	ArrayList<ProductImg> productImgs = new ArrayList<>();
+	productImgs = productImgDao.getProductImages(productNo);
+	
 	/*---------lim : 리뷰리스트 -----------*/
 	ReviewDao reviewDao = new ReviewDao();
 	int beginRow = 0;
@@ -97,8 +103,8 @@
 			<td><%=productOne.getProductStock()%></td>
 		</tr>
 		<tr>
-			<th>이미지</th>
-			<td>대충 음식 사진 들어갈 곳</td>
+			<th>product_img</th>
+			<td><img src="<%=request.getContextPath() + "/productImgUpload/" + productImgs.get(0).getProductSaveFilename()%>"></td>
 		</tr>
 		<tr>
 			<th>product_info</th>

@@ -75,9 +75,9 @@
 			<td><input type="text" name="productStock" value="<%=productOne.getProductStock()%>"></td>
 		</tr>
 		<tr>
-			<th>이미지</th>
+			<th>product_img</th>
 			<td><input type="hidden" name="productNo" value="<%=productOne.getProductNo()%>"></td>
-			<td>대충 음식 사진 들어갈 곳</td>
+			<td><input type="file" name="productImg" required="required"></td>
 		</tr>
 		<tr>
 			<th>product_info</th>

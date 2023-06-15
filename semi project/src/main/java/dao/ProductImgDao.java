@@ -54,12 +54,13 @@ public class ProductImgDao {
 		Connection conn = dbUtil.getConnection();				// 데이터베이스 연결을 위한 Connection 객체 생성
 		PreparedStatement addProductImgStmt = null;				// 쿼리를 전송하기 위해 PreparedStatement 객체 생성
 		// SQL 쿼리문
-		String addProductImgSql = "INSERT INTO product_img(product_ori_filename, product_save_filename, product_filetype, createdate, updatedate) VALUES(?,?,?,now(),now())";
+		String addProductImgSql = "INSERT INTO product_img(product_no, product_ori_filename, product_save_filename, product_filetype, createdate, updatedate) VALUES(?,?,?,?,now(),now())";
 		addProductImgStmt = conn.prepareStatement(addProductImgSql);
-		// ? 3개
-		addProductImgStmt.setString(1, productImg.getProductOriFilename());
-		addProductImgStmt.setString(2, productImg.getProductSaveFilename());
-		addProductImgStmt.setString(3, productImg.getProductFiletype());
+		// ? 4개
+		addProductImgStmt.setInt(1, productImg.getProductNo());
+		addProductImgStmt.setString(2, productImg.getProductOriFilename());
+		addProductImgStmt.setString(3, productImg.getProductSaveFilename());
+		addProductImgStmt.setString(4, productImg.getProductFiletype());
 		
 		// 쿼리 실행 및 결과 저장
 		int addProductImgRow = addProductImgStmt.executeUpdate();

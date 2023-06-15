@@ -102,13 +102,14 @@ public class ProductDao {
 	
 	
 	/* 상품 추가 : addProduct */
-	public int addProduct(Product product) throws Exception {
+	public int[] addProduct(Product product) throws Exception {
+		int[] rowAndKey = new int[2];							// 리턴할 배열 생성
 		DBUtil dbUtil = new DBUtil();							// DBUtil 객체 생성
 		Connection conn = dbUtil.getConnection();				// 데이터베이스 연결을 위한 Connection 객체 생성
 		PreparedStatement addProductStmt = null;				// 쿼리를 전송하기 위해 PreparedStatement 객체 생성
 		// SQL 쿼리문
 		String addProductSql = "INSERT INTO product(category_name, product_name, product_price, product_status, product_stock, product_info, createdate, updatedate) VALUES(?,?,?,?,?,?,now(),now())";
-		addProductStmt = conn.prepareStatement(addProductSql);
+		addProductStmt = conn.prepareStatement(addProductSql, PreparedStatement.RETURN_GENERATED_KEYS);
 		// ? 6개
 		addProductStmt.setString(1, product.getCategoryName());
 		addProductStmt.setString(2, product.getProductName());
@@ -116,15 +117,25 @@ public class ProductDao {
 		addProductStmt.setString(4, product.getProductStatus());
 		addProductStmt.setInt(5, product.getProductStock());
 		addProductStmt.setString(6, product.getProductInfo());
-		// 쿼리 실행 및 결과 저장
-		int addProductRow = addProductStmt.executeUpdate();
+		// 쿼리 실행 및 배열에 row값 먼저 저장
+		rowAndKey[0] = addProductStmt.executeUpdate();
 		// 영향받은 행값	
-		if(addProductRow == 1) {  
-			System.out.println(SONG + addProductRow + " <-- ProductDao 상품추가성공" + RESET);
-	    } else {
-	    	System.out.println(SONG + addProductRow + " <-- ProductDao 상품추가실패" + RESET);
+		if(rowAndKey[0] == 1) { 
+	        System.out.println(SONG + rowAndKey[0] + " <-- ProductDao 상품추가성공" + RESET);
+	        // 키 값(productNo) 받아오기
+			ResultSet generatedKeys = addProductStmt.getGeneratedKeys();
+			int productNo = 0;
+			if(generatedKeys.next()) {
+				productNo = generatedKeys.getInt(1);
+	            // 첫 번째 열의 자동 생성된 키 값 가져오기
+	            System.out.println(SONG + "자동 생성된 키 값: " + productNo + RESET);
+	        }
+			rowAndKey[1] = productNo;
+		} else {
+	    	System.out.println(SONG + rowAndKey[0] + " <-- ProductDao 상품추가실패" + RESET);
 	    } 	
-		return addProductRow;
+				
+		return rowAndKey;
 	}
 	
 	
