@@ -102,10 +102,24 @@
 			<th>product_stock</th>
 			<td><%=productOne.getProductStock()%></td>
 		</tr>
-		<tr>
-			<th>product_img</th>
-			<td><img src="<%=request.getContextPath() + "/productImgUpload/" + productImgs.get(0).getProductSaveFilename()%>"></td>
-		</tr>
+	<%
+		if (productImgs.size() == 0){
+	%>
+			<tr>
+				<th>product_img</th>
+				<td>이미지가 없습니다.</td>
+			</tr>
+	<%
+		}
+		for(ProductImg pi: productImgs){
+	%>
+			<tr>
+				<th>product_img</th>
+				<td><img src="<%=request.getContextPath() + "/productImgUpload/" + pi.getProductSaveFilename()%>"></td>
+			</tr>
+	<%
+		}
+	%>	
 		<tr>
 			<th>product_info</th>
 			<td><%=productOne.getProductInfo()%></td>
