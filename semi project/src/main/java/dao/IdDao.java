@@ -99,7 +99,7 @@ public class IdDao {
 			DBUtil dbUtil = new DBUtil();
 			Connection conn = dbUtil.getConnection();
 			
-			// 고객의 최근 방문 시간이 6개월 이상 이면 휴면처리 / 미만이면 로그인성공하고 마지막 로그인 시간 업데이트
+			
 			int row = 0;
 			String cstmLastLogin = null;
 			String cstmSql = "SELECT id FROM customer WHERE id= ? and cstm_last_login <= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)";
@@ -109,13 +109,13 @@ public class IdDao {
 			if(cstmRs.next()) {
 				row = 1;
 			}
-			if(row == 1) {
+			if(row == 1) { // 고객의 마지막 방문일이 6개월 이상 이면 휴면처리
 				String updateLastLoginSql = "UPDATE id_list SET active = 'N' WHERE id = ?"; 
 				PreparedStatement updateLastLoginStmt = conn.prepareStatement(updateLastLoginSql);
 				updateLastLoginStmt.setString(1, loginId.id);
 				int cstmRow = updateLastLoginStmt.executeUpdate();
 				cstmLastLogin = "휴면계정";
-			} else {
+			} else { // 고객의 마지막 방문일이 6개월 미만이면 마지막 방문일 업데이트
 				String updateLastLoginSql = "UPDATE customer SET cstm_last_login = now() WHERE id = ?"; 
 				PreparedStatement updateLastLoginStmt = conn.prepareStatement(updateLastLoginSql);
 				updateLastLoginStmt.setString(1, loginId.id);
