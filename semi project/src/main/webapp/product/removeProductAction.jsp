@@ -35,19 +35,32 @@
 	// 유효성 검사 통과하면 -> 폼에서 입력된 상품 정보를 가져와서 변수에 저장
 	
 	
-	// ProductDao 객체 생성 
+	// ProductDao 및 Product 객체 생성 
 	ProductDao productDao = new ProductDao();
-	// Product 객체 생성 및 값 설정
 	Product product = new Product();
+	// ProductImgDao 및 ProductImg 객체 생성 
+	ProductImgDao productImgDao = new ProductImgDao();
+    ProductImg productImg = new ProductImg();
+ 	// getRealPath 실제위치
+    String dir = request.getServletContext().getRealPath("/productImgUpload");
+    System.out.println(SONG + dir +" <-- dir" + RESET); 
 	
-	
-	// 상품 삭제 메소드 호출
-	int removeProductRow = productDao.removeProduct(productNo);
-	if(removeProductRow == 1) {
-		System.out.println(SONG + removeProductRow + " <-- removeProductAction 상품삭제성공" + RESET);
-		response.sendRedirect(request.getContextPath()+"/product/productList.jsp");
-	} else {
-		System.out.println(SONG + removeProductRow + " <-- removeProductAction 상품삭제실패" + RESET);
-		response.sendRedirect(request.getContextPath()+"/product/removeProduct.jsp");
-	}
+    // 상품이미지 삭제 메소드 호출
+    int removeProductImgRow = productImgDao.removeProductImg(productNo, dir);
+    if(removeProductImgRow == 1) {
+    	System.out.println(SONG + removeProductImgRow + " <-- removeProductAction 상품이미지 삭제 성공" + RESET);
+		
+    	// 상품 삭제 메소드 호출
+		int removeProductRow = productDao.removeProduct(productNo);
+		if(removeProductRow == 1) {
+			System.out.println(SONG + removeProductRow + " <-- removeProductAction 상품삭제성공" + RESET);
+			response.sendRedirect(request.getContextPath()+"/product/productList.jsp");
+		} else {
+			System.out.println(SONG + removeProductRow + " <-- removeProductAction 상품삭제실패" + RESET);
+			response.sendRedirect(request.getContextPath()+"/product/removeProduct.jsp?productNo="+productNo);
+		}
+    } else {
+		System.out.println(SONG + removeProductImgRow + " <-- removeProductAction 상품이미지 삭제 실패" + RESET);
+		response.sendRedirect(request.getContextPath()+"/product/removeProduct.jsp?productNo="+productNo);
+    }
 %>

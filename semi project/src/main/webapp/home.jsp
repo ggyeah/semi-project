@@ -3,7 +3,7 @@
 <%@ page import = "dao.*" %>
 <%@ page import = "java.util.*" %>
 <!DOCTYPE html>
-<html>
+<html lang="zxx">
 <head>
 <meta charset="UTF-8">
 <title>home</title>

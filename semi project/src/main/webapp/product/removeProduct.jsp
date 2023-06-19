@@ -31,10 +31,10 @@
 	// 유효성 검사를 통과하면 변수에 저장
 	int productNo = Integer.parseInt(request.getParameter("productNo"));
 	// 디버깅
-	System.out.println(SONG + productNo + " <-- modifyProduct " + RESET);	
+	System.out.println(SONG + productNo + " <-- removeProduct " + RESET);	
 	
 	ProductDao prodDao = new ProductDao(); // ProductDao 객체 생성
-	Product productOne = prodDao.ProductListOne(productNo); // productNo 매개변수로 productOne 메서드 호출하여, 수정페이지에 표시할 상품정보 productOne 객체 가져오기
+	Product productOne = prodDao.ProductListOne(productNo); // productNo 매개변수로 productOne 메서드 호출하여, 삭제페이지에 표시할 상품정보 productOne 객체 가져오기
 %>
 <!DOCTYPE html>
 <html>
@@ -51,8 +51,6 @@
 	<input type="hidden" name="productNo" value="<%=productOne.getProductNo()%>"> 
 	<table>
 		<tr>
-			<!-- <th>삭제하시려면 비밀번호를 입력하세요</th> -->
-			<!-- <td><input type="password" name="lastPw"></td> -->
 			<th>정말 삭제하시겠습니까</th>
 			<td><button type="submit">삭제</button></td>
 		</tr>
