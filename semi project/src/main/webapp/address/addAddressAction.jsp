@@ -36,23 +36,28 @@
 	System.out.println(KIM+addAddress+"<--addAddressAction parameter address"+RESET);
 	System.out.println(KIM+defaultAddress+"<--addAddressAction parameter defaultAddress"+RESET);
 
-	/* 객체에 데이터 담기 */
+	/* Address 객체 생성 및 데이터 설정 */
 	Address address = new Address();
 	address.setId(loginId);
 	address.setAddressName(addAddressName);
 	address.setAddress(addAddress);
 	address.setDefaultAddress(defaultAddress);
 	
+	// AddressDao 객체 생성
 	AddressDao addressDao = new AddressDao();
+	
+	// 주소 추가 및 추가된 행 수 반환
 	int row = addressDao.addAddress(address);
 	System.out.println(row+KIM+"<--addAddressAction row"+RESET);
 	
 	String msg = null;
 	if(row == 0){
 		msg = URLEncoder.encode("추가 실패", "utf-8");
+		// 실패 메시지와 함께 추가 페이지로 리다이렉트
 		response.sendRedirect(request.getContextPath()+"/address/addAddress.jsp?msg="+msg);
 		return;
 	} else {
+		// 주소 추가 성공 시 주소 목록 페이지로 리다이렉트
 		response.sendRedirect(request.getContextPath()+"/address/addressList.jsp?productNo="+productNo);
 		return;
 	}

@@ -203,4 +203,22 @@ public class CartDao {
 	        session.setAttribute("cartList", cartList);
 	    }
 	}
+	//비로그인자 로그인 성공 시 원래 장바구니에 세션 장바구니 추가
+	public int addSessionToDBCart(HttpServletRequest request, String loginId) throws Exception{
+	    int row = 0;
+		HttpSession session = request.getSession();
+		ArrayList<Cart> cartList = (ArrayList<Cart>) session.getAttribute("cartList");//가변적으로 공간이 변하는 ArrayList를 이용해 세션 장바구니 목록을 저장
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String addCartSql = "INSERT INTO cart(cart_no, product_no, id, createdate, cart_cnt, updatedate) values(?, ?, ?, NOW(), ?, NOW())";
+		PreparedStatement addCartStmt = conn.prepareStatement(addCartSql);
+		addCartStmt.setInt(1, (int) session.getAttribute("cartNo"));
+		addCartStmt.setInt(2, (int) session.getAttribute("productNo"));
+		addCartStmt.setString(3, (String) session.getAttribute("id"));
+		addCartStmt.setInt(4, (int) session.getAttribute("cartCnt"));
+		row = addCartStmt.executeUpdate();
+		System.out.println(KIM+"CartDao - addSessionToDBCart: " + addCartSql+RESET);
+	    
+	    return row; //업데이트된 장바구니 목록을 반환
+	}
 }
