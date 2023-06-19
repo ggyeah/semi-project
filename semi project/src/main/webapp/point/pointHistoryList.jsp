@@ -22,7 +22,7 @@ int pointSum = pointHistoryDao.sumPoint(id);
 <title>Insert title here</title>
 </head>
 <body>
-<h2>포인트</h2>
+<h2>포인트</h2>   <h2>포인트 총합 : <%=pointSum%></h2> 
 <table>
     <tr>
         <th>주문번호</th>
@@ -31,7 +31,6 @@ int pointSum = pointHistoryDao.sumPoint(id);
         <th>+,-</th>
         <th>포인트</th>
         <th>포인트적립일</th>
-        <th>포인트총합</th>
     </tr>
     <% for (PointHistory pointHistory : pList) { %>
     <tr>
@@ -41,8 +40,8 @@ int pointSum = pointHistoryDao.sumPoint(id);
         <td><%=pointHistory.getPointPm()%></td>
         <td><%=pointHistory.getPoint()%></td>
         <td><%=pointHistory.getCreatedate()%></td>
-        <td><%=pointSum%></td>
     <% } %>
+    </tr>
 </table>
 </body>
 </html>

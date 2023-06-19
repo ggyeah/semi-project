@@ -14,19 +14,33 @@ public class DiscountDao {
 		ArrayList<Discount> dList = new ArrayList<>();
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		/*SELECT
-		  p.product_no
+
+		/*
+		SELECT
+		  p.product_no,
 		  p.category_name,
 		  p.product_name,
 		  p.product_status,
 		  p.product_stock,
-		  d.discount_rate,
-		  CASE WHEN d.discount_rate IS NOT NULL THEN p.product_price * (1 - d.discount_rate) ELSE p.product_price END AS discounted_price
+		  d.discount_start,
+		  d.discount_end,
+		  d.discount_no,
+		  CASE
+		    WHEN (d.discount_start <= NOW() AND d.discount_end >= NOW()) THEN d.discount_rate
+		    ELSE 0.0
+		  END AS discount_rate,
+		  CASE
+		    WHEN (d.discount_start <= NOW() AND d.discount_end >= NOW()) THEN p.product_price * (1 - d.discount_rate)
+		    ELSE p.product_price
+		  END AS discounted_price
 		FROM
 		  product p
 		LEFT JOIN
-		  discount d ON p.product_no = d.product_no;*/
-        PreparedStatement discountListStmt = conn.prepareStatement("SELECT p.product_no, p.category_name,p.product_name, p.product_status, p.product_stock, d.discount_rate, CASE WHEN d.discount_rate IS NOT NULL THEN p.product_price * (1 - d.discount_rate) ELSE p.product_price END AS discounted_price FROM product p LEFT JOIN discount d ON p.product_no = d.product_no LIMIT ?, ?");
+		  discount d ON p.product_no = d.product_no
+		LIMIT ?, ?;
+		*/
+		
+		PreparedStatement discountListStmt = conn.prepareStatement("SELECT p.product_no, p.category_name, p.product_name, p.product_status, p.product_stock, d.discount_start, d.discount_end, d.discount_no, CASE WHEN (d.discount_start <= NOW() AND d.discount_end >= NOW()) THEN d.discount_rate ELSE 0.0 END AS discount_rate, CASE WHEN (d.discount_start <= NOW() AND d.discount_end >= NOW()) THEN p.product_price * (1 - d.discount_rate) ELSE p.product_price END AS discounted_price FROM product p LEFT JOIN discount d ON p.product_no = d.product_no LIMIT ?, ?");
         discountListStmt.setInt(1, beginRow);
         discountListStmt.setInt(2, rowPerPage);
         
@@ -39,8 +53,11 @@ public class DiscountDao {
             discount.setProductName(discountListRs.getString("product_name"));
             discount.setProductStatus(discountListRs.getString("product_status"));
             discount.setProductStock(discountListRs.getInt("product_stock"));
+            discount.setDiscountStart(discountListRs.getString("discount_start"));
+            discount.setDiscountEnd(discountListRs.getString("discount_end"));
             discount.setDiscountRate(discountListRs.getDouble("discount_rate"));
             discount.setDiscountedPrice(discountListRs.getInt("discounted_price"));
+            discount.setDiscountNo(discountListRs.getInt("discount_no"));
             dList.add(discount);
     	}
         return dList;
@@ -70,20 +87,20 @@ public class DiscountDao {
 	}
 	
 	//3) 할인품목삭제
-	public int removeDiscount(int productNo) throws Exception {
+	public int removeDiscount(int discountNo) throws Exception {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-	    PreparedStatement removeDiscountStmt = conn.prepareStatement("DELETE FROM discount WHERE product_no = ?");
-	    removeDiscountStmt.setInt(1, productNo);
+	    PreparedStatement removeDiscountStmt = conn.prepareStatement("DELETE FROM discount WHERE discount_no = ?");
+	    removeDiscountStmt.setInt(1, discountNo);
 	    
-	    int discountrow = removeDiscountStmt.executeUpdate();
+	    int discountRow = removeDiscountStmt.executeUpdate();
 		
-		if (discountrow == 1){
-			System.out.println(discountrow + " <- 할인삭제성공");
+		if (discountRow == 1){
+			System.out.println(discountRow + " <- 할인삭제성공");
 		} else {
-			System.out.println(discountrow + " <- 할인삭제실패");
+			System.out.println(discountRow + " <- 할인삭제실패");
 		}
-		return discountrow;
+		return discountRow;
 	}
 	// 4) 할인품목추가
 	public int addDiscount(Discount discount) throws Exception {

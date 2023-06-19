@@ -43,28 +43,29 @@ public class PointHistoryDao {
 	 }
 	 
 	//2) 총합포인트
-	/*SELECT (positive_points - negative_points) AS result
+	/*SELECT (COALESCE(positive_points, 0) - COALESCE(negative_points, 0)) AS result
 	FROM (
 	  SELECT
 	    (SELECT SUM(point)
 	    FROM (SELECT o.id, o.order_no, p.point_pm, p.point
 	          FROM orders o
 	          JOIN point_history p ON o.order_no = p.order_no
-	          WHERE o.id = ?) s1
+	          WHERE o.id = 'user1') s1
 	    WHERE point_pm = '+') AS positive_points,
 	    
 	    (SELECT SUM(point)
 	    FROM (SELECT o.id, o.order_no, p.point_pm, p.point
 	          FROM orders o
 	          JOIN point_history p ON o.order_no = p.order_no
-	          WHERE o.id = ?) s2
+	          WHERE o.id = 'user1') s2
 	    WHERE point_pm = '-') AS negative_points
-	) AS subquery;*/
+	) AS subquery;
+	*/
 
 		public int sumPoint(String id) throws Exception {
 			DBUtil dbUtil = new DBUtil();
 			Connection conn = dbUtil.getConnection();
-		    PreparedStatement sumPointStmt = conn.prepareStatement("SELECT (positive_points - negative_points) AS result\r\n"
+		    PreparedStatement sumPointStmt = conn.prepareStatement("SELECT (COALESCE(positive_points, 0) - COALESCE(negative_points, 0)) AS result\r\n"
 		    		+ "	FROM (\r\n"
 		    		+ "	  SELECT\r\n"
 		    		+ "	    (SELECT SUM(point)\r\n"
@@ -80,7 +81,7 @@ public class PointHistoryDao {
 		    		+ "	          JOIN point_history p ON o.order_no = p.order_no\r\n"
 		    		+ "	          WHERE o.id = ?) s2\r\n"
 		    		+ "	    WHERE point_pm = '-') AS negative_points\r\n"
-		    		+ "	) AS subquery;");
+		    		+ "	) AS subquery");
 		    sumPointStmt.setString(1, id);
 		    sumPointStmt.setString(2, id);
 		    

@@ -20,13 +20,50 @@ if (request.getParameter("qNo") != null){
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript">
-  function removeCheck() {
-    if (confirm("정말삭제하시겠습니까?")) {
-      document.removefrm.submit();
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $(document).on("click", ".remove-answer", function(e) {
+      e.preventDefault();
+      if (confirm("정말 삭제하시겠습니까?")) {
+        var deleteLink = $(this);
+        $.get(deleteLink.attr("href"), function() {
+          deleteLink.closest("tr").remove();
+          location.reload(); // 삭제 후에 화면을 다시 로드
+        }).fail(function() {
+          alert("삭제에 실패했습니다. 다시 시도해주세요.");
+        });
+      }
+    });
+  });
+</script>
+<script>
+$(document).ready(function() {
+    // 시작시 title 입력 폼에 포커스
+    $('#title').focus();
+    
+    // 유효성 체크 함수
+    function validateForm() {
+        let allCheck = true; // allCheck 변수 초기화
+
+        if ($('#content').val() == '') {
+            $('#contentMsg').text('내용을 입력하세요');
+            $('#content').focus();
+            allCheck = false;
+        } else {
+            $('#contentMsg').text('');
+        }
+        
+        return allCheck;
     }
-    return false; // 기본 동작 중지
-  }
+    $('#btn').click(function(e) {
+        e.preventDefault(); // 기본 동작 방지
+
+        if (validateForm()) {
+            $('#form').submit();
+        }
+    });
+});
 </script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -101,11 +138,11 @@ if (request.getParameter("qNo") != null){
               <td><%=answer.getUpdatedate()%></td>
            </tr>
 	</table>
-<% // 로그인 상태이고 본인이 작성한 문의거나 관리자2만 수정삭제가 보임 
+<% // 로그인 상태이고 관리자1 본인이 작성한 답변이거나 관리자2만 수정삭제가 보임 
     if (session.getAttribute("loginId") != null && (session.getAttribute("loginId").equals(answer.getId()) || session.getAttribute("loginId").equals("admin"))) { %>	
 	<div>
 	<a href="<%=request.getContextPath()%>/answer/modifyAnswer.jsp?qNo=<%=question.getqNo()%>&aNo=<%=answer.getaNo()%>">수정</a>
-    <a href="<%=request.getContextPath()%>/answer/removeAnswerAction.jsp?qNo=<%=question.getqNo()%>&aNo=<%=answer.getaNo()%>&productNo=<%=question.getProductNo()%>" onclick="return removeCheck()">삭제</a>
+    <a href="<%=request.getContextPath()%>/answer/removeAnswerAction.jsp?qNo=<%=question.getqNo()%>&aNo=<%=answer.getaNo()%>&productNo=<%=question.getProductNo()%>" class="remove-answer">삭제</a>
 	</div>	
 	  <%}} else { %>
 	  	<!-------------------  답변추가---------------------->
@@ -126,14 +163,15 @@ for (Employees e : list){
 }
 if (checkId){%>
 	<h3>답변</h3>
-	<form action="<%=request.getContextPath()%>/answer/addAnswerAction.jsp?qNo=<%=question.getqNo()%>" method="post">
+	<form action="<%=request.getContextPath()%>/answer/addAnswerAction.jsp?qNo=<%=question.getqNo()%>" method="post"  id="form" >
 	<table class="table table-bordered">
 		<tr>
 		    <td>문의번호: <%=question.getqNo()%> 아이디: <input type="text" name="id" value="<%=session.getAttribute("loginId")%>" readonly="readonly"></td>
 		</tr>
 		<tr>
-			<td><textarea rows="2" cols="60" name="aContent"></textarea>
-				<button type="submit" class="btn btn-danger"> 추가 </button></td>
+			<td><textarea rows="2" cols="60" name="aContent"  id="content"></textarea>
+				<span id="contentMsg" class="msg"></span>
+				<button type="submit" class="btn btn-danger"  id="btn"> 추가 </button></td>
 		</tr>
 	</table>
 	</form> 

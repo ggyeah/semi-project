@@ -4,12 +4,21 @@
 <%@ page import="java.util.*"%>
 <%
 
-//비밀번호확인 완성되면 추가 해야함 (세션아이디 값과 비밀번호를 가져와서 비교해야함)
-DiscountDao discountDao = new DiscountDao();
 
-if (request.getParameter("productNo") != null){
-	int productNo = Integer.parseInt(request.getParameter("productNo"));
-	int row = discountDao.removeDiscount(productNo); 
+if (request.getParameter("discountNo") != null){
+	int discountNo = Integer.parseInt(request.getParameter("discountNo"));
+	
+	System.out.println("discountNo: " + discountNo);
+	
+	DiscountDao discountDao = new DiscountDao();
+	
+	int row = discountDao.removeDiscount(discountNo); 
+	
+    if (row == 1) {
+        response.sendRedirect(request.getContextPath() + "/discount/discountList.jsp");
+    } else {
+        out.println("할인 삭제에 실패했습니다.");
+    }
 }
-response.sendRedirect(request.getContextPath() + "/discount/discountList.jsp");
+
 %>

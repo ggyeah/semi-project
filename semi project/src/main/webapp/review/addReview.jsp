@@ -63,7 +63,8 @@ $(document).ready(function() {
         }
     });
 });
-</script></head>
+</script>
+</head>
 <body class="container">
 <form id="signinForm" action="<%=request.getContextPath()%>/review/addReviewAction.jsp" method="post"  enctype="multipart/form-data">
 <h1>상품리뷰</h1>

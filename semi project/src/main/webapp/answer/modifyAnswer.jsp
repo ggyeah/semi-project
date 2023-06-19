@@ -28,12 +28,41 @@ if (session.getAttribute("loginId") != null) {
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // 시작시 title 입력 폼에 포커스
+    $('#title').focus();
+    
+    // 유효성 체크 함수
+    function validateForm() {
+        let allCheck = true; // allCheck 변수 초기화
+
+        if ($('#content').val() == '') {
+            $('#contentMsg').text('내용을 입력하세요');
+            $('#content').focus();
+            allCheck = false;
+        } else {
+            $('#contentMsg').text('');
+        }
+        
+        return allCheck;
+    }
+    $('#btn').click(function(e) {
+        e.preventDefault(); // 기본 동작 방지
+
+        if (validateForm()) {
+            $('#form').submit();
+        }
+    });
+});
+</script>
 </head>
 <body>
 <%
 if (answer != null) { // answer가 null이 아닌 경우에만 폼을 보여줌
 %>
-<form action="<%=request.getContextPath()%>/answer/modifyAnswerAction.jsp?qNo=<%=answer.getqNo()%>&aNo=<%=answer.getaNo()%>" method="post">
+<form action="<%=request.getContextPath()%>/answer/modifyAnswerAction.jsp?qNo=<%=answer.getqNo()%>&aNo=<%=answer.getaNo()%>" method="post" id="form" >
  <h2>답변</h2>
 	<table class="table table-bordered">
 		 <tr>
@@ -43,8 +72,8 @@ if (answer != null) { // answer가 null이 아닌 경우에만 폼을 보여줌
 		 <tr>
 		 <tr>
               <th>내용</th>
-              <td><textarea rows="2" cols="60" name="aContent" ><%=answer.getaContent()%></textarea></td>
-             
+              <td><textarea rows="2" cols="60" name="aContent" id="content"><%=answer.getaContent()%></textarea>
+              <span id="contentMsg" class="msg"></span></td>
            </tr>
            <tr>
               <th>생성일</th>
@@ -55,7 +84,7 @@ if (answer != null) { // answer가 null이 아닌 경우에만 폼을 보여줌
               <td><%=answer.getUpdatedate()%></td>
            </tr>
 	</table>
-	<button type="submit" class="btn btn-danger">수정</button>
+	<button type="submit" class="btn btn-danger" id="btn">수정</button>
 </form>
 <%
 } 
