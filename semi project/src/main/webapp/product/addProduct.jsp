@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "java.net.*" %>
-<%@ page import ="dao.*" %>
-<%@ page import ="vo.*" %>
-<%@ page import="java.util.*" %>
+<%@ page import = "dao.*" %>
+<%@ page import = "vo.*" %>
+<%@ page import = "java.util.*" %>
 <%@ page import = "com.oreilly.servlet.MultipartRequest" %>
 <%@ page import = "com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
 
@@ -102,7 +102,7 @@
 			<tr>
 				<td>product_img</td>
 				<td>
-					<input type="file" name="productImg" required="required">
+					<input type="file" name="productImg">
 				</td>
 			</tr>
 		</table>

@@ -30,7 +30,7 @@
     ProductImg productImg = new ProductImg();
     String dir = request.getServletContext().getRealPath("/productImgUpload");
   	// getRealPath 실제위치
-    System.out.println(SONG + dir + RESET);
+    System.out.println(SONG + dir +" <-- dir" + RESET);
    	
  	// request객체를 MultipartRequest의 API를 사용할 수 있도록 랩핑 
  	// new MultipartRequest(원본request, 업로드폴더, 최대파일사이즈byte, 인코딩, 중복이름정책)
@@ -46,13 +46,13 @@
 	
 	
 	// 유효성 검사 통과하면 -> 폼에서 입력된 상품 정보를 가져와서 변수에 저장
-	String categoryName = request.getParameter("categoryName");
-	String productName = request.getParameter("productName");
-	int productPrice = Integer.parseInt(request.getParameter("productPrice"));
-	String productStatus = request.getParameter("productStatus");
-	int productStock = Integer.parseInt(request.getParameter("productStock"));
-	String productInfo = request.getParameter("productInfo");
-	int productNo = Integer.parseInt(request.getParameter("productNo"));
+	String categoryName = mRequest.getParameter("categoryName");
+	String productName = mRequest.getParameter("productName");
+	int productPrice = Integer.parseInt(mRequest.getParameter("productPrice"));
+	String productStatus = mRequest.getParameter("productStatus");
+	int productStock = Integer.parseInt(mRequest.getParameter("productStock"));
+	String productInfo = mRequest.getParameter("productInfo");
+	int productNo = Integer.parseInt(mRequest.getParameter("productNo"));
 	
 	// 디버깅
 	System.out.println(SONG + categoryName + RESET);
@@ -85,9 +85,60 @@
 	
 	// 상품 수정 메소드 호출
 	int modifyProductRow = productDao.modifyProduct(product);
-	if(modifyProductRow == 1) {
+	if(modifyProductRow == 1) {	// 상품 수정 성공 시
 		System.out.println(SONG + modifyProductRow + " <-- modifyProductAction 상품수정성공" + RESET);
-		response.sendRedirect(request.getContextPath()+"/product/productList.jsp");
+		// 기존 상품이미지가 있는지 확인	
+		ArrayList<ProductImg> productImages = productImgDao.getProductImages(productNo);
+		boolean hasProductImages = !productImages.isEmpty();
+		// 1) DB에 기존 파일이 있고, 상품이미지가 넘어왔을때 : 기존파일삭제 + DB수정
+		if(hasProductImages == true && (mRequest.getFilesystemName("productImg")!= null)) {
+			int deleteImgRow = productImgDao.delProductImgFile(productNo, dir);
+			if(deleteImgRow == 1) {
+				System.out.println(SONG + "기존 상품이미지 파일 삭제 성공" + RESET);
+			} else {
+			    System.out.println(SONG + "기존 상품이미지 파일 삭제 실패" + RESET);
+			}
+			String originFilename = mRequest.getOriginalFileName("productImg");
+			String saveFilename = mRequest.getFilesystemName("productImg");
+			String type = mRequest.getContentType("productImg");
+			
+			// productImg 객체에 값 설정
+			productImg.setProductNo(productNo);
+			productImg.setProductOriFilename(originFilename);
+			productImg.setProductSaveFilename(saveFilename);
+			productImg.setProductFiletype(type);
+			
+			// 상품이미지 DB수정
+			int modifyProductImgRow = productImgDao.modifyProductImg(productImg);
+			if(modifyProductImgRow == 1) {
+                System.out.println(SONG + "상품이미지 수정 성공" + RESET);
+            } else {
+                System.out.println(SONG + "상품이미지 수정 실패" + RESET);
+            }
+          
+		// 2) DB에 기존 파일이 없고, 상품이미지가 넘어왔을때 : DB에 추가
+		} else if(hasProductImages == false && (mRequest.getFilesystemName("productImg")!= null)) {
+			String originFilename = mRequest.getOriginalFileName("productImg");
+			String saveFilename = mRequest.getFilesystemName("productImg");
+			String type = mRequest.getContentType("productImg");
+			
+			// productImg 객체에 값 설정
+			productImg.setProductNo(productNo);
+			productImg.setProductOriFilename(originFilename);
+			productImg.setProductSaveFilename(saveFilename);
+			productImg.setProductFiletype(type);
+			
+			// 상품이미지 DB에 추가
+			int addProductImgRow = productImgDao.addProductImg(productImg);
+			if(addProductImgRow == 1) {
+                System.out.println(SONG + "상품이미지 DB에 추가 성공" + RESET);
+            } else {
+                System.out.println(SONG + "상품이미지 DB에 추가 실패" + RESET);
+            }
+		// 3) 수정 시 사진 파일은 필수 값이므로 파일이 넘어오지 않을 수 없음
+		} else {
+			
+	    } response.sendRedirect(request.getContextPath()+"/product/productList.jsp");
 	} else {
 		System.out.println(SONG + modifyProductRow + " <-- modifyProductAction 상품수정실패" + RESET);
 		response.sendRedirect(request.getContextPath()+"/product/modifyProduct.jsp");

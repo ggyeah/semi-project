@@ -76,7 +76,7 @@ public class ProductImgDao {
 	}
 	
 	
-	/* 상품이미지 수정 : modifyProductImg -> 폴더에서도 삭제되고 새로 저장되도록 해야함*/
+	/* 상품이미지 수정 : modifyProductImg */
 	public int modifyProductImg(ProductImg productImg) throws Exception {
 		DBUtil dbUtil = new DBUtil();							// DBUtil 객체 생성
 		Connection conn = dbUtil.getConnection();				// 데이터베이스 연결을 위한 Connection 객체 생성

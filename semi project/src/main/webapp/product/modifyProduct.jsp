@@ -2,6 +2,7 @@
 <%@ page import = "vo.*" %>
 <%@ page import = "dao.*" %>
 <%@ page import = "java.net.*" %>
+<%@ page import = "java.util.*" %>
 <%
 	// 인코딩 처리
 	request.setCharacterEncoding("UTF-8");
@@ -35,54 +36,84 @@
 	
 	ProductDao prodDao = new ProductDao(); // ProductDao 객체 생성
 	Product productOne = prodDao.ProductListOne(productNo); // productNo 매개변수로 productOne 메서드 호출하여, 수정페이지에 표시할 상품정보 productOne 객체 가져오기
+
+	CategoryDao ctgrDao = new CategoryDao(); // CategoryDao 객체 생성
+	ArrayList<Category> categoryList = ctgrDao.categoryList(); // categoryList 메서드 호출하여, 옵션에 표시할 categoryList 객체 가져오기
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>modifyProduct</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <style>
 	table,td,th {border: 1px solid #000000; border-collapse: collapse;}
 </style>
 </head>
 <body>
 <h1>상품 수정 페이지</h1>
-<form action="<%=request.getContextPath()%>/product/modifyProductAction.jsp" method="post">
+<form action="<%=request.getContextPath()%>/product/modifyProductAction.jsp" method="post" enctype="multipart/form-data">
 	<table>
 		<tr>
 			<th>category_name</th>
-			<td><input type="hidden" name="productNo" value="<%=productOne.getProductNo()%>"></td>
-			<td><input type="text" name="categoryName" value="<%=productOne.getCategoryName()%>"></td>
+			<td>
+				<input type="hidden" name="productNo" value="<%=productOne.getProductNo()%>">
+				<select class="form-select" name="categoryName">
+				<%
+					for(Category category : categoryList) {
+				%>
+					<option value="<%=category.getCategoryName()%>"><%=category.getCategoryName()%></option>
+				<% 
+					}
+				%>
+				</select>
+				(기존 선택 값 : <%=productOne.getCategoryName()%>)
+			</td>
 		</tr>
 		<tr>	
 			<th>product_name</th>
-			<td><input type="hidden" name="productNo" value="<%=productOne.getProductNo()%>"></td>
-			<td><input type="text" name=productName value="<%=productOne.getProductName()%>"></td>
+			<td>
+				<input type="hidden" name="productNo" value="<%=productOne.getProductNo()%>">
+				<input type="text" name=productName value="<%=productOne.getProductName()%>">
+			</td>
 		</tr>
 		<tr>
 			<th>product_price</th>
-			<td><input type="hidden" name="productNo" value="<%=productOne.getProductNo()%>"></td>
-			<td><input type="text" name="productPrice" value="<%=productOne.getProductPrice()%>"></td>
+			<td>
+				<input type="hidden" name="productNo" value="<%=productOne.getProductNo()%>">
+				<input type="text" name="productPrice" value="<%=productOne.getProductPrice()%>">
+			</td>
 		</tr>
 		<tr>
 			<th>product_status</th>
-			<td><input type="hidden" name="productNo" value="<%=productOne.getProductNo()%>"></td>
-			<td><input type="text" name="productStatus" value="<%=productOne.getProductStatus()%>"></td>
+			<td>
+				<input type="hidden" name="productNo" value="<%=productOne.getProductNo()%>">
+				<input type="radio" name="productStatus" class="pstatus" value="일시품절" required>일시품절
+				<input type="radio" name="productStatus" class="pstatus" value="판매중" required>판매중
+				<input type="radio" name="productStatus" class="pstatus" value="단종" required>단종
+				(기존 선택 값 : <%=productOne.getProductStatus()%>)
+			</td>
 		</tr>
 		<tr>
 			<th>product_stock</th>
-			<td><input type="hidden" name="productNo" value="<%=productOne.getProductNo()%>"></td>
-			<td><input type="text" name="productStock" value="<%=productOne.getProductStock()%>"></td>
+			<td>
+				<input type="hidden" name="productNo" value="<%=productOne.getProductNo()%>">
+				<input type="text" name="productStock" value="<%=productOne.getProductStock()%>">
+			</td>
 		</tr>
 		<tr>
 			<th>product_img</th>
-			<td><input type="hidden" name="productNo" value="<%=productOne.getProductNo()%>"></td>
-			<td><input type="file" name="productImg" required="required"></td>
+			<td>
+				<input type="hidden" name="productNo" value="<%=productOne.getProductNo()%>">
+				<input type="file" name="productImg" required="required">
+			</td>
 		</tr>
 		<tr>
 			<th>product_info</th>
-			<td><input type="hidden" name="productNo" value="<%=productOne.getProductNo()%>"></td>
-			<td><input type="text" name="productInfo" value="<%=productOne.getProductInfo()%>"></td>
+			<td>
+				<input type="hidden" name="productNo" value="<%=productOne.getProductNo()%>">
+				<input type="text" name="productInfo" value="<%=productOne.getProductInfo()%>">
+			</td>
 		</tr>
 	</table>
 	<button type="submit">수정</button>

@@ -79,30 +79,31 @@
 		System.out.println(SONG + addProductRow + " <-- addProductAction 상품추가성공" + RESET);
 		if(mRequest.getFilesystemName("productImg") != null){
 		
-		// 유효성 검사 통과하면 -> 폼에서 입력된 상품이미지 정보를 가져와서 변수에 저장
-		int productNo = rowAndKey[1];	// GeneratedKeys로 상품 번호 가져오기
-		String type = mRequest.getContentType("productImg");
-	   	String originFilename = mRequest.getOriginalFileName("productImg");
-	   	String saveFilename = mRequest.getFilesystemName("productImg");
-	
-	   	System.out.println(SONG + productNo + " <-- addProductAction 변수 productNo" + RESET);
-	   	System.out.println(SONG + type + " <-- addProductAction 변수 type" + RESET);
-		System.out.println(SONG + originFilename + " <-- addProductAction 변수 originFilename" + RESET);
-		System.out.println(SONG + saveFilename + " <-- addProductAction 변수 saveFilename" + RESET);
+			// 유효성 검사 통과하면 -> 폼에서 입력된 상품이미지 정보를 가져와서 변수에 저장
+			int productNo = rowAndKey[1];	// GeneratedKeys로 상품 번호 가져오기
+			String type = mRequest.getContentType("productImg");
+		   	String originFilename = mRequest.getOriginalFileName("productImg");
+		   	String saveFilename = mRequest.getFilesystemName("productImg");
 		
-		productImg.setProductNo(productNo);
-		productImg.setProductOriFilename(originFilename);
-		productImg.setProductSaveFilename(saveFilename);
-		productImg.setProductFiletype(type);
-		
-		int addProductImgRow = productImgDao.addProductImg(productImg);
-		if (addProductImgRow == 1) {
-		    System.out.println(SONG + addProductImgRow + " <-- addProductAction 상품 이미지 추가 성공" + RESET);
-		    response.sendRedirect(request.getContextPath()+"/product/productList.jsp");
-		} else {
-		    System.out.println(SONG + addProductImgRow + " <-- addProductAction 상품 이미지 추가 실패" + RESET);
-		    response.sendRedirect(request.getContextPath()+"/product/addProduct.jsp");
-		}}
+		   	System.out.println(SONG + productNo + " <-- addProductAction 변수 productNo" + RESET);
+		   	System.out.println(SONG + type + " <-- addProductAction 변수 type" + RESET);
+			System.out.println(SONG + originFilename + " <-- addProductAction 변수 originFilename" + RESET);
+			System.out.println(SONG + saveFilename + " <-- addProductAction 변수 saveFilename" + RESET);
+			
+			productImg.setProductNo(productNo);
+			productImg.setProductOriFilename(originFilename);
+			productImg.setProductSaveFilename(saveFilename);
+			productImg.setProductFiletype(type);
+			
+			int addProductImgRow = productImgDao.addProductImg(productImg);
+			if (addProductImgRow == 1) {
+			    System.out.println(SONG + addProductImgRow + " <-- addProductAction 상품 이미지 추가 성공" + RESET);
+			    response.sendRedirect(request.getContextPath()+"/product/productList.jsp");
+			} else {
+			    System.out.println(SONG + addProductImgRow + " <-- addProductAction 상품 이미지 추가 실패" + RESET);
+			    response.sendRedirect(request.getContextPath()+"/product/addProduct.jsp");
+			}
+		} response.sendRedirect(request.getContextPath()+"/product/productList.jsp");
 	} else {
 		System.out.println(SONG + addProductRow + "<-- addProductAction 상품추가실패" + RESET);
 		response.sendRedirect(request.getContextPath()+"/product/addProduct.jsp");
