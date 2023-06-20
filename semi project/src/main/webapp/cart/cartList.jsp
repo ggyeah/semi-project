@@ -3,154 +3,228 @@
 <%@ page import="vo.*" %>
 <%@ page import="java.util.*" %>
 <%
-	/* 디버깅 색깔 지정 */
-	// ANSI CODE   
-	final String RESET = "\u001B[0m"; 
-	final String LIM = "\u001B[41m";
-	final String KIM = "\u001B[42m";
-	final String SONG = "\u001B[43m";
-	final String YANG = "\u001B[44m";
+   /* 디버깅 색깔 지정 */
+   // ANSI CODE   
+   final String RESET = "\u001B[0m"; 
+   final String LIM = "\u001B[41m";
+   final String KIM = "\u001B[42m";
+   final String SONG = "\u001B[43m";
+   final String YANG = "\u001B[44m";
 
-	/* 인코딩 설정 */
-	request.setCharacterEncoding("utf-8");
+   /* 인코딩 설정 */
+   request.setCharacterEncoding("utf-8");
 
-	/* 유효성 검사 */
-	String loginId = (String)session.getAttribute("loginId");
-	
-	// CartDao 객체 생성
-	CartDao cartDao = new CartDao();
-	
-	ArrayList<Cart> cartList = null; //장바구니 목록을 저장할 ArrayList 생성 및 초기화
-	
-	/* 로그인/비로그인 사용자의 장바구니 조회 목록 분기 */
-	//1. 비로그인 사용자: session ArrayList<Cart>로 목록을 생성 및 조회
-	if(session.getAttribute("loginId") == null){
-		cartList = (ArrayList<Cart>) session.getAttribute("cartList");
-		System.out.println(KIM+cartList+" <-- cart/cartList 비로그인 사용자의 장바구니"+RESET);
-	} else {//2. 로그인 사용자: DB에 저장된 장바구니 조회
-		cartList = cartDao.selectCart(loginId);
-		System.out.println(KIM+cartList+" <-- cart/cartList 로그인 사용자의 장바구니"+RESET);
-	}
-	
-	//String id = "user1"; //테스트용 코드. 이것만 실행될 시 loginId가 user1이 아니고, 일반 id 변수에 user1이 들어간 거니까 수정/삭제가 되지 않는다.
-	
+   /* 유효성 검사 */
+   String loginId = (String)session.getAttribute("loginId");
+   
+   // CartDao 객체 생성
+   CartDao cartDao = new CartDao();
+   
+   ArrayList<Cart> cartList = null; //장바구니 목록을 저장할 ArrayList 생성 및 초기화
+   
+  // DB에 저장된 장바구니 조회
+   cartList = cartDao.selectCart(loginId);
+   System.out.println(KIM+(cartList!=null?true:false)+" <-- cart/cartList 장바구니"+RESET);
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>CartList</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $(document).on("click", ".remove-cart", function(e) {
+      e.preventDefault();
+      if (confirm("정말 삭제하시겠습니까?")) {
+        var deleteLink = $(this);
+        $.get(deleteLink.attr("href"), function() {
+          deleteLink.closest("tr").remove();
+          location.reload(); // 삭제 후에 화면을 다시 로드
+        }).fail(function() {
+          alert("삭제에 실패했습니다. 다시 시도해주세요.");
+        });
+      }
+    });
+  });
+</script>
 <style>
    table,td,th {border: 1px solid #000000; border-collapse: collapse;}
 </style>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ogani Template">
+    <meta name="keywords" content="Ogani, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ogani | Template</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" type="text/css">
 </head>
 <body>
+<!-- 상단 네비게이션 바(메인메뉴) -->
+<div>
+	<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
+</div>
 <!----------------------- 수정/삭제(실패/성공) 메세지 ----------------------->
-	<div>
-			<%
-				if(request.getParameter("msg")!=null){
-			%>
-				<%=request.getParameter("msg")%>
-			<%
-				}
-			%>		
-	</div>
-<!----------------------- 장바구니 리스트 ------------------------->
-	<h1>장바구니</h1>
-	<%  //cartList에 담긴 상품이 없을 때 메세지 출력
-		if(cartList == null || cartList.isEmpty()){
-	%>
-		<h2>장바구니가 없습니다.</h2>
-	<%
-		} else {
-	%>
-		<table>
-			<tr>
-				<th>장바구니 번호</th>
-				<th>상품 번호</th>
-				<th>수량 수정</th><!-- 버튼 클릭시 수정 -->
-				<th>생성일</th>
-				<th>수정일</th>
-				<th>취소</th>
-				<th>주문<th>
-			</tr>
-	
-			<% //Cart 클래스의 객체 c를 cartList에서 가져와 반복 처리
-				for(Cart c : cartList){
-			%>
-			<!-- 수정/삭제를 위해 필요한 값은 hidden으로 넘김 -->
-			<tr>
-				<td><%=c.getCartNo()%></td>
-				<td><%=c.getProductNo()%></td>
-				<td>
-					<form action="modifyCartAction.jsp" method="post">
-						<input type="hidden" name="id" value="<%=c.getId()%>">
-						<input type="hidden" name="cartNo" value="<%=c.getCartNo()%>">
-						<input type="hidden" name="productNo" value="<%=c.getProductNo()%>">
-						<input type="number" name="cartCnt" value="<%=c.getCartCnt()%>">
-						<input type="hidden" name="createdate" value="<%=c.getCreatedate()%>">
-						<input type="hidden" name="updatedate" value="<%=c.getUpdatedate()%>">
-						<input type="submit" value="수정">
-					</form>
-				</td>	
-				<td><%=c.getCreatedate()%></td>
-				<td><%=c.getUpdatedate()%></td>
-				<td>
-					<form action="removeCartAction.jsp" method="post">
-					<input type="hidden" name="id" value="<%=c.getId()%>">
-						<input type="hidden" name="cartNo" value="<%=c.getCartNo()%>">
-						<input type="hidden" name="productNo" value="<%=c.getProductNo()%>">
-						<input type="hidden" name="cartCnt" value="<%=c.getCartCnt()%>">
-						<input type="hidden" name="createdate" value="<%=c.getCreatedate()%>">
-						<input type="hidden" name="updatedate" value="<%=c.getUpdatedate()%>">
-						<input type="submit" value="삭제">
-					</form>
-				</td>
-			
-<!--[시작]--------------------- 주문하기 버튼 ----------------------->
-	<!-- 비로그인자/로그인자(일반 고객 회원/직원1/직원2) 조건에 따라 회원가입/고객주문/직원주문 페이지로 이동 -->
-		<%	// 1. 비로그인자: loginId가 없을 경우
-			if(session.getAttribute("loginId") == null){ 
-		%>
-				<td><a type="button" href="<%=request.getContextPath()%>/id/login.jsp">주문하기</a></td><!-- 로그인 페이지로 이동 -->
-		<%
-			// 2. 로그인자: loginId가 있을 경우(가입된 사람)
-			  } else if(session.getAttribute("loginId") != null){ 
-				  // 2-1. loginId가 있고, loginId가 관리자1,2인 경우: Home, 마이페이지, 직원관리
-				  if(session.getAttribute("loginId").equals("admin") 
-				  || session.getAttribute("loginId").equals("blue")){ 
-		%>
-					<td>
-						<form action="<%=request.getContextPath()%>/orders/addOrders.jsp" method="post">
-							<input type="hidden" name="productNo" value="<%=c.getProductNo()%>">
-							<input type="hidden" name="id" value="<%=c.getId()%>">
-							<input type="submit" value="주문하기">
-						</form>
-					</td>
-		<%			// 2-2. loginId가 일반 고객 회원일 경우: Home, 장바구니, 마이페이지	
-			  		} else { 
-		%>	  			
-				  		<td>
-							<form action="<%=request.getContextPath()%>/orders/addOrders.jsp" method="post">
-								<input type="hidden" name="productNo" value="<%=c.getProductNo()%>">
-								<input type="hidden" name="id" value="<%=c.getId()%>">
-								<input type="submit" value="주문하기">
-							</form>
-						</td>
-		<%				
-			  		}
-			 }
-		%>
-				</tr>
-		
-<!--[끝]--------------------- 주문하기 버튼 ----------------------->		
-		
-	<%	
-		   }
-	%>
-		</table>
-	<%		
-		}
-	%>
+   <div>
+         <%
+            if(request.getParameter("msg")!=null){
+         %>
+            <%=request.getParameter("msg")%>
+         <%
+            }
+         %>      
+   </div>
+<!--[begin]--------------------- 비로그인자 장바구니 리스트 ------------------------->
+
+   <%
+     if(session.getAttribute("loginId") == null){ // 로그인 아이디가 없을 경우
+     	HashMap<Integer, Cart> sessionCartMap = (HashMap<Integer, Cart>) session.getAttribute("sessionCartMap");//비회원 장바구니 목록
+      if (sessionCartMap == null || sessionCartMap.isEmpty()) { // 장바구니가 비었다면 메세지
+   %>
+              <h3>장바구니가 비어있습니다.</h3>
+   <%
+      } else { // 장바구니가 있다면 출력
+   %>
+    <section class="shoping-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>상품 번호</th>
+						            <th>주문 수량</th>
+						            <th>생성일</th>
+						            <th>수정일</th>
+						            <th>주문</th>
+						            <th>삭제</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <%	// session의 cartList
+                            	for (Cart cart : sessionCartMap.values()) {
+   							%> 
+                                <tr>
+                                    <td class="shoping__cart__item">
+                                        <%= cart.getProductNo() %>
+                                    </td>
+                                    <td class="shoping__cart__quantity">
+                                        <div class="quantity">
+                                            <div class="pro-qty">
+                                                <%= cart.getCartCnt() %>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="shoping__cart__item">
+                                        <%= cart.getCreatedate() %>
+                                    </td>
+                                    <td class="shoping__cart__item">
+                                        <%= cart.getUpdatedate() %>
+                                    </td>
+                                    <td class="shoping__cart__item">
+                                        <a href="<%=request.getContextPath()%>/customer/addCustomer.jsp">주문</a>
+                                    </td>
+                                    <td class="shoping__cart__item">
+                                        <a href="<%= request.getContextPath() %>/cart/removeSessionCartAction.jsp?productNo=<%= cart.getProductNo() %>" class="remove-cart">삭제</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+         </div>
+     </section>
+
+<!--[end]--------------------- 비로그인자 장바구니 리스트 ------------------------->	
+	  
+<!--[begin]--------------------- 로그인자 장바구니 리스트 ------------------------->	  
+   <%
+      		}
+     	}
+     } else { // 로그인 아이디가 있을 경우
+   
+         if(cartList == null || cartList.isEmpty()){ // 장바구니가 비었다면 메세지
+      %>
+         <h3>장바구니가 비어있습니다.</h3>
+      <%
+         } else { // 장바구니가 있다면 출력
+      %>
+      <section class="shoping-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>상품 번호</th>
+						            <th>주문 수량</th>
+						            <th>생성일</th>
+						            <th>수정일</th>
+						            <th>주문</th>
+						            <th>삭제</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                             <% //Cart 클래스의 객체 c를 cartList에서 가져와 반복 처리
+					            for(Cart c : cartList){
+					         %>
+                                <tr>
+                                    <td class="shoping__cart__item">
+                                        <%= c.getProductNo() %>
+                                    </td>
+                                    <td class="shoping__cart__quantity">
+                                        <div class="quantity">
+                                            <div class="pro-qty">
+                                                <%= c.getCartCnt() %>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="shoping__cart__item">
+                                        <%= c.getCreatedate() %>
+                                    </td>
+                                    <td class="shoping__cart__item">
+                                        <%= c.getUpdatedate() %>
+                                    </td>
+                                    <td class="shoping__cart__item">
+                                        <form action="<%=request.getContextPath()%>/orders/addOrders.jsp" method="post">
+						                  <input type="hidden" name="productNo" value="<%=c.getProductNo()%>">
+						                  <input type="hidden" name="id" value="<%=c.getId()%>">
+						                  <input type="submit" value="주문하기">
+						               </form>
+                                    </td>
+                                    <td class="shoping__cart__item">
+                                        <a href="<%=request.getContextPath()%>/cart/removeCartAction.jsp?cartNo=<%=c.getCartNo()%>" class="remove-cart">삭제</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <%
+					            }
+                        %>
+                    </div>
+                </div>
+            </div>
+         </div>
+     </section>
+   <%
+       }
+    }
+   %>
+<!--[end]--------------------- 비로그인자 장바구니 리스트 ------------------------->   
 </body>
 </html>

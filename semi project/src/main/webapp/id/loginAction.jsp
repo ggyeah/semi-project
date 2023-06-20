@@ -4,7 +4,7 @@
 <%@ page import="dao.*" %>
 <%@ page import="vo.*" %>
 <%@ page import = "java.net.*" %>
-
+<%@ page import = "java.util.*" %>
 <%
 
 	//ANSI CODE	
@@ -38,10 +38,6 @@
 	// 로그인 메서드 호출
 	String login = dao.login(loginId);
 	String lastLogin = null;
-	
-	// 카트 메서드 호출
-	CartDao cartDao = new CartDao();
-	int cart = 0;
 	
 	// id, pw, active 확인
 	String empCstm = null;
@@ -79,11 +75,30 @@
 		} else if(lastLogin.equals("정상계정")){ // 마지막 방문일 6개월 미만이면 로그인 성공 (마지막 방문일 현재시간으로 업데이트 -> 세션에 저장)
 			session.setAttribute("loginId", loginId.id);
 			System.out.println(YANG + "로그인 성공 세션정보 : " + session.getAttribute("loginId") + RESET);
-	
 			
-			response.sendRedirect(request.getContextPath()+"/home.jsp");
-		}
-	}
-	
+			HashMap<Integer, Cart> sessionCartMap = (HashMap<Integer, Cart>) session.getAttribute("sessionCartMap");
+            if (sessionCartMap != null) {
+                for (Cart sessionCart : sessionCartMap.values()) {
+                    Cart cart = new Cart();
+                    cart.setProductNo(sessionCart.getProductNo());
+                    cart.setId(id);
+                   
+                   CartDao cartDao = new CartDao();
+                     
+                     int row = cartDao.addCart(cart);
+                   if(row == 0){
+                      // 추가 실패 시 메시지 설정 및 상품 리스트로 redirect
+                      String msg = URLEncoder.encode("장바구니 추가 실패", "utf-8");
+                      return;
+                   } else {
+                      // 추가 성공 시 장바구니 리스트로 redirect
+                      System.out.println(KIM+"장바구니 추가 성공"+RESET);
+                   }
+                }
+       response.sendRedirect(request.getContextPath()+"/home.jsp");
+       return;
+    }
+  }   
+ }
 
 %>

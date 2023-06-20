@@ -3,6 +3,7 @@
 <%@ page import="java.net.*" %>
 <%@ page import = "vo.*" %>
 <%@ page import = "dao.*" %>
+<%@ page import="java.util.*" %>
 <%
 
 	//인코딩
@@ -150,7 +151,31 @@
 	int addCstm = cstmDao.insertCustomer(addCustomer);
 	if(addCstm == 1){
 		System.out.println(YANG + "customer 추가 성공" + RESET);
-		response.sendRedirect(request.getContextPath()+"/home.jsp");
-	} 
-		
+		// 회원가입 시 session cart 값 받아놓은 후 삭제
+		HashMap<Integer, Cart> sessionCartMap = (HashMap<Integer, Cart>) session.getAttribute("sessionCartMap");
+          if (sessionCartMap != null) {
+              for (Cart sessionCart : sessionCartMap.values()) {
+                  Cart cart = new Cart();
+                  cart.setProductNo(sessionCart.getProductNo());
+                  cart.setId(id);
+                 
+                 CartDao cartDao = new CartDao();
+                   
+                 int row = cartDao.addCart(cart);
+                 if(row == 0){
+                    // 추가 실패 시 메시지 설정 및 상품 리스트로 redirect
+                    msg = URLEncoder.encode("장바구니 추가 실패", "utf-8");
+                    return;
+                 } else {
+                    // 추가 성공 시 장바구니 리스트로 redirect
+                    System.out.println(KIM+"장바구니 추가 성공"+RESET);
+                    System.out.println(YANG + "로그인 성공 세션정보 : " + session.getAttribute("loginId") + RESET);
+                 
+                 }   
+               }
+      		 session.removeAttribute("sessionCartMap"); // 해시맵 세션값 비우기
+		     response.sendRedirect(request.getContextPath()+"/home.jsp");
+		     return;
+          }
+     }
 %>

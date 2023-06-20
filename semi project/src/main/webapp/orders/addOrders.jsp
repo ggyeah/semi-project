@@ -57,8 +57,30 @@
 <head>
 <meta charset="UTF-8">
 <title>addOrders</title>
+	<meta name="description" content="Ogani Template">
+    <meta name="keywords" content="Ogani, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ogani | Template</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" type="text/css">
 </head>
 <body>
+<!-------------- 상단 네비게이션 바(메인메뉴) -------------->
+<div>
+	<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
+</div>
 <!----------------------- 메세지 ----------------------->
 	<div>
 			<%
@@ -76,6 +98,24 @@
 			<tr>
 				<th><h2><%=customerOne.getId()%></h2></th>
 			</tr>
+<!--[begin] css 적용 예정 -->
+    <section class="blog-details-hero">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="blog__details__hero__text">
+                        <h2></h2>
+                        <ul>
+                            <li></li>
+                            <li></li>
+                            <li></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<!--[end] css 적용 예정 -->
 			<tr>
 				<td><%=customerOne.getCstmName()%></td>
 				<td><%=customerOne.getCstmPhone()%></td>
