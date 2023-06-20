@@ -17,6 +17,7 @@
 	
 	//요청값 유효성 검사
 	String msg = null;
+	/*
 	if(request.getParameter("id") == null
 		|| request.getParameter("id").equals("")) {
 		msg = URLEncoder.encode("아이디를 입력해주세요", "utf-8");			
@@ -77,6 +78,7 @@
 			response.sendRedirect(request.getContextPath()+"/customer/addCustomer.jsp?msg=" + msg);
 			return;	
 	}
+	*/
 	
 	// 요청값 변수에 저장
 	String id = request.getParameter("id");
@@ -91,6 +93,7 @@
 	String cstmAgree = request.getParameter("cstmAgree");
 	
 	// 비밀번호 일치여부
+	/*
 	if(!pw.equals(ckPw)) {
 		msg = URLEncoder.encode("비밀번호가 서로 일치하지않습니다", "utf-8");
 		response.sendRedirect(request.getContextPath() +"/customer/addCustomer.jsp?msg=" + msg);
@@ -102,7 +105,7 @@
 		response.sendRedirect(request.getContextPath() +"/customer/addCustomer.jsp?msg=" + msg);
 		return;
 	}
-	
+	*/
 	// id_list, pw_history 추가
 	// 요청값 객체에 묶어 저장
 	Id addIdList = new Id();

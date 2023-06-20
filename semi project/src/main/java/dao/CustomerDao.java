@@ -132,7 +132,7 @@ public class CustomerDao {
 			Connection conn = dbUtil.getConnection();
 			
 			// 추가(insert) SQL
-			String insertCstmSql = "INSERT INTO customer(id, cstm_name, cstm_address, cstm_email, cstm_birth, cstm_phone, cstm_gender, cstm_agree, createdate, updatedate) VALUES(?, ?, ?, ?, ?, ?, ?, ?, now(), now())";
+			String insertCstmSql = "INSERT INTO customer(id, cstm_name, cstm_address, cstm_email, cstm_birth, cstm_phone, cstm_gender, cstm_last_login, cstm_agree, createdate, updatedate) VALUES(?, ?, ?, ?, ?, ?, ?, now(), ?, now(), now())";
 			PreparedStatement insertCstmStmt = conn.prepareStatement(insertCstmSql);
 			insertCstmStmt.setString(1, addCustomer.id);
 			insertCstmStmt.setString(2, addCustomer.cstmName);
