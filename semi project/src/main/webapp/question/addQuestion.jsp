@@ -22,10 +22,25 @@ String loginId = (String)session.getAttribute("loginId");
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="description" content="Ogani Template">
+<meta name="keywords" content="Ogani, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+
+<!-- Css Styles -->
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/elegant-icons.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/nice-select.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/jquery-ui.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.carousel.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/slicknav.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" type="text/css">
 <title>addReview</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 $(document).ready(function() {
     // 시작시 title 입력 폼에 포커스
@@ -51,12 +66,12 @@ $(document).ready(function() {
             $('#contentMsg').text('');
         }
 
-        if ($('.category:checked').length == 0) {
+        if ($('.category').val() == '') {
             $('#categoryMsg').text('카테고리를 선택하세요');
             allCheck = false;
-        } else {
+          } else {
             $('#categoryMsg').text('');
-        }
+          }
 
         return allCheck;
     }
@@ -72,44 +87,55 @@ $(document).ready(function() {
 </script>
 </head>
 <body class="container">
-<form id="signinForm" action="<%=request.getContextPath()%>/question/addQuestionAction.jsp" method="post">
-<h1>문의</h1>
-<table class="table table-bordered">
-	<tr>
-		<td>상품번호</td>
-		<td><input type="text" name="productNo" value="<%=productNo%>" readonly="readonly"></td>
-	</tr>
-	<tr>
-		<td>아이디</td> <!--  세션 값 받아와서 넣어야함 -->
-		<td><input type="text" name="id" value="<%=loginId%>" readonly="readonly"></td>
-	</tr>
-	<tr>
-	    <td>카테고리</td>
-	    <td>
-	        <label><input type="radio" name="qCategory" value="상품" class="category"> 상품</label>
-	        <label><input type="radio" name="qCategory" value="교환환불" class="category"> 교환환불</label>
-	        <label><input type="radio" name="qCategory" value="결제" class="category"> 결제</label>
-	        <label><input type="radio" name="qCategory" value="배송" class="category"> 배송</label>
-	        <label><input type="radio" name="qCategory" value="기타" class="category"> 기타</label>
-	      <span id="categoryMsg" class="msg"></span>
-	    </td>
-	</tr>
-	<tr>
-		<td>제목</td>
-		<td><input type="text" name="qTitle" id="title">
-			<span id="titleMsg" class="msg"></span></td>
-	</tr>
-	<tr>
-		<td>내용</td>
-		<td><input type="text" name="qContent" id="content">
-			<span id="contentMsg" class="msg"></span></td>
-	</tr>
-	<tr>
-		<td>
-		<button type="submit" class="btn btn-danger" id="signinBtn"> 추가 </button>
-		</td>
-	</tr>
-</table>
-</form>
+<!-- 상단 네비 바(메인메뉴) -->
+<div>
+	<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
+</div>
+  <div class="container">
+    <div class="checkout__form">
+      <h4>문의</h4>
+		<form id="signinForm" action="<%=request.getContextPath()%>/question/addQuestionAction.jsp" method="post">
+		   <div class="row">
+             <div class="col-lg-8 col-md-6">
+                <div class="checkout__input">
+					<p>상품번호</p>
+					<input type="text" name="productNo" value="<%=productNo%>" readonly="readonly">
+				</div>
+				<div class="checkout__input">
+					<p>아이디</p> <!--  세션 값 받아와서 넣어야함 -->
+					<input type="text" name="id" value="<%=loginId%>" readonly="readonly">
+				</div>
+				<div class="checkout__input">
+				    <p>카테고리</p>
+					<select name="qCategory" class="category">
+					  <option value="">카테고리를 선택하세요</option>
+					  <option value="상품">상품</option>
+					  <option value="교환환불">교환환불</option>
+					  <option value="결제">결제</option>
+					  <option value="배송">배송</option>
+					  <option value="기타">기타</option>
+					</select>
+			    	 <span id="categoryMsg" class="msg"></span>
+				</div>
+				<div class="checkout__input">
+					<p>제목</p>
+					<input type="text" name="qTitle" id="title">
+					<span id="titleMsg" class="msg"></span>
+				</div>
+				<div class="checkout__input">
+					<p>내용</p>
+					<input type="text" name="qContent" id="content">
+					<span id="contentMsg" class="msg"></span>
+				</div>
+				<button type="submit" class="site-btn" id="signinBtn"> 추가 </button>
+                </div>
+             </div>
+         </form>
+     </div>
+ </div>
+ <!------------ 하단 저작권 바 ------------>
+<div>
+	<jsp:include page="/inc/copyRight.jsp"></jsp:include>
+</div>
 </body>
 </html>

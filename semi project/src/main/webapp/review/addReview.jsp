@@ -24,6 +24,24 @@ String loginId = (String)session.getAttribute("loginId");
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="description" content="Ogani Template">
+<meta name="keywords" content="Ogani, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+
+<!-- Css Styles -->
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/elegant-icons.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/nice-select.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/jquery-ui.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.carousel.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/slicknav.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" type="text/css">
+
 <title>addReview</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -65,41 +83,53 @@ $(document).ready(function() {
 });
 </script>
 </head>
-<body class="container">
-<form id="signinForm" action="<%=request.getContextPath()%>/review/addReviewAction.jsp" method="post"  enctype="multipart/form-data">
-<h1>상품리뷰</h1>
-<table class="table table-bordered">
-	<tr>
-		<td>주문번호</td>
-		<td><input type="text" name="orderNo" value="<%=orderNo%>"></td>
-	</tr>
-	<tr>
-		<td>상품번호</td>
-		<td><input type="text" name="productNo" value="<%=productNo%>"></td>
-	</tr>
-	<tr>
-		<td>아이디 </td>
-		<td><input type="text" name="id" value="<%=loginId%>"></td>
-	</tr>
-	<tr>
-		<td>제목</td>
-		<td><input type="text" name="reviewTitle"  id="title">
-		<span id="titleMsg" class="msg"></span></td>
-	</tr>
-	<tr>
-		<td>내용</td>
-		<td><input type="text" name="reviewContent"  id="content">
-			<span id="contentMsg" class="msg"></span></td>
-	</tr>
-	<tr>
-	 <td><input type="file" name="reviewImg"></td>
-	</tr>
-	<tr>
-		<td>
-		<button type="submit" class="btn btn-danger"  id="signinBtn"> 추가 </button>
-		</td>
-	</tr>
-</table>
-</form>
+<body>
+<!-- 상단 네비 바(메인메뉴) -->
+<div>
+	<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
+</div>
+  <div class="container">
+      <div class="checkout__form">
+      <h4>상품리뷰</h4>
+		<form id="signinForm" action="<%=request.getContextPath()%>/review/addReviewAction.jsp" method="post"  enctype="multipart/form-data">
+            <div class="row">
+             <div class="col-lg-8 col-md-6">
+                <div class="checkout__input">
+						<p>주문번호</p>
+						<input type="text" name="orderNo" value="<%=orderNo%>" readonly="readonly">
+					</div>
+                    <div class="checkout__input">
+						<p>상품번호</p>
+						<input type="text" name="productNo" value="<%=productNo%>" readonly="readonly">
+					</div>
+                    <div class="checkout__input">
+						<p>아이디 </p>
+						<input type="text" name="id" value="<%=loginId%>" readonly="readonly">
+					</div>
+                    <div class="checkout__input">
+						<p>제목</p>
+						<input type="text" name="reviewTitle"  id="title">
+						<span id="titleMsg" class="msg"></span>
+					</div>
+                    <div class="checkout__input">
+						<p>내용</p>
+						<input type="text" name="reviewContent"  id="content">
+						<span id="contentMsg" class="msg"></span>
+					</div>
+                    <div class="checkout__input">
+	                    <p>이미지</p>
+					 	<input type="file" name="reviewImg" readonly="readonly">
+					</div>
+					<button type="submit" class="site-btn" id="signinBtn"> 추가 </button>
+                 </div>
+             </div>
+         </form>
+     </div>
+ </div>
+ <!------------ 하단 저작권 바 ------------>
+<div>
+	<jsp:include page="/inc/copyRight.jsp"></jsp:include>
+</div>
+ 
 </body>
 </html>

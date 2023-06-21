@@ -22,9 +22,24 @@ int productNo = Integer.parseInt(request.getParameter("productNo"));
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="description" content="Ogani Template">
+<meta name="keywords" content="Ogani, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+
+<!-- Css Styles -->
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/elegant-icons.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/nice-select.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/jquery-ui.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.carousel.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/slicknav.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" type="text/css">
 <title>addDiscount</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script>
 $(document).ready(function() {
@@ -75,35 +90,58 @@ $(document).ready(function() {
 });
 </script>
 </head>
-<body class="container">
-<form  id="form" action="<%=request.getContextPath()%>/discount/addDiscountAction.jsp" method="post">
-<h1>할인추가</h1>
-<table class="table table-bordered">
-	<tr>
-		<td>상품번호</td>
-		<td><input type="text" name="productNo" value="<%=productNo%>" readonly="readonly"></td>
-	</tr>
-	<tr>
-		<td>할인시작일</td> 
-		<td><input type="date" name="discountStart"  id="discountStart">
-		<span id="discountStartMsg" class="msg"></span></td>
-	</tr>
-	<tr>
-		<td>할인종료일</td> 
-		<td><input type="date" name="discountEnd"  id="discountEnd">
-		<span id="discountEndMsg" class="msg"></span></td>
-	</tr>
-		<tr>
-		<td>할인율</td> 
-		<td><input type="number" step="0.1" name="discountRate"  id="discountRate">
-		<span id="discountRateMsg" class="msg"></span></td>
-	</tr>
-	<tr>
-		<td>
-		<button type="submit" class="btn btn-danger"   id="btn"> 추가 </button>
-		</td>
-	</tr>
-</table>
-</form>
+<body>
+<!-- 상단 네비 바(메인메뉴) -->
+<div>
+	<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
+</div>
+        <div class="container">
+            <div class="checkout__form">
+                <h4>할인관리</h4>
+                <form id="form" action="<%=request.getContextPath()%>/discount/addDiscountAction.jsp" method="post">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-6">
+                            <div class="checkout__input">
+                                <p>상품번호</p>
+                                <input type="text" name="productNo" value="<%=productNo%>" readonly="readonly">
+                            </div>
+                            <div class="checkout__input">
+                                <p>할인시작일</p>
+                                <input type="date" name="discountStart"  id="discountStart">
+									<span id="discountStartMsg" class="msg" style="color: green;"></span>
+                            </div>
+                            <div class="checkout__input">
+                                <p>할인종료일</p>
+                                
+                               <input type="date" name="discountEnd"  id="discountEnd">
+									<span id="discountEndMsg" class="msg" style="color: green;"></span>
+                            </div>
+                             <div class="checkout__input">
+                                <p>할인율</p>
+                                <input type="number" step="0.1" name="discountRate"  id="discountRate">
+     							<span id="discountRateMsg" class="msg" style="color: green;"></span>
+                            </div>
+                            
+                            <button type="submit"  class="site-btn" id="btn"> 추가 </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+ <!------------ 하단 저작권 바 ------------>
+<div>
+	<jsp:include page="/inc/copyRight.jsp"></jsp:include>
+</div>
+ 
+    <!-- Js Plugins -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/mixitup.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
+    
 </body>
 </html>

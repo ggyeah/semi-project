@@ -51,6 +51,23 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="description" content="Ogani Template">
+<meta name="keywords" content="Ogani, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+
+<!-- Css Styles -->
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/elegant-icons.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/nice-select.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/jquery-ui.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.carousel.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/slicknav.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" type="text/css">
 <title>productListOne</title>
 <style>
 	table,td,th {border: 1px solid #000000; border-collapse: collapse;}
@@ -150,72 +167,84 @@
 			}
 		}
 	%>
-<!------------  리뷰리스트  ------------>
-<div>
-<h2>상품리뷰</h2>
-<%// 로그인상태에서만 리뷰추가를 할 수 있게 : 리뷰추가를 누르면 본인 주문리스트로 넘어감 
-if(session.getAttribute("loginId") != null) { %>
-<a href="<%=request.getContextPath()%>/orders/ordersCstmList.jsp">리뷰추가</a> 
-<% } %>
-<table>
-    <tr>
-        <th>제목</th>
-        <th>내용</th>
-        <th>아이디</th>
-        <th>작성일</th>
-        <th>수정일</th>
-        <th>수정</th>
-        <th>삭제</th>
-    </tr>
-    <% for (Review review : rList) { %>
-    <tr>
-    	
-        <td>
-        	<a href="<%=request.getContextPath()%>/review/reviewListOne.jsp?orderNo=<%=review.getOrderNo()%>">
-				<%=review.getReviewTitle()%>
-			</a>
-		</td>
-		<td><%=review.getId()%></td>
-        <td><%=review.getReviewContent()%></td>
-        <td><%=review.getCreatedate()%></td>
-        <td><%=review.getUpdatedate()%></td>
-        <% // 로그인 상태이고 본인이 작성한 리뷰만 수정삭제가 보임 
-        if (session.getAttribute("loginId") != null && session.getAttribute("loginId").equals(review.getId())) { %>
-        <td><a href="<%=request.getContextPath()%>/review/modifyReview.jsp?orderNo=<%=review.getOrderNo()%>">수정</a></td>
-        <td><a href="<%=request.getContextPath()%>/review/removeReview.jsp?orderNo=<%=review.getOrderNo()%>&productNo=<%=review.getProductNo()%>">삭제</a></td>
-    	<% } %>
-    </tr>
-    <% } %>
-</table>
-<!------------  문의리스트  ------------>
-<div>
-<h2>문의내역</h2>
-<% //로그인상태에서만 문의추가 할 수 있게 
-if(session.getAttribute("loginId") != null) { %>
-<a href="<%=request.getContextPath()%>/question/addQuestion.jsp?productNo=<%=productNo%>">문의추가</a> 
-<% } %>
-<table>
-    <tr>
-        <th>아이디</th>
-        <th>카테고리</th>
-        <th>제목</th>
-        <th>작성일</th>
-    </tr>
-    <% for (Question question : qList) { %>
-    <tr>
-    	
- 		<td><%=question.getId()%></td>
-        <td><%=question.getqCategory()%></td>
-        <td>
-        	<a href="<%=request.getContextPath()%>/question/questionListOne.jsp?qNo=<%=question.getqNo()%>">
-				<%=question.getqTitle()%>
-			</a>
-		</td>
-        <td><%=question.getCreatedate()%></td>
-</tr>
-    <% } %>
-</table>
+ <!------------lim :  문의 & 리뷰   ------------>
+ <div class="container">
+				<div class="product__details__tab">
+                 <ul class="nav nav-tabs" role="tablist">
+                     <li class="nav-item">
+                         <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
+                             aria-selected="true">리뷰</a>
+                     </li>
+                     <li class="nav-item">
+                         <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab"
+                             aria-selected="false">문의</a>
+                     </li>
+                 </ul>
+                 <!------------  리뷰리스트  ------------>
+                 <div class="tab-content">
+                     <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                         <div class="product__details__tab__desc">
+                          <%// 로그인상태에서만 리뷰추가를 할 수 있게 : 리뷰추가를 누르면 본인 주문리스트로 넘어감 
+							if(session.getAttribute("loginId") != null) { %>
+								<a href="<%=request.getContextPath()%>/orders/ordersCstmList.jsp" class="primary-btn">
+									리뷰추가
+								</a> 
+						   <% } %>
+                           <% for (Review review : rList) { %>
+                           	<div class="blog__item__text">
+	                            <ul>
+	                                <li><i class="fa fa-calendar-o"></i><%=review.getCreatedate()%></li>
+	                                <li><i class="fa fa-comment-o"></i><%=review.getId()%></li>
+	                            </ul>
+                            </div>
+                             <h6><a href="<%=request.getContextPath()%>/review/reviewListOne.jsp?orderNo=<%=review.getOrderNo()%>" style="color: black;">
+									제목 : <%=review.getReviewTitle()%>
+								</a>
+							</h6>
+                             <p><%=review.getReviewContent()%>
+                               <a href="<%=request.getContextPath()%>/review/reviewListOne.jsp?orderNo=<%=review.getOrderNo()%>" class="blog__btn">…더보기<span class="arrow_right"></span></a>
+                         	</p>
+                         <% } %>
+                         </div>
+                     </div>
+                      <!------------  문의리스트  ------------>
+                     <div class="tab-pane" id="tabs-2" role="tabpanel">
+                         <div class="product__details__tab__desc">
+                         <% //로그인상태에서만 문의추가 할 수 있게 
+							if(session.getAttribute("loginId") != null) { %>
+								<a href="<%=request.getContextPath()%>/question/addQuestion.jsp?productNo=<%=productNo%>"  class="primary-btn">
+									문의추가
+								</a> 
+						 <% } %>
+                             <% for (Question question : qList) { %>
+                            <div class="blog__item__text">
+	                            <ul>
+	                                <li><i class="fa fa-calendar-o"></i><%=question.getCreatedate()%></li>
+	                                <li><i class="fa fa-comment-o"></i><%=question.getId()%></li>
+	                            </ul>
+                            </div>
+                             <h6>
+                             	<a href="<%=request.getContextPath()%>/question/questionListOne.jsp?qNo=<%=question.getqNo()%>" style="color: black;">
+									제목 : <%=question.getqTitle()%>
+								</a>
+							</h6>
+                                <p><%=question.getqContent()%>
+                                	<a href="<%=request.getContextPath()%>/question/questionListOne.jsp?qNo=<%=question.getqNo()%>" class="blog__btn">…더보기<span class="arrow_right"></span></a>
+                                </p>
+                           <% } %>
+                         </div>
+                     </div>
+                 </div>
+             </div>
 </div>
-</div>
+                 <!-- Js Plugins -->
+    <script src="<%=request.getContextPath()%>/js/jquery-3.3.1.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/jquery.nice-select.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/jquery-ui.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/jquery.slicknav.js"></script>
+    <script src="<%=request.getContextPath()%>/js/mixitup.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/owl.carousel.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/main.js"></script>
 </body>
 </html>
