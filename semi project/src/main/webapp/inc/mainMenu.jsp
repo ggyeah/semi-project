@@ -66,7 +66,7 @@
                                 <a href="<%=request.getContextPath()%>/cart/cartList.jsp">장바구니</a>
                             </div>
                             <div class="header__top__right__social">
-                                <a href="<%=request.getContextPath()%>/id/login.jsp">회원가입</a>
+                                <a href="<%=request.getContextPath()%>/customer/addCustomer.jsp">회원가입</a>
                             </div>
                              <div class="header__top__right__auth">
                                 <a href="<%=request.getContextPath()%>/id/login.jsp"><i class="fa fa-user"></i> 로그인</a>
@@ -80,7 +80,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="img/logo.png" alt="no logo"></a>
+                        <a href="<%=request.getContextPath()%>/home.jsp"><img src="<%=request.getContextPath()%>/img/logo.png" alt="no logo"></a>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -149,7 +149,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="img/logo.png" alt="no logo"></a>
+                        <a href="<%=request.getContextPath()%>/home.jsp"><img src="<%=request.getContextPath()%>/img/logo.png" alt="no logo"></a>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -208,7 +208,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="img/logo.png" alt="no logo"></a>
+                        <a href="<%=request.getContextPath()%>/home.jsp"><img src="<%=request.getContextPath()%>/img/logo.png" alt="no logo"></a>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -265,7 +265,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="img/logo.png" alt="no logo"></a>
+                        <a href="<%=request.getContextPath()%>/home.jsp"><img src="<%=request.getContextPath()%>/img/logo.png" alt="no logo"></a>
                     </div>
                 </div>
                 <div class="col-lg-6">

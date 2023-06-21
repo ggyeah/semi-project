@@ -27,7 +27,7 @@
    System.out.println(KIM+(cartList!=null?true:false)+" <-- cart/cartList 장바구니"+RESET);
 %>
 <!DOCTYPE html>
-<html>
+<html lang="zxx">
 <head>
 <meta charset="UTF-8">
 <title>CartList</title>
@@ -48,9 +48,6 @@
     });
   });
 </script>
-<style>
-   table,td,th {border: 1px solid #000000; border-collapse: collapse;}
-</style>
     <meta charset="UTF-8">
     <meta name="description" content="Ogani Template">
     <meta name="keywords" content="Ogani, unica, creative, html">
@@ -97,6 +94,25 @@
    <%
       } else { // 장바구니가 있다면 출력
    %>
+	
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>장바구니</h2>
+                        <div class="breadcrumb__option">
+                             <a>Home</a>
+                            <span>주문</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
     <section class="shoping-cart spad">
         <div class="container">
             <div class="row">
@@ -148,7 +164,10 @@
             </div>
          </div>
      </section>
-
+<!------------ 하단 저작권 바 ------------>
+<div>
+	<jsp:include page="/inc/copyRight.jsp"></jsp:include>
+</div>
 <!--[end]--------------------- 비로그인자 장바구니 리스트 ------------------------->	
 	  
 <!--[begin]--------------------- 로그인자 장바구니 리스트 ------------------------->	  
@@ -163,6 +182,23 @@
       <%
          } else { // 장바구니가 있다면 출력
       %>
+      <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="../img/breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>장바구니</h2>
+                        <div class="breadcrumb__option">
+                            <span>Home -</span>
+                            <span>장바구니</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
       <section class="shoping-cart spad">
         <div class="container">
             <div class="row">
@@ -211,20 +247,34 @@
                                         <a href="<%=request.getContextPath()%>/cart/removeCartAction.jsp?cartNo=<%=c.getCartNo()%>" class="remove-cart">삭제</a>
                                     </td>
                                 </tr>
+                                <%
+					            	}
+                        		%>
                             </tbody>
                         </table>
-                        <%
-					            }
-                        %>
                     </div>
                 </div>
             </div>
          </div>
      </section>
+<!------------ 하단 저작권 바 ------------>
+<div>
+	<jsp:include page="/inc/copyRight.jsp"></jsp:include>
+</div>
    <%
        }
     }
    %>
 <!--[end]--------------------- 비로그인자 장바구니 리스트 ------------------------->   
+<!-- Js Plugins -->
+    <script src="<%=request.getContextPath()%>/js/jquery-3.3.1.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/jquery.nice-select.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/jquery-ui.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/jquery.slicknav.js"></script>
+    <script src="<%=request.getContextPath()%>/js/mixitup.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/owl.carousel.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/main.js"></script>
+          
 </body>
 </html>
