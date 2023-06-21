@@ -17,6 +17,8 @@
 	// 디버깅
 	System.out.println(YANG + id + " <-- id" + RESET);
 	
+	
+	
 	// sql 클래스 객체 생성
 	IdDao dao = new IdDao();
 	
@@ -24,14 +26,15 @@
 	int ckId = dao.ckId(id);
 	
 	String msg = null;
-	if(ckId > 0) {
-		msg = URLEncoder.encode("이미 존재하는 아이디입니다", "utf-8");
-		response.sendRedirect(request.getContextPath() + "/employees/addEmployees.jsp?msg=" + msg);
-		return;
-	} else {
-		msg = URLEncoder.encode("사용할 수 있는 아이디입니다", "utf-8");
-		response.sendRedirect(request.getContextPath() + "/employees/addEmployees.jsp?id=" + request.getParameter("id") + "&msg=" + msg);
-		return;
-	}
+	if (ckId > 0) {
+        msg = "이미 존재하는 아이디입니다";
+    } else {
+        msg = "사용 가능한 아이디입니다";
+    }
+
+    // 오류 메시지를 포함한 응답 출력
+    response.setContentType("text/plain");
+    response.setCharacterEncoding("UTF-8");
+    response.getWriter().write(msg);
 	
 %>

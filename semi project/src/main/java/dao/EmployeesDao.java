@@ -17,7 +17,7 @@ public class EmployeesDao {
 			Connection conn = dbUtil.getConnection();
 			
 			// 리스트 불러오기
-			String employeesListSql ="SELECT e.id id, e.emp_name empName, e.emp_level empLevel, e.createdate createdate, e.updatedate updatedate, id.active active FROM employees e, id_list id WHERE e.id =id.id ORDER BY empLevel DESC, empName LIMIT ?, ?";
+			String employeesListSql ="SELECT e.id id, e.emp_name empName, e.emp_level empLevel, e.createdate createdate, e.updatedate updatedate, id.active active FROM employees e, id_list id WHERE e.id =id.id AND id.active = 'Y' ORDER BY empLevel DESC, empName LIMIT ?, ?";
 			PreparedStatement employeesListStmt = conn.prepareStatement(employeesListSql);
 			employeesListStmt.setInt(1, beginRow);
 			employeesListStmt.setInt(2, rowPerPage);
@@ -97,7 +97,7 @@ public class EmployeesDao {
 			return row;
 		}
 		
-	// 5) 직원 삭제(관리자2용 : 삭제버튼 누르면 활성화가 Y에서 N으로 바꿈) 
+	// 5) 직원 삭제(관리자2용 : 삭제버튼 누르면 활성화가 Y에서 D으로 바꿈) 
 		public int updateEmpActive(Id idList) throws Exception {
 			// db연결
 			DBUtil dbUtil = new DBUtil();

@@ -31,6 +31,7 @@
 		$('#id').focus();
 		   
 		let allCheck = false;
+		let idChecked = false; // id 중복 체크 여부를 저장하는 변수
 			
 		// id유효성 체크
 		$('#id').blur(function() { // blur : 커서를 읽음
@@ -39,11 +40,11 @@
 				$('#idMsg').text('아이디는 4자이상이어야 합니다');
 				$('#id').focus();
 			} else if (!/^[a-z]+$/.test(id) && !/^[a-z0-9]+$/.test(id) && !/^[0-9]+$/.test(id)) {
-				$('#idMsg').text('아이디는 영문과 숫자로만 구성되어야 합니다.');
+				$('#idMsg').text('아이디는 영문 소문자와 숫자로만 구성되어야 합니다');
 				$('#id').focus();
 			} else {
 				console.log($('#id').val()); 
-				// $('#idMsg').text(''); // 텍스트를 지움
+				$('#idMsg').text(''); // 텍스트를 지움
 				
 				// 아이디 중복 체크 버튼 클릭 시 동작
 				$('#ckId').click(function(event) {
@@ -66,8 +67,10 @@
 								
 							if (msg == '사용 가능한 아이디입니다') {
 				               	$('#pw').focus();
+				               	idChecked = true; // id 중복 체크 완료
 							} else if(msg == '이미 존재하는 아이디입니다'){
 				               	$('#id').focus();
+				               	idChecked = false; // id 중복 체크 실패
 							}
 							console.log(msg);
 						},
@@ -171,6 +174,13 @@
 	           allCheck = true;
 	        }
 	        
+	     	// 아이디 중복 체크를 하지 않았을 경우
+            if (!idChecked) {
+                $('#idMsg').text('아이디 중복 체크를 해주세요');
+                $('#id').focus();
+                return;
+            }
+	        
 	        // 페이지에 바로 버튼 누름을 방지하기 위해
 	        if(allCheck == false) { // if(!allCheck) {
 	           $('#id').focus();
@@ -183,6 +193,12 @@
 </script>
 </head>
 <body>
+	<!------------ 상단 네비 바 ------------>
+	<!-- 상단 네비 바(메인메뉴) -->
+	<div>
+		<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
+	</div>
+	
 	<!-- 회원가입 폼 -->
 	<div class="container">
 		<div class="checkout__form">
@@ -215,6 +231,7 @@
   								<p>비밀번호 확인<span>*</span></p>
 								<input type="password" name="ckPw" id="ckPw" placeholder="비밀번호를 한번 더 입력하세요">
 							</div>
+							<!-- customer -->
 							<div class="checkout__input">
 								<p>이름<span>*</span></p>
 								<input type="text" name="cstmName" id="cstmName" placeholder="이름을 입력하세요">
@@ -242,9 +259,7 @@
 							</div>
 							<div class="checkout__input">
 								<p>성별<span>*</span></p>
-								
 							</div>
-							
 							<div>
 								<label><input type="radio" name="cstmGender" value="M" class="gender"></label>
 								<label>남</label>
@@ -252,8 +267,6 @@
 								<label>여</label>
 								<span id="genderMsg" class="msg"></span>
 							</div>
-							
-  
 							<div class="checkout__input__checkbox">
 								<p>약관동의<span>*</span></p>
 								<label for="diff-acc">
@@ -262,15 +275,14 @@
 									<span class="checkmark"></span>
 								</label>
 							</div>
-					<button type="button" id="signinBtn" class="site-btn">가입</button>
+							<button type="button" id="signinBtn" class="site-btn">가입</button>
 						</div>
-						
 					</div>
-					
 				</form>
 		</div>
 	</div>
-	 <!-- Js Plugins -->
+	
+	<!-- Js Plugins -->
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.nice-select.min.js"></script>
@@ -279,7 +291,11 @@
     <script src="js/mixitup.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
-
+    
+	<!------------ 하단 저작권 바 ------------>
+	<div>
+		<jsp:include page="/inc/copyRight.jsp"></jsp:include>
+	</div>
  
 </body>
 </html>
