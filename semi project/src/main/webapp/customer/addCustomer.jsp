@@ -31,7 +31,7 @@
 		$('#id').focus();
 		   
 		let allCheck = false;
-		let idChecked = false; // id 중복 체크 여부를 저장하는 변수
+		//let idChecked = false; // id 중복 체크 여부를 저장하는 변수
 			
 		// id유효성 체크
 		$('#id').blur(function() { // blur : 커서를 읽음
@@ -46,44 +46,49 @@
 				console.log($('#id').val()); 
 				$('#idMsg').text(''); // 텍스트를 지움
 				
-				// 아이디 중복 체크 버튼 클릭 시 동작
-				$('#ckId').click(function(event) {
-					 event.preventDefault(); // 버튼 클릭 시 폼 제출 중단
-			
-					// 요청값 변수 선언
-					let id = $('#id').val();
 				
-					// AJAX 요청 설정
-					
-					 $.ajax({
-						url: '<%=request.getContextPath() %>/id/ckIdCstmAction.jsp', // 요청할 서버 페이지의 경로
-						type: 'POST', // 요청 방식 (POST 또는 GET)
-						data: { id: id }, // 전송할 데이터 (id 값)
-						success: function(response) {
-							let msg = decodeURIComponent(response);
-					
-							// 메시지 표시
-							$('#idMsg').text(msg);
-								
-							if (msg == '사용 가능한 아이디입니다') {
-				               	$('#pw').focus();
-				               	idChecked = true; // id 중복 체크 완료
-							} else if(msg == '이미 존재하는 아이디입니다'){
-				               	$('#id').focus();
-				               	idChecked = false; // id 중복 체크 실패
-							}
-							console.log(msg);
-						},
-						error: function(xhr, status, error) {
-							// 오류 발생 시 처리할 내용
-							console.log(xhr.responseText);
-							console.log(status);
-							console.log(error);
-							alert('오류가 발생했습니다');
-						}
-					});	
-				});
 			}
+		});
+		
+		// 아이디 중복 체크 버튼 클릭 시 동작
+		$('#ckId').click(function(event) {
+			 event.preventDefault(); // 버튼 클릭 시 폼 제출 중단
+	
+			// 요청값 변수 선언
+			let id = $('#id').val();
+		
+			// AJAX 요청 설정
+			
+			 $.ajax({
+				url: '<%=request.getContextPath() %>/id/ckIdCstmAction.jsp', // 요청할 서버 페이지의 경로
+				type: 'POST', // 요청 방식 (POST 또는 GET)
+				data: { id: id }, // 전송할 데이터 (id 값)
+				success: function(response) {
+					let msg = decodeURIComponent(response);
+			
+					// 메시지 표시
+					$('#idMsg').text(msg);
+					/*	
+					if (msg == '사용 가능한 아이디입니다') {
+		               	$('#pw').focus();
+		               	idChecked = true; // id 중복 체크 완료
+		               	$('#signinBtn').prop('disabled', false); // signinBtn 버튼 활성화
+					} else if(msg == '이미 존재하는 아이디입니다'){
+		               	$('#id').focus();
+		               	idChecked = false; // id 중복 체크 실패
+		               	$('#signinBtn').prop('disabled', true); // signinBtn 버튼 비활성화
+					}
+					*/
+					console.log(msg);
+				},
+				error: function(xhr, status, error) {
+					// 오류 발생 시 처리할 내용
+					console.log(xhr.responseText);
+					console.log(status);
+					console.log(error);
+					alert('오류가 발생했습니다');
+				}
+			});	
 		});
 			
 		// pw유효성 체크
@@ -173,14 +178,14 @@
 	            $('#signinBtn').focus();
 	           allCheck = true;
 	        }
-	        
+	        /*
 	     	// 아이디 중복 체크를 하지 않았을 경우
             if (!idChecked) {
                 $('#idMsg').text('아이디 중복 체크를 해주세요');
                 $('#id').focus();
                 return;
             }
-	        
+	        */
 	        // 페이지에 바로 버튼 누름을 방지하기 위해
 	        if(allCheck == false) { // if(!allCheck) {
 	           $('#id').focus();

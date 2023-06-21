@@ -163,13 +163,14 @@
                    
                  int row = cartDao.addCart(cart);
                  if(row == 0){
-                    // 추가 실패 시 메시지 설정 및 상품 리스트로 redirect
+                    // 추가 실패 
                     msg = URLEncoder.encode("장바구니 추가 실패", "utf-8");
                     return;
                  } else {
-                    // 추가 성공 시 장바구니 리스트로 redirect
+                    // 추가 성공
                     System.out.println(KIM+"장바구니 추가 성공"+RESET);
                     System.out.println(YANG + "로그인 성공 세션정보 : " + session.getAttribute("loginId") + RESET);
+                    response.sendRedirect(request.getContextPath()+"/home.jsp");
                  
                  }   
                }
@@ -177,5 +178,6 @@
 		     response.sendRedirect(request.getContextPath()+"/home.jsp");
 		     return;
           }
+          response.sendRedirect(request.getContextPath()+"/home.jsp");
      }
 %>

@@ -11,25 +11,28 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>login</title>
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+     <!-- Google Font -->
+    <link href="<%=request.getContextPath() %>https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="css/style.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/style.css" type="text/css">
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 </head>
 <body>
-<!------------ 상단 네비 바 ------------>
-<!-- 상단 네비 바(메인메뉴) -->
-<div>
-	<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
-</div>
+	<!------------ 상단 네비 바 ------------>
+	<!-- 상단 네비 바(메인메뉴) -->
+	<div>
+		<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
+	</div>
+	
 	<!-- 로그인 폼 -->
 	<div>
 		<form action="<%=request.getContextPath()%>/id/loginAction.jsp" method="post">
@@ -58,5 +61,10 @@
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
 
+	<!------------ 하단 저작권 바 ------------>
+	<div>
+		<jsp:include page="/inc/copyRight.jsp"></jsp:include>
+	</div>
+	
 </body>
 </html>
