@@ -6,16 +6,11 @@
 <html lang="zxx">
 <head>
 <meta charset="UTF-8">
-<title>home</title>
-<style>
-	table,td,th {border: 1px solid #000000; border-collapse: collapse;}
-</style>
-<meta charset="UTF-8">
     <meta name="description" content="Ogani Template">
     <meta name="keywords" content="Ogani, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ogani | Template</title>
+    <title>home | Template</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
@@ -37,49 +32,72 @@
 	<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
 </div>
 
-
-<!------------ 최신상품 5개 ------------>
-<div>
-	<table>
-		<tr>
-			<th>product_name</th>
-			<th>이미지</th>
-			<th>product_price</th>
-			<th>product_status</th>
-		</tr>
-	<% 
-		ProductDao productDao = new ProductDao();
-		ArrayList<Product> productList = productDao.productListByPage(0, 5);
-		for(Product product : productList) {
-	%>
-		<tr>
-			<td>
-				<a href="<%=request.getContextPath()%>/product/productListOne.jsp?productNo=<%=product.getProductNo()%>">
-				<%=product.getProductName()%>
-				</a>
-			</td>
-			<td>대충 음식 사진 들어갈 곳</td>
-			<td><%=product.getProductPrice()%></td>
-			<td><%=product.getProductStatus()%></td>
-		</tr>
-	<% 
-		}
-	%>
-	</table>
+<!-- Featured Section Begin -->
+<section class="featured spad">
+	<div class="container">
+	    <div class="row">
+	        <div class="col-lg-12">
+	            <div class="section-title">
+	                <h2>최신상품</h2>
+	            </div>
+	        </div>
+	    </div>
+	    
+	    <div class="row featured__filter">
+		<%
+			ProductDao productDao = new ProductDao();
+			ArrayList<Product> productList = productDao.productListByPage(0, 12);
+			for(Product product : productList) {
+				int productNo = product.getProductNo();
+				ProductImgDao productImgDao = new ProductImgDao();
+				ArrayList<ProductImg> productImgs = new ArrayList<>();
+				productImgs = productImgDao.getProductImages(productNo);
+				if(productImgs.size() != 0){
+		%>
+			<div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
+				<div class="featured__item">
+					<div class="featured__item__pic set-bg" data-setbg="<%=request.getContextPath()%>/productImgUpload/<%=productImgs.get(0).getProductSaveFilename()%>">
+						<ul class="featured__item__pic__hover">
+							<li><a href="#"><i class="fa fa-heart"></i></a></li>
+							<li><a href="#"><i class="fa fa-retweet"></i></a></li>
+							<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+						</ul>
+					</div>
+					<div class="featured__item__text">
+			    		<h6><a href="<%=request.getContextPath()%>/product/productListOne.jsp?productNo=<%=product.getProductNo()%>">
+							<%=product.getProductName()%>
+						</a></h6>
+						<h5><%=product.getProductPrice()%>원</h5>
+							<%=product.getProductStatus()%>
+					</div>
+				</div>
+			</div>
+		<%
+				}
+			}
+		%>
+		</div>
+			<a href="<%=request.getContextPath()%>/product/productList.jsp?categoryName=전체">
+				더보기
+			</a>
+	</div>
+</section>
+<!-- Featured Section End -->
+<!-- 더보기 누르면 상품리스트로 가도록 -->
 	
-	<!-- 더보기 누르면 상품리스트로 가도록 -->
-	<a href="<%=request.getContextPath()%>/product/productList.jsp">
-	더보기
-	</a>
-</div>
-
-
-
 <!------------ 하단 저작권 바 ------------>
 <div>
 	<jsp:include page="/inc/copyRight.jsp"></jsp:include>
 </div>
 
-
+<!-- Js Plugins -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/mixitup.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
