@@ -89,16 +89,18 @@
                    if(row == 0){
                       // 추가 실패 시 메시지 설정 및 상품 리스트로 redirect
                       String msg = URLEncoder.encode("장바구니 추가 실패", "utf-8");
+                      response.sendRedirect(request.getContextPath()+"/home.jsp");
                       return;
                    } else {
                       // 추가 성공 시 장바구니 리스트로 redirect
                       System.out.println(KIM+"장바구니 추가 성공"+RESET);
+                      response.sendRedirect(request.getContextPath()+"/home.jsp");
                    }
-                }
-       response.sendRedirect(request.getContextPath()+"/home.jsp");
-       return;
-    }
-  }   
+                   response.sendRedirect(request.getContextPath()+"/home.jsp");
+                   return;
+      			   }
+   		 }
+ 	 }   
  }
 
 %>
