@@ -48,25 +48,28 @@
     });
   });
 </script>
-    <meta charset="UTF-8">
-    <meta name="description" content="Ogani Template">
-    <meta name="keywords" content="Ogani, unica, creative, html">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ogani | Template</title>
+<meta charset="UTF-8">
+<meta name="description" content="Ogani Template">
+<meta name="keywords" content="Ogani, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Ogani | Template</title>
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" type="text/css">
+<!-- Css Styles -->
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/elegant-icons.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/nice-select.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/jquery-ui.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.carousel.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/slicknav.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" type="text/css">
+<style>
+	.center{ text-align:center;}
+</style>
 </head>
 <body>
 <!-- 상단 네비게이션 바(메인메뉴) -->
@@ -90,14 +93,60 @@
      	HashMap<Integer, Cart> sessionCartMap = (HashMap<Integer, Cart>) session.getAttribute("sessionCartMap");//비회원 장바구니 목록
       if (sessionCartMap == null || sessionCartMap.isEmpty()) { // 장바구니가 비었다면 메세지
    %>
-              <h3>장바구니가 비어있습니다.</h3>
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="../img/breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>장바구니</h2>
+                        <div class="breadcrumb__option">
+                             <a>Home</a>
+                            <span>주문</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+    <section class="shoping-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__table">
+                        <table>
+                        	<thead>
+                                <tr>
+                                    <th>상품 번호</th>
+						            <th>주문 수량</th>
+						            <th>생성일</th>
+						            <th>수정일</th>
+						            <th>주문</th>
+						            <th>삭제</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        	<tr>
+                        		<td colspan="6" class="center">
+                            		<h4>장바구니가 비어있습니다.</h4>
+                        		</td>
+                        	</tr>
+                        	</tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+         </div>
+     </section>
+              
    <%
       } else { // 장바구니가 있다면 출력
    %>
 	
 
     <!-- Breadcrumb Section Begin -->
-    <section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb.jpg">
+    <section class="breadcrumb-section set-bg" data-setbg="../img/breadcrumb.jpg">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -178,7 +227,52 @@
    
          if(cartList == null || cartList.isEmpty()){ // 장바구니가 비었다면 메세지
       %>
-         <h3>장바구니가 비어있습니다.</h3>
+         <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="../img/breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>장바구니</h2>
+                        <div class="breadcrumb__option">
+                             <a>Home</a>
+                            <span>주문</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+    <section class="shoping-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__table">
+                        <table>
+                        	<thead>
+                                <tr>
+                                    <th>상품 번호</th>
+						            <th>주문 수량</th>
+						            <th>생성일</th>
+						            <th>수정일</th>
+						            <th>주문</th>
+						            <th>삭제</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        	<tr>
+                        		<td colspan="6" class="center">
+                            		<h4>장바구니가 비어있습니다.</h4>
+                        		</td>
+                        	</tr>
+                        	</tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+         </div>
+     </section>
       <%
          } else { // 장바구니가 있다면 출력
       %>
