@@ -37,8 +37,15 @@ if (request.getParameter("category")!= null
 	question.setqCategory(qCategory);
 	question.setqTitle(qTitle);
 	question.setqContent(qContent);
+	
 	int row = questionDao.addQuestion(question); 
 
+    if (row == 1) {
+        System.out.println("추가 성공");
+    } else {
+        System.out.println("추가실패");
+    }
+    
 	response.sendRedirect(request.getContextPath() + "/product/productListOne.jsp?productNo="+productNo);
 }
 %>

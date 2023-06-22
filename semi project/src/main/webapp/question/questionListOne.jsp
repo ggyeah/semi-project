@@ -51,6 +51,8 @@ if (request.getParameter("qNo") != null){
         }).fail(function() {
           alert("삭제에 실패했습니다. 다시 시도해주세요.");
         });
+      } else {
+          location.reload(); // 취소를 눌렀을 때도 화면을 다시 로드 
       }
     });
   });
@@ -83,18 +85,30 @@ $(document).ready(function() {
     });
 });
 </script>
+
 </head>
 <body>
 <!-- 상단 네비 바(메인메뉴) -->
 <div>
 	<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
 </div>
-
+<!-- 상단토마토바 -->
+<section class="breadcrumb-section set-bg" data-setbg="<%=request.getContextPath()%>/img/breadcrumb.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>상품문의</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <!------------------- 문의 ---------------------->
+<br>
+<br>
 <div class="container">
- 	<div class="checkout__form">
-		<h4>문의</h4> 
-		<div class="checkout__order">
+	<div class="checkout__order">
 		    <h4><%=question.getqTitle()%></h4>
 		    <span class="blog__item__text">
 		        <ul>
@@ -119,7 +133,7 @@ $(document).ready(function() {
 <div class="container">
 <% if (answer != null) { %>
  	<div class="checkout__form">
-   	 <h4>답변</h4>
+   	 <h4>&#10145;  답변</h4>
    	   <span class="blog__item__text">
         <ul>
             <li><i class="fa fa-calendar-o"></i><%=answer.getCreatedate()%></li>
@@ -136,6 +150,11 @@ $(document).ready(function() {
 	    <a href="<%=request.getContextPath()%>/answer/removeAnswerAction.jsp?qNo=<%=question.getqNo()%>&aNo=<%=answer.getaNo()%>&productNo=<%=question.getProductNo()%>" class="remove-answer">삭제</a>
 	</div>
 </div>
+</div>
+<br>
+<br>
+<br>
+
 	  <%}} else { %>
 	  
 <!-------------------  답변추가---------------------->
@@ -157,7 +176,7 @@ for (Employees e : list){
 if (checkId) {
 %>
  	<div class="checkout__form">
-   	 <h4>답변</h4>
+   	 <h4>&#10145;  답변</h4>
 		<span class="blog__item__text">
 			<ul>
 			    <li><i class="fa fa-check"></i><%=question.getqNo()%></li>
@@ -169,14 +188,14 @@ if (checkId) {
 	         <input type="text" name="aContent"  id="content"  placeholder="답변을 입력하십시오">
 	         <button type="submit" class="site-btn" id="btn">추가</button>
 		</form> 
+		<div><span id="contentMsg" class="msg"></span></div>
 	</div>
-</div>
-</div>
 </div>
 	  <% }} %>
 	  <br>
 	  <br>
 	  <br>
+
 	  
 <!------------ 하단 저작권 바 ------------>
 <div>

@@ -12,11 +12,10 @@ response.sendRedirect(request.getContextPath() + "/home.jsp");
 if(request.getParameter("productNo") == null  
 || request.getParameter("productNo").equals("")) {
 response.sendRedirect(request.getContextPath() + "/discount/discountList.jsp");
-}
-
-
+} 
 
 int productNo = Integer.parseInt(request.getParameter("productNo"));
+System.out.println(productNo);
 %>
 <!DOCTYPE html>
 <html>
@@ -80,9 +79,8 @@ $(document).ready(function() {
         return allCheck;
     }
     
-    $('#btn').click(function(e) {
-        e.preventDefault(); // 기본 동작 방지
-
+    $('#btn').click(function() {
+    	
         if (validateForm()) {
             $('form').submit();
         }
@@ -95,9 +93,24 @@ $(document).ready(function() {
 <div>
 	<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
 </div>
+<!-- 상단토마토바 -->
+<section class="breadcrumb-section set-bg" data-setbg="<%=request.getContextPath()%>/img/breadcrumb.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>할인관리</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<br>
+<br>
+<!--  할인추가 -->
         <div class="container">
             <div class="checkout__form">
-                <h4>할인관리</h4>
+                <h4>할인추가</h4>
                 <form id="form" action="<%=request.getContextPath()%>/discount/addDiscountAction.jsp" method="post">
                     <div class="row">
                         <div class="col-lg-8 col-md-6">
@@ -106,18 +119,18 @@ $(document).ready(function() {
                                 <input type="text" name="productNo" value="<%=productNo%>" readonly="readonly">
                             </div>
                             <div class="checkout__input">
-                                <p>할인시작일</p>
+                                <p>할인시작일<span>*</span></p>
                                 <input type="date" name="discountStart"  id="discountStart">
 									<span id="discountStartMsg" class="msg" style="color: green;"></span>
                             </div>
                             <div class="checkout__input">
-                                <p>할인종료일</p>
+                                <p>할인종료일<span>*</span></p>
                                 
                                <input type="date" name="discountEnd"  id="discountEnd">
 									<span id="discountEndMsg" class="msg" style="color: green;"></span>
                             </div>
                              <div class="checkout__input">
-                                <p>할인율</p>
+                                <p>할인율<span>*</span></p>
                                 <input type="number" step="0.1" name="discountRate"  id="discountRate">
      							<span id="discountRateMsg" class="msg" style="color: green;"></span>
                             </div>
@@ -134,14 +147,14 @@ $(document).ready(function() {
 </div>
  
     <!-- Js Plugins -->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.nice-select.min.js"></script>
-    <script src="js/jquery-ui.min.js"></script>
-    <script src="js/jquery.slicknav.js"></script>
-    <script src="js/mixitup.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="<%=request.getContextPath()%>/js/jquery-3.3.1.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/jquery.nice-select.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/jquery-ui.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/jquery.slicknav.js"></script>
+    <script src="<%=request.getContextPath()%>/js/mixitup.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/owl.carousel.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/main.js"></script>
     
 </body>
 </html>

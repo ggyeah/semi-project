@@ -44,8 +44,6 @@ String loginId = (String)session.getAttribute("loginId");
 
 <title>addReview</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 $(document).ready(function() {
     // 시작시 title 입력 폼에 포커스
@@ -73,7 +71,7 @@ $(document).ready(function() {
         
         return allCheck;
     }
-    $('#signinBtn').click(function(e) {
+     $('#signinBtn').click(function(e) {
         e.preventDefault(); // 기본 동작 방지
 
         if (validateForm()) {
@@ -107,12 +105,12 @@ $(document).ready(function() {
 						<input type="text" name="id" value="<%=loginId%>" readonly="readonly">
 					</div>
                     <div class="checkout__input">
-						<p>제목</p>
+						<p>제목<span>*</span></p>
 						<input type="text" name="reviewTitle"  id="title">
 						<span id="titleMsg" class="msg"></span>
 					</div>
                     <div class="checkout__input">
-						<p>내용</p>
+						<p>내용<span>*</span></p>
 						<input type="text" name="reviewContent"  id="content">
 						<span id="contentMsg" class="msg"></span>
 					</div>

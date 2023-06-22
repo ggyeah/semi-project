@@ -106,7 +106,7 @@ $(document).ready(function() {
 					<input type="text" name="id" value="<%=loginId%>" readonly="readonly">
 				</div>
 				<div class="checkout__input">
-				    <p>카테고리</p>
+				    <p>카테고리<span>*</span></p>
 					<select name="qCategory" class="category">
 					  <option value="">카테고리를 선택하세요</option>
 					  <option value="상품">상품</option>
@@ -118,12 +118,12 @@ $(document).ready(function() {
 			    	 <span id="categoryMsg" class="msg"></span>
 				</div>
 				<div class="checkout__input">
-					<p>제목</p>
+					<p>제목<span>*</span></p>
 					<input type="text" name="qTitle" id="title">
 					<span id="titleMsg" class="msg"></span>
 				</div>
 				<div class="checkout__input">
-					<p>내용</p>
+					<p>내용<span>*</span></p>
 					<input type="text" name="qContent" id="content">
 					<span id="contentMsg" class="msg"></span>
 				</div>

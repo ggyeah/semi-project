@@ -25,7 +25,7 @@ if (request.getParameter("productNo")== null
 	String discountStart = request.getParameter("discountStart");
 	String discountEnd = request.getParameter("discountEnd");
 	String discountRateStr = request.getParameter("discountRate");
-	Double discountRate = new Double(discountRateStr);
+	Double discountRate = Double.valueOf(discountRateStr);
 	
 	//디버깅 
 	System.out.println(LIM + productNo+"addDiscount productNo");
@@ -41,6 +41,11 @@ if (request.getParameter("productNo")== null
 	discount.setDiscountRate(discountRate);
 	int row = discountDao.addDiscount(discount); 
 
+	if (row == 1) {
+	    System.out.println("추가 성공");
+	} else {
+	    System.out.println("추가 실패");
+	}
 	response.sendRedirect(request.getContextPath() + "/discount/discountList.jsp");
 
 %>

@@ -26,6 +26,24 @@ discount= discountDao.discountOne(productNo);
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="description" content="Ogani Template">
+<meta name="keywords" content="Ogani, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+
+<!-- Css Styles -->
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/elegant-icons.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/nice-select.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/jquery-ui.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.carousel.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/slicknav.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" type="text/css">
+
 <title>modifyDiscount</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -79,59 +97,76 @@ $(document).ready(function() {
 });
 </script>
 </head>
-<body class="container">
-<h2>수정</h2>
+<body>
+<body>
+<!-- 상단 네비 바(메인메뉴) -->
+<div>
+	<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
+</div>
+<!-- 상단토마토바 -->
+<section class="breadcrumb-section set-bg" data-setbg="<%=request.getContextPath()%>/img/breadcrumb.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>할인관리</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<br>
+<br>
+<!-- 할인수정 -->
 <%
 if (discount != null) { // discount 객체가 null이 아닐 때만 수정 페이지를 표시합니다.
 %>
-<form id="form" action="<%=request.getContextPath()%>/discount/modifyDiscountAction.jsp?productNo=<%=discount.getProductNo()%>" method="post">
-	<table class="table table-bordered">
-		<tr>
-              <th>할인번호</th>
-              <td><%=discount.getDiscountNo()%></td>
-           </tr>
-		 <tr>
-		 <tr>
-              <th>상품번호</th>
-              <td><%=discount.getProductNo()%></td>
-           </tr>
-		 <tr>
-		 <tr>
-              <th>할인시작일</th>
-              <td><input type= "date" name = "discountStart" value ="<%=discount.getDiscountStart()%>" id="discountStart">
-           	  <span id="discountStartMsg" class="msg"></span></td>
-           </tr>
-		 <tr>
-         <tr>
-              <th>할인종료일</th>
-              <td><input type="date" name = "discountEnd" value ="<%=discount.getDiscountEnd()%>" id="discountEnd">
-         	  <span id="discountEndMsg" class="msg"></span></td>
-         </tr>
-		 <tr>
-              <th>할인율</th>
-              <td><input type= "number" step="0.1" name = "discountRate" value ="<%=discount.getDiscountRate()%>" id="discountRate">
-           	  <span id="discountRateMsg" class="msg"></span></td>
-         </tr>
-		 <tr>
-              <th>생성일</th>
-              <td><%=discount.getCreatedate()%></td>
-           </tr>
-           <tr>
-              <th>수정일</th>
-              <td><%=discount.getUpdatedate()%></td>
-           </tr>
-	<tr>
-		<th>수정하시겠습니까?</th>
-		<td><button type="submit" class="btn btn-danger"> 수정</button></td>
-	</tr>
-</table>
-</form>
-<%
-} else { // discount 객체가 null인 경우에는 해당 정보가 없음을 표시합니다.
-%>
-    <p>해당 상품의 할인 정보가 없습니다.</p>
-<%
-}
-%>
+ <div class="container">
+   <div class="checkout__form">
+      <h4>할인수정</h4>
+		<form id="form" action="<%=request.getContextPath()%>/discount/modifyDiscountAction.jsp?productNo=<%=discount.getProductNo()%>" method="post">
+            <div class="row">
+                <div class="col-lg-8 col-md-6">
+                    <div class="checkout__input">
+                        <p>상품번호</p>
+                        <%=discount.getProductNo()%>
+                    </div>
+                    <div class="checkout__input">
+                        <p>할인시작일<span>*</span></p>
+                       <input type= "date" name = "discountStart" value ="<%=discount.getDiscountStart()%>" id="discountStart">
+           	  			<span id="discountStartMsg" class="msg"></span>
+   	                 </div>
+                    <div class="checkout__input">
+                        <p>할인종료일<span>*</span></p>
+						<input type= "number" step="0.1" name = "discountRate" value ="<%=discount.getDiscountRate()%>" id="discountRate">
+           	 			 <span id="discountRateMsg" class="msg"></span>
+                    </div>
+                     <div class="checkout__input">
+                        <p>할인율<span>*</span></p>
+                        <input type= "number" step="0.1" name = "discountRate" value ="<%=discount.getDiscountRate()%>" id="discountRate">
+           				 <span id="discountRateMsg" class="msg"></span>
+                    </div>
+						<button type="submit" class="btn btn-danger"> 수정</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<%} %>
+ <!------------ 하단 저작권 바 ------------>
+<div>
+	<jsp:include page="/inc/copyRight.jsp"></jsp:include>
+</div>
+ 
+    <!-- Js Plugins -->
+    <script src="<%=request.getContextPath()%>/js/jquery-3.3.1.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/jquery.nice-select.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/jquery-ui.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/jquery.slicknav.js"></script>
+    <script src="<%=request.getContextPath()%>/js/mixitup.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/owl.carousel.min.js"></script>
+    <script src="<%=request.getContextPath()%>/js/main.js"></script>
+    
 </body>
 </html>
