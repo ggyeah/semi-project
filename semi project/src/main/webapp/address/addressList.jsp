@@ -148,14 +148,15 @@
 		        </div>
 		    </section>
 <!--[begin]------------------------ 기본 배송지 선택 폼 -------------------------->			    
-		    <%		
-				for(Address b : defaultAddressList){			
-			%>
+		    
 				<section class="checkout spad">
 			      	<div class="container">
 			      		<!-- 타이틀; 기본 배송지 "이름" | 기본 배송지 표시 -->
 						  <div class="checkout__form">
-			              	<h4>기본 배송지</h4>
+						  <h4>기본 배송지</h4>
+						  <%
+							for(Address b : defaultAddressList){			
+						  %>
 			                  <div class="row">
 			                      <div class="col-lg-2">
 			                          <div class="checkout__input">
@@ -280,18 +281,17 @@
 							                	</div>
 							                </td>
 										</tr>
-										</table>
-							<%		
+									</table>
+								<%		
 									}
-							%>
-									 
+								%>
 									</div>
 								</div>
 							</div>
-						</div>
-				<%
-					}
-				%>
+						<%
+							}
+						%>
+					</div>
 <!--[end]------------------------ 일반 배송지 선택 폼 -------------------------->			
 <!-- 배송지 추가 버튼 -->
 	<div>

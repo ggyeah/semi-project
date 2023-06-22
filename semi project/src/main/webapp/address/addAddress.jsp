@@ -2,6 +2,10 @@
 <%
 	/* 인코딩 */
 	request.setCharacterEncoding("utf-8");
+	if(request.getParameter("productNo")==null){
+		response.sendRedirect(request.getContextPath()+"/home.jsp");
+		return;
+	}
 	int productNo = Integer.parseInt(request.getParameter("productNo"));
 %>
 <!DOCTYPE html>

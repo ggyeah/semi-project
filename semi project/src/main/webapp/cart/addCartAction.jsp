@@ -21,6 +21,10 @@
    
    // 1. 비로그인 사용자의 경우, 세션에 장바구니 데이터를 추가
    if (session.getAttribute("loginId") == null) {
+	   if(request.getParameter("productNo")==null){
+		   response.sendRedirect(request.getContextPath()+"/home.jsp");
+		   return;
+	   }
     int productNo = Integer.parseInt(request.getParameter("productNo"));
 
     // 현재 날짜/시간
