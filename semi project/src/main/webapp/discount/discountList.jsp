@@ -12,7 +12,7 @@ DiscountDao discountDao = new DiscountDao();
 
 
 //페이징
-int totalRow = discountDao.discountCnt();
+int totalRow = discountDao.getTotalCnt();
 
 //현재페이지
 int currentPage = 1;
