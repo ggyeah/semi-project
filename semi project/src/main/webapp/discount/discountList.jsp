@@ -32,7 +32,8 @@ ArrayList<Discount> dList = discountDao.discountList(0,10);
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.carousel.min.css" type="text/css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" type="text/css">
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -88,8 +89,8 @@ ArrayList<Discount> dList = discountDao.discountList(0,10);
 						<th>할인종료일</th>
 						<th>할인비율</th>
 						<th>할인적용가격</th>
-						<th>수정</th>
-						<th>삭제</th>
+						<th></th>
+						<th></th>
 					</tr>
 					</thead>
 				<% 
@@ -100,7 +101,7 @@ ArrayList<Discount> dList = discountDao.discountList(0,10);
 				        <td><%= discount.getProductNo() %></td>
 				        <td><%= discount.getCategoryName() %></td>
 						<td>
-							<a href="<%=request.getContextPath()%>/product/productListOne.jsp?productNo=<%=discount.getProductNo()%>">
+							<a href="<%=request.getContextPath()%>/product/productListOne.jsp?productNo=<%=discount.getProductNo()%>"  class="btn btn-light">
 				      		<%= discount.getProductName() %></a>
 				      	</td>
 				        <td><%= discount.getProductStatus() %></td>
@@ -117,7 +118,7 @@ ArrayList<Discount> dList = discountDao.discountList(0,10);
 						    double discountRate = discount.getDiscountRate();
 						    if (discountRate == 0.0) {
 						    %>
-						        <a href="<%=request.getContextPath()%>/discount/addDiscount.jsp?productNo=<%=discount.getProductNo()%>">
+						        <a href="<%=request.getContextPath()%>/discount/addDiscount.jsp?productNo=<%=discount.getProductNo()%>" class="btn btn-light">
 						            할인추가
 						        </a>
 						    <%
@@ -128,8 +129,8 @@ ArrayList<Discount> dList = discountDao.discountList(0,10);
 						</td>
 				        <td class="shoping__cart__price">$ <%=discount.getDiscountedPrice() %></td>
 						 <% if(discount.getDiscountStart()!=null && discount.getDiscountEnd()!= null) {%>
-						<td><a href="<%=request.getContextPath()%>/discount/modifyDiscount.jsp?productNo=<%=discount.getProductNo()%>">수정</a></td>
-						<td><a href="<%=request.getContextPath()%>/discount/removeDiscountAction.jsp?discountNo=<%=discount.getDiscountNo()%>" class="remove-discount">삭제</a></td>
+						<td><a href="<%=request.getContextPath()%>/discount/modifyDiscount.jsp?productNo=<%=discount.getProductNo()%>"  style="text-decoration:none;color: #F15F5F;">수정</a></td>
+						<td><a href="<%=request.getContextPath()%>/discount/removeDiscountAction.jsp?discountNo=<%=discount.getDiscountNo()%>" class="remove-discount" style="text-decoration:none;color: #F15F5F; ">삭제</a></td>
 					</tr>
 				</tbody>
 				<% }else {%>

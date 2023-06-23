@@ -44,27 +44,7 @@ int pointSum = pointHistoryDao.sumPoint(id);
 <div>
 	<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
 </div>
-<!-- 상단 네비 바(메인메뉴) -->
-<div>
-	<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
-</div>
-<!-- 상단토마토바 -->
-<section class="breadcrumb-section set-bg" data-setbg="<%=request.getContextPath()%>/img/breadcrumb.jpg">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <div class="breadcrumb__text">
-                    <h2>포인트이력</h2>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<br>
-<br><!-- 상단 네비 바(메인메뉴) -->
-<div>
-	<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
-</div>
+
 <!-- 상단토마토바 -->
 <section class="breadcrumb-section set-bg" data-setbg="<%=request.getContextPath()%>/img/breadcrumb.jpg">
     <div class="container">

@@ -53,7 +53,8 @@
     <link rel="stylesheet" href="<%=request.getContextPath() %>/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="<%=request.getContextPath() %>/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="<%=request.getContextPath() %>/css/style.css" type="text/css">
-
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
 </head>
@@ -186,7 +187,9 @@
 									포인트
 								</td>
 								<td class="shoping__cart__item">
+								
 									<h5><%=pointSum%></h5>
+									&nbsp;&nbsp;<a href ="<%=request.getContextPath() %>/point/pointHistoryList.jsp" class="btn btn-light"  style="text-align: right;">포인트내역보기</a>
 								</td>
 							</tr>
 							<tr>

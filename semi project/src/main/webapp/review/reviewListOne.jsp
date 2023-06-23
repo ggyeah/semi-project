@@ -43,7 +43,13 @@ reviewImgs = reviewImgDao.getReviewImages(orderNo);
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" type="text/css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-</head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+    .answer-container {
+        margin-left: 20px; /* 앞쪽 공간 조절 */
+    }
+</style></head>
 <body>
 <!-- 상단 네비 바(메인메뉴) -->
 <div>
@@ -65,7 +71,7 @@ reviewImgs = reviewImgDao.getReviewImages(orderNo);
 <br>
 <div class="container">
 <div class="checkout__form">
-   	 <h4><%=review.getReviewTitle()%></h4>
+   	 <h4 class="answer-container"><%=review.getReviewTitle()%></h4>
    	   <span class="blog__item__text">
         <ul>
             <li><i class="fa fa-calendar-o"></i><%=review.getCreatedate()%></li>
@@ -79,12 +85,12 @@ reviewImgs = reviewImgDao.getReviewImages(orderNo);
     		 <% } %>
     	  </p>	
 	
-			<p><%=review.getReviewContent()%></p>
+			<p class="answer-container"><%=review.getReviewContent()%></p>
 			 <% // 로그인 상태이고 본인이 작성한 리뷰만 수정삭제가 보임 
 		     if (session.getAttribute("loginId") != null && session.getAttribute("loginId").equals(review.getId())) { %>
-			<div>
-				<a href="<%=request.getContextPath()%>/review/modifyReview.jsp?orderNo=<%=review.getOrderNo()%>">수정</a>
-				<a href="<%=request.getContextPath()%>/review/removeReview.jsp?orderNo=<%=review.getOrderNo()%>&productNo=<%=review.getProductNo()%>">삭제</a>
+			<div style="text-align: right;">
+				<a href="<%=request.getContextPath()%>/review/modifyReview.jsp?orderNo=<%=review.getOrderNo()%>" class="btn btn-outline-secondary">수정</a>
+				<a href="<%=request.getContextPath()%>/review/removeReview.jsp?orderNo=<%=review.getOrderNo()%>&productNo=<%=review.getProductNo()%>" class="btn btn-outline-secondary">삭제</a>
 			</div>	
 			<%}%>
 		</div>

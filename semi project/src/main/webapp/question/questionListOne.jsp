@@ -85,7 +85,13 @@ $(document).ready(function() {
     });
 });
 </script>
-
+<style>
+    .answer-container {
+        margin-left: 20px; /* 앞쪽 공간 조절 */
+    }
+</style>
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 <!-- 상단 네비 바(메인메뉴) -->
@@ -97,7 +103,7 @@ $(document).ready(function() {
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <div class="breadcrumb__text">
+                <div class="breadcrumb__text answer-container">
                     <h2>상품문의</h2>
                 </div>
             </div>
@@ -109,7 +115,7 @@ $(document).ready(function() {
 <br>
 <div class="container">
 	<div class="checkout__order">
-		    <h4><%=question.getqTitle()%></h4>
+		    <h4>&nbsp;&nbsp;&nbsp;&nbsp;<%=question.getqTitle()%></h4>
 		    <span class="blog__item__text">
 		        <ul>
 		        	<li><i class="fa fa-list"></i><%=question.getqCategory()%>문의</li>
@@ -117,12 +123,12 @@ $(document).ready(function() {
 		            <li><i class="fa fa-comment-o"></i><%=question.getId()%></li>
 		        </ul>
 		    </span>
-		    <p><%=question.getqContent()%></p>
+		    <p class="answer-container"><%=question.getqContent()%></p>
 				<% // 로그인 상태이고 본인이 작성한 문의만 수정삭제가 보임 
 				if (session.getAttribute("loginId") != null && session.getAttribute("loginId").equals(question.getId())) { %>
-				<div>
-					<a href="<%=request.getContextPath()%>/question/modifyQuestion.jsp?qNo=<%=question.getqNo()%>">수정</a>
-					<a href="<%=request.getContextPath()%>/question/removeQuestion.jsp?qNo=<%=question.getqNo()%>&productNo=<%=question.getProductNo()%>">삭제</a>
+				<div style="text-align: right;">
+					<a href="<%=request.getContextPath()%>/question/modifyQuestion.jsp?qNo=<%=question.getqNo()%>" class="btn btn-outline-secondary">수정</a>
+					<a href="<%=request.getContextPath()%>/question/removeQuestion.jsp?qNo=<%=question.getqNo()%>&productNo=<%=question.getProductNo()%>" class="btn btn-outline-secondary">삭제</a>
 				</div>	
 				<% } %>
 		</div>
@@ -133,7 +139,7 @@ $(document).ready(function() {
 <div class="container">
 <% if (answer != null) { %>
  	<div class="checkout__form">
-   	 <h4>&#10145;  답변</h4>
+   	 <h4 class="answer-container">&#10145;  답변</h4>
    	   <span class="blog__item__text">
         <ul>
             <li><i class="fa fa-calendar-o"></i><%=answer.getCreatedate()%></li>
@@ -141,13 +147,13 @@ $(document).ready(function() {
         </ul>
       </span>
     
-    <p><%=answer.getaContent()%></p>
+    <p class="answer-container"><%=answer.getaContent()%></p>
 		<% // 로그인 상태이고 관리자1 본인이 작성한 답변이거나 관리자2만 수정삭제가 보임 
 		    if (session.getAttribute("loginId") != null && (session.getAttribute("loginId").equals(answer.getId()) || session.getAttribute("loginId").equals("admin"))) { 
 		 %>	
-	<div>
-		<a href="<%=request.getContextPath()%>/answer/modifyAnswer.jsp?qNo=<%=question.getqNo()%>&aNo=<%=answer.getaNo()%>">수정</a>
-	    <a href="<%=request.getContextPath()%>/answer/removeAnswerAction.jsp?qNo=<%=question.getqNo()%>&aNo=<%=answer.getaNo()%>&productNo=<%=question.getProductNo()%>" class="remove-answer">삭제</a>
+	<div style="text-align: right;">
+		<a href="<%=request.getContextPath()%>/answer/modifyAnswer.jsp?qNo=<%=question.getqNo()%>&aNo=<%=answer.getaNo()%>" class="btn btn-outline-secondary">수정</a>
+	    <a href="<%=request.getContextPath()%>/answer/removeAnswerAction.jsp?qNo=<%=question.getqNo()%>&aNo=<%=answer.getaNo()%>&productNo=<%=question.getProductNo()%>" class="remove-answer btn btn-outline-secondary">삭제</a>
 	</div>
 </div>
 </div>
@@ -175,7 +181,7 @@ for (Employees e : list){
 }
 if (checkId) {
 %>
- 	<div class="checkout__form">
+ 	<div class="checkout__form answer-container"">
    	 <h4>&#10145;  답변</h4>
 		<span class="blog__item__text">
 			<ul>
@@ -185,7 +191,7 @@ if (checkId) {
 		</span>            
     <div class="hero__search__form">
 		<form action="<%=request.getContextPath()%>/answer/addAnswerAction.jsp?qNo=<%=question.getqNo()%>&id=<%=loginId%>" method="post"  id="form">
-	         <input type="text" name="aContent"  id="content"  placeholder="답변을 입력하십시오">
+	         <input type="text" name="aContent"  id="content"  placeholder="답변을 입력하십시오" class="answer-container">
 	         <button type="submit" class="site-btn" id="btn">추가</button>
 		</form> 
 		<div><span id="contentMsg" class="msg"></span></div>

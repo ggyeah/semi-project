@@ -138,15 +138,15 @@ if (discount != null) { // discount 객체가 null이 아닐 때만 수정 페�
    	                 </div>
                     <div class="checkout__input">
                         <p>할인종료일<span>*</span></p>
-						<input type= "number" step="0.1" name = "discountRate" value ="<%=discount.getDiscountRate()%>" id="discountRate">
-           	 			 <span id="discountRateMsg" class="msg"></span>
+						<input type= "date" name = "discountEnd" value ="<%=discount.getDiscountEnd()%>" id="discountEnd">
+           	 			 <span id="discountEndMsg" class="msg"></span>
                     </div>
                      <div class="checkout__input">
                         <p>할인율<span>*</span></p>
                         <input type= "number" step="0.1" name = "discountRate" value ="<%=discount.getDiscountRate()%>" id="discountRate">
            				 <span id="discountRateMsg" class="msg"></span>
                     </div>
-						<button type="submit" class="btn btn-danger"> 수정</button>
+						<button type="submit" class="site-btn" id="btn"> 수정</button>
                 </div>
             </div>
         </form>
