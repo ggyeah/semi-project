@@ -141,7 +141,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
-                        <a href="<%=request.getContextPath()%>/home.jsp"><img src="<%=request.getContextPath()%>/img/logo.png" alt="no logo"></a>
+                        <a href="<%=request.getContextPath()%>/home.jsp"><img src="<%=request.getContextPath()%>/img/homelogo.png" alt="no logo"></a>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -200,7 +200,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
-                        <a href="<%=request.getContextPath()%>/home.jsp"><img src="<%=request.getContextPath()%>/img/logo.png" alt="no logo"></a>
+                        <a href="<%=request.getContextPath()%>/home.jsp"><img src="<%=request.getContextPath()%>/img/homelogo.png" alt="no logo"></a>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -257,7 +257,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="header__logo">
-                        <a href="<%=request.getContextPath()%>/home.jsp"><img src="<%=request.getContextPath()%>/img/logo.png" alt="no logo"></a>
+                        <a href="<%=request.getContextPath()%>/home.jsp"><img src="<%=request.getContextPath()%>/img/homelogo.png" alt="no logo"></a>
                     </div>
                 </div>
                 <div class="col-lg-6">
