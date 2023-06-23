@@ -13,9 +13,9 @@
 
 	//요청값 유효성 검사
 	if(request.getParameter("id") == null
-		|| request.getParameter("lastPw") == null
+		|| request.getParameter("pw") == null
 		|| request.getParameter("id").equals("")
-		|| request.getParameter("lastPw").equals("")) {
+		|| request.getParameter("pw").equals("")) {
 				
 		response.sendRedirect(request.getContextPath()+"/customer/removeCustomer.jsp");
 		return;			
@@ -23,11 +23,10 @@
 	
 	// 요청값 변수에 저장
 	String id = request.getParameter("id"); 
-	String pw = request.getParameter("lastPw"); 
+	String pw = request.getParameter("pw"); 
 	
 	// 요청값 디버깅
 	System.out.println(YANG + id + " <-- removeCustomerAction id" + RESET);
-	System.out.println(YANG + pw + " <-- removeCustomerAction pw" + RESET);
 	
 	// idList 객체 생성해 요청값 저장
 	Id idList = new Id();
@@ -40,11 +39,23 @@
 	// update 메서드 호출
 	int remove = dao.updateCstmActive(idList);
 	
-	if(remove == 1){
-		System.out.println(YANG + id + "탈퇴 성공" +RESET);
-		// 탈퇴하면 로그아웃됨
-		response.sendRedirect(request.getContextPath() + "/id/logoutAction.jsp");
-	} 
-
+	String msg = null;
 	
+		
+	   // response.sendRedirect(request.getContextPath() + "/customer/removeCustomer.jsp?id=" + id);
+		
+	if(remove > 0){
+		System.out.println(YANG + id + "탈퇴 성공" +RESET);
+		response.sendRedirect(request.getContextPath() + "/id/logoutAction.jsp");
+	} else {
+		System.out.println(YANG + id + "탈퇴 실패" +RESET);
+		%>
+		<script>
+			alert('비밀번호를 확인해주세요');
+			history.back();
+		</script>
+		<%
+	};
+	
+
 %>

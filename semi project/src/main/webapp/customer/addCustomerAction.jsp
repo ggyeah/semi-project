@@ -16,71 +16,6 @@
 	final String SONG = "\u001B[43m";
 	final String YANG = "\u001B[44m";
 	
-	//요청값 유효성 검사
-	String msg = null;
-	/*
-	if(request.getParameter("id") == null
-		|| request.getParameter("id").equals("")) {
-		msg = URLEncoder.encode("아이디를 입력해주세요", "utf-8");			
-		response.sendRedirect(request.getContextPath()+"/customer/addCustomer.jsp?msg=" + msg);
-		return;	
-	}
-	if(request.getParameter("pw") == null
-		|| request.getParameter("pw").equals("")) {
-		msg = URLEncoder.encode("비밀번호를 입력해주세요", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/customer/addCustomer.jsp?msg=" + msg);
-		return;		
-	}
-	if(request.getParameter("ckPw") == null
-		|| request.getParameter("ckPw").equals("")) {
-		msg = URLEncoder.encode("비밀번호 확인을 입력해주세요", "utf-8");	
-		response.sendRedirect(request.getContextPath()+"/customer/addCustomer.jsp?msg=" + msg);
-		return;	
-	}
-	if(request.getParameter("cstmName") == null
-		|| request.getParameter("cstmName").equals("")) {
-		msg = URLEncoder.encode("이름을 입력해주세요", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/customer/addCustomer.jsp?msg=" + msg);
-		return;	
-	}
-	if(request.getParameter("cstmAddress") == null
-		|| request.getParameter("cstmAddress").equals("")) {
-		msg = URLEncoder.encode("주소를 입력해주세요", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/customer/addCustomer.jsp?msg=" + msg);
-		return;	
-	}
-	if(request.getParameter("cstmEmail") == null
-		|| request.getParameter("cstmEmail").equals("")) {
-		msg = URLEncoder.encode("이메일을 입력해주세요", "utf-8");
-		response.sendRedirect(request.getContextPath()+"/customer/addCustomer.jsp?msg=" + msg);
-		return;	
-	}
-	if(request.getParameter("cstmBirth") == null
-			|| request.getParameter("cstmBirth").equals("")) {
-			msg = URLEncoder.encode("생일을 입력해주세요", "utf-8");
-			response.sendRedirect(request.getContextPath()+"/customer/addCustomer.jsp?msg=" + msg);
-			return;	
-	}
-	if(request.getParameter("cstmPhone") == null
-			|| request.getParameter("cstmPhone").equals("")) {
-			msg = URLEncoder.encode("연락처를 입력해주세요", "utf-8");
-			response.sendRedirect(request.getContextPath()+"/customer/addCustomer.jsp?msg=" + msg);
-			return;	
-	}
-	if(request.getParameter("cstmGender") == null
-			|| request.getParameter("cstmGender").equals("")) {
-			msg = URLEncoder.encode("성별을 입력해주세요", "utf-8");
-			response.sendRedirect(request.getContextPath()+"/customer/addCustomer.jsp?msg=" + msg);
-			return;	
-	}
-	if(request.getParameter("cstmAgree") == null
-			|| request.getParameter("cstmAgree").equals("")) {
-			msg = URLEncoder.encode("약관 동의여부를 선택해주세요", "utf-8");
-			response.sendRedirect(request.getContextPath()+"/customer/addCustomer.jsp?msg=" + msg);
-			return;	
-	}
-	*/
-	
 	// 요청값 변수에 저장
 	String id = request.getParameter("id");
 	String pw = request.getParameter("pw");
@@ -93,20 +28,6 @@
 	String cstmGender = request.getParameter("cstmGender");
 	String cstmAgree = request.getParameter("cstmAgree");
 	
-	// 비밀번호 일치여부
-	/*
-	if(!pw.equals(ckPw)) {
-		msg = URLEncoder.encode("비밀번호가 서로 일치하지않습니다", "utf-8");
-		response.sendRedirect(request.getContextPath() +"/customer/addCustomer.jsp?msg=" + msg);
-		return;
-	}
-	// 약관 동의여부
-	if(cstmAgree.equals("N")) {
-		msg = URLEncoder.encode("회원가입을 하려면 약관에 동의 해주세요", "utf-8");
-		response.sendRedirect(request.getContextPath() +"/customer/addCustomer.jsp?msg=" + msg);
-		return;
-	}
-	*/
 	// id_list, pw_history 추가
 	// 요청값 객체에 묶어 저장
 	Id addIdList = new Id();
@@ -146,9 +67,10 @@
 		
 	// 클래스 객체 생성
 	CustomerDao cstmDao = new CustomerDao();
-		
+	
 	// insert 메서드 호출
 	int addCstm = cstmDao.insertCustomer(addCustomer);
+	String msg = null;
 	if(addCstm == 1){
 		System.out.println(YANG + "customer 추가 성공" + RESET);
 		// 회원가입 시 session cart 값 받아놓은 후 삭제
@@ -179,5 +101,5 @@
 		     return;
           }
           response.sendRedirect(request.getContextPath()+"/home.jsp");
-     }
+     } 
 %>
