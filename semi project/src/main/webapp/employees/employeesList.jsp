@@ -80,6 +80,7 @@
 
 </head>
 <body>
+
 	<!------------ 상단 네비 바 ------------>
 	<!-- 상단 네비 바(메인메뉴) -->
 	<div>
@@ -106,23 +107,19 @@
     <br>
     <!-- Breadcrumb Section End -->
     
-		<!-- 직원 추가 버튼 -->
-		
-		<!-- 직원목록 테이블 -->
-		<!-- 회원목록 테이블 -->
-		<div class="container">
+	<!-- 직원 추가 버튼 -->
+	<div class="container">
 		<div class="col-lg-12">
-                    <div class="shoping__cart__btns">
-                        <a href="<%=request.getContextPath() %>/employees/addEmployees.jsp" class="primary-btn cart-btn">추가</a>
-                    </div>
-                </div>
-                </div>
+			<div class="shoping__cart__btns">
+				<a href="<%=request.getContextPath() %>/employees/addEmployees.jsp" class="primary-btn cart-btn">추가</a>
+			</div>
+		</div>
+	</div>
+		
+	<!-- 직원목록 테이블 -->
 	<section class="shoping-cart spad">
-	
         <div class="container">
-        
             <div class="row">
-            	
                 <br>
                 <br>
                 <div class="col-lg-12">
@@ -162,49 +159,41 @@
                     </div>
                 </div>
             </div>
-            
-             <div class="row">
-            
-                <div class="col-lg-12">
-                    <!-- 페이지 네비게이션 -->
-					<div class="text-center">
-						<%
-						if(minPage > 1) {
-						%>
-							<a href="<%=request.getContextPath() %>/employees/employeesList.jsp?currentPage=<%=minPage-pagePerPage%>">이전</a>	
-						<%
-						}
-						
-						for(int i = minPage; i<=maxPage; i=i+1) {
-							if(i == currentPage) {
-						%>
-								<span><%=i%></span>&nbsp;
-						<%			
-							} else {		
-						%>
-								<a href="<%=request.getContextPath() %>/employees/employeesList.jsp?currentPage=<%=i%>"><%=i%></a>&nbsp;	
-						<%	
-							}
-						}
-						
-						if(maxPage != lastPage) {
-						%>
-							<!--  maxPage + 1 -->
-							<a href="<%=request.getContextPath() %>/employees/employeesList.jsp?currentPage=<%=minPage+pagePerPage%>">다음</a>
-						<%
-						}
-				   		%>
-					</div>
-                    
-                </div>
-            </div>
-        </div>
-        
-    </section>
-		
-		
-		
 	
+			<!-- 페이지 네비게이션 -->
+			<div class="text-center">
+				<div class="product__pagination">
+					<%
+					if(minPage > 1) {
+					%>
+						<a href="<%=request.getContextPath() %>/employees/employeesList.jsp?currentPage=<%=minPage-pagePerPage%>"><i class="fa fa-long-arrow-left"></i></a>	
+					<%
+					}
+					
+					for(int i = minPage; i<=maxPage; i=i+1) {
+						if(i == currentPage) {
+					%>
+							<span><%=i%></span>&nbsp;
+					<%			
+						} else {		
+					%>
+							<a href="<%=request.getContextPath() %>/employees/employeesList.jsp?currentPage=<%=i%>"><%=i%></a>&nbsp;	
+					<%	
+						}
+					}
+					
+					if(maxPage != lastPage) {
+					%>
+						<!--  maxPage + 1 -->
+						<a href="<%=request.getContextPath() %>/employees/employeesList.jsp?currentPage=<%=minPage+pagePerPage%>"><i class="fa fa-long-arrow-right"></i></a>
+					<%
+					}
+			   		%>
+				</div>
+			</div>
+		</div>
+	</section>
+		
 	<!-- Js Plugins -->
     <script src="<%=request.getContextPath() %>/js/jquery-3.3.1.min.js"></script>
     <script src="<%=request.getContextPath() %>/js/bootstrap.min.js"></script>

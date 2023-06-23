@@ -70,7 +70,7 @@
 		%>
 		<script>
 			alert('아이디와 비밀번호를 확인해주세요');
-			
+			history.back();
 		</script>
 		<%
 		return;
@@ -94,7 +94,7 @@
 			%>
 			<script>
               function removeCheck() {
-                  if (confirm("마지막 방문일이 6개월이 지나 휴면처리되었습니다. 휴면계정을 푸시겠습니까?")) {
+                  if (confirm("마지막 방문일이 6개월이 지나 휴면처리되었습니다 휴면계정을 푸시겠습니까?")) {
                       location.href = "<%=request.getContextPath()%>/id/dormantIdAction.jsp?id=<%=id%>"// 이동할 페이지 경로 설정
                   } else {
                       location.href = "<%=request.getContextPath()%>/id/login.jsp"; // 취소 시 이동할 페이지 경로 설정

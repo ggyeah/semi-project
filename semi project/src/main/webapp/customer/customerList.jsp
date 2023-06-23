@@ -134,53 +134,46 @@
 							<%
 							}
 							%>	
-								
-                              
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-            <div class="row">
-            
-                <div class="col-lg-12">
-                    <!-- 페이지 네비게이션 -->
-					<div class="text-center">
-						<%
-						if(minPage > 1) {
-						%>
-							<a href="<%=request.getContextPath() %>/customer/customerList.jsp?currentPage=<%=minPage-pagePerPage%>">이전</a>	
-						<%
+    
+    		<!-- 페이지 네비게이션 -->
+			<div class="text-center">
+				<div class="product__pagination">
+					<%
+					if(minPage > 1) {
+					%>
+						<a href="<%=request.getContextPath() %>/customer/customerList.jsp?currentPage=<%=minPage-pagePerPage%>"><i class="fa fa-long-arrow-left"></i></a>	
+					<%
+					}
+					
+					for(int i = minPage; i<=maxPage; i=i+1) {
+						if(i == currentPage) {
+					%>
+							<span><%=i%></span>&nbsp;
+					<%			
+						} else {		
+					%>
+							<a href="<%=request.getContextPath() %>/customer/customerList.jsp?currentPage=<%=i%>"><%=i%></a>&nbsp;	
+					<%	
 						}
-						
-						for(int i = minPage; i<=maxPage; i=i+1) {
-							if(i == currentPage) {
-						%>
-								<span><%=i%></span>&nbsp;
-						<%			
-							} else {		
-						%>
-								<a href="<%=request.getContextPath() %>/customer/customerList.jsp?currentPage=<%=i%>"><%=i%></a>&nbsp;	
-						<%	
-							}
-						}
-						
-						if(maxPage != lastPage) {
-						%>
-							<!--  maxPage + 1 -->
-							<a href="<%=request.getContextPath() %>/customer/customerList.jsp?currentPage=<%=minPage+pagePerPage%>">다음</a>
-						<%
-						}
-				   		%>
-					</div>
-                    
-                </div>
-            </div>
-        </div>
-        
-    </section>
-	
-	
+					}
+					
+					if(maxPage != lastPage) {
+					%>
+						<!--  maxPage + 1 -->
+						<a href="<%=request.getContextPath() %>/customer/customerList.jsp?currentPage=<%=minPage+pagePerPage%>"><i class="fa fa-long-arrow-right"></i></a>
+					<%
+					}
+			   		%>
+	   			</div>
+			</div>
+    	</div>
+	</section>
+
 	<!-- Js Plugins -->
     <script src="<%=request.getContextPath() %>/js/jquery-3.3.1.min.js"></script>
     <script src="<%=request.getContextPath() %>/js/bootstrap.min.js"></script>

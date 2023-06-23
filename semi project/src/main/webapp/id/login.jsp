@@ -25,6 +25,45 @@
     <link rel="stylesheet" href="<%=request.getContextPath() %>/css/style.css" type="text/css">
     
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script>
+	$(document).ready(function() {
+		// 유효성 체크 함수
+	    function validateForm() {	
+	    	let allCheck = true;
+	    	
+	    	// id유효성 체크
+			if ($('#id').val().length < 1) { 
+				$('#idMsg').text('아이디를 입력하세요');
+				$('#id').focus();
+				allCheck = false;
+			} else {
+				$('#idMsg').text('');
+			}
+	    	
+			// pw유효성 체크
+			if ($('#pw').val().length < 1) { 
+				$('#pwMsg').text('비밀번호를 입력하세요');
+				$('#pw').focus();
+				allCheck = false;
+			} else {
+				$('#pwMsg').text('');
+			}
+			
+			return allCheck;
+		}
+		
+		    $('#loginBtn').click(function(e) {
+		        e.preventDefault(); // 기본 동작 방지
+	
+		        if (validateForm()) {
+		            $('#loginForm').submit();
+		        }
+		    });
+		}
+	});
+
+
+</script>
 </head>
 <body>
 	<!------------ 상단 네비 바 ------------>
@@ -34,32 +73,35 @@
 	</div>
 	
 	<!-- 로그인 폼 -->
-	<div>
-		<form action="<%=request.getContextPath()%>/id/loginAction.jsp" method="post">
-			<table>
-				<tr>
-					<td>아이디</td>
-					<td><input type="text" name="id" placeholder="아이디를 입력하세요"></td>
-					<td rowspan="2"><button type="submit">로그인</button></td>
-				</tr>
-				<tr>
-					<td>비밀번호</td>
-					<td><input type="password" name="pw" placeholder="비밀번호를 입력하세요"></td>
-				</tr>
-			</table>
-		</form>
-		<a href="<%=request.getContextPath()%>/customer/addCustomer.jsp"><button type="submit">회원가입</button></a>
 	
-	</div>
+	<div class="text-center">
+		<div class="shoping__checkout">
+			<form id="loginForm" action="<%=request.getContextPath()%>/id/loginAction.jsp" method="post">
+			<h5>로그인</h5>
+			<div class="text-center">
+				<div class="shoping__continue">
+					<input type="text" name="id" id ="id "placeholder="아이디">
+			    </div>    
+				<br>
+				<div class="shoping__continue">
+					<input type="password" name="pw" id="pw" placeholder="비밀번호">
+				</div>
+				<br>
+		          <button type="submit" id="loginBtn" class="site-btn">로그인</button>
+				</div>
+			</form>
+		</div>
+    </div>   
+    
 	<!-- Js Plugins -->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.nice-select.min.js"></script>
-    <script src="js/jquery-ui.min.js"></script>
-    <script src="js/jquery.slicknav.js"></script>
-    <script src="js/mixitup.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="<%=request.getContextPath() %>js/jquery-3.3.1.min.js"></script>
+    <script src="<%=request.getContextPath() %>js/bootstrap.min.js"></script>
+    <script src="<%=request.getContextPath() %>js/jquery.nice-select.min.js"></script>
+    <script src="<%=request.getContextPath() %>js/jquery-ui.min.js"></script>
+    <script src="<%=request.getContextPath() %>js/jquery.slicknav.js"></script>
+    <script src="<%=request.getContextPath() %>js/mixitup.min.js"></script>
+    <script src="<%=request.getContextPath() %>js/owl.carousel.min.js"></script>
+    <script src="<%=request.getContextPath() %>js/main.js"></script>
 
 	<!------------ 하단 저작권 바 ------------>
 	<div>

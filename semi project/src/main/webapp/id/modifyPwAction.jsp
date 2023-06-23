@@ -25,9 +25,6 @@
 	
 	// 요청값 디버깅
 	System.out.println(YANG + id + " <-- modifyPwAction id" + RESET);
-	System.out.println(YANG + pw + " <-- modifyPwAction pw" + RESET);
-	System.out.println(YANG + newPw + " <-- modifyPwAction newPw" + RESET);
-	System.out.println(YANG + newPwCk + " <-- modifyPwAction newPwCk" + RESET);
 	
 	// 요청값 객체에 묶어 저장
 	Id loginId = new Id();
@@ -106,13 +103,6 @@
 	int modifyPw = IdDao.updatePw(modifyIdList);
 	if(modifyPw > 0){
 		System.out.println(YANG + "비밀번호 변경, last_pw 업데이트 완료!" + RESET);
-		%>
-		<script>
-			alert('변경 성공!');
-			history.back();
-		</script>
-		<%
-		
 	} else {
 		%>
 		<script>
