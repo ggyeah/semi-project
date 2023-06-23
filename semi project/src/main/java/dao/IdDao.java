@@ -64,8 +64,28 @@ public class IdDao {
           row = 1;
        }
        return row;
-   }
+    }
+    // 1-3) 휴면계정 풀기
+	public int updateDormantId(Id loginId) throws Exception {
+		// db연결
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
 		
+		// active D -> Y
+		int updateDormant = 0;
+		String updateDormantIdSql = "UPDATE id_list SET active = 'Y' WHERE id = ?"; // 활성화 여부 Y로 바꾸고 
+		PreparedStatement updateDormantIdStmt = conn.prepareStatement(updateDormantIdSql);
+		updateDormantIdStmt.setString(1, loginId.id);
+		int row = updateDormantIdStmt.executeUpdate();
+		if(row == 1) {
+			String updateLastLoginSql = "UPDATE customer SET cstm_last_login = now() WHERE id = ?"; // 최근방문 시간 업데이트
+			PreparedStatement updateLastLoginStmt = conn.prepareStatement(updateLastLoginSql);
+			updateLastLoginStmt.setString(1, loginId.id);
+			updateDormant = updateLastLoginStmt.executeUpdate();
+		}
+		return updateDormant;
+	}
+    
 	// 2) 로그인시 직원 회원 구분
 		public String selectEmpCstm(Id loginId) throws Exception {
 			// db연결

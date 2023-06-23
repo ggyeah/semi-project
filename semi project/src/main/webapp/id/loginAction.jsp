@@ -44,17 +44,35 @@
 	if(login.equals("정상계정")){ // 정상계정이면 직원인지 고객인지 구분하는 메서드 호출
 		empCstm = dao.selectEmpCstm(loginId);
 		System.out.println(YANG + empCstm + RESET);
-	} else if(login.equals("탈퇴계정")){
-		System.out.println(YANG + loginId.id + " : 탈퇴회원"+ RESET);
-		response.sendRedirect(request.getContextPath()+"/home.jsp");
-		return;
 	} else if(login.equals("휴면계정")){
 		System.out.println(YANG + loginId.id + " : 휴면계정"+ RESET);
-		response.sendRedirect(request.getContextPath()+"/home.jsp"); // 휴면계정 푸는 창으로
+		%>
+          <script>
+              function removeCheck() {
+                  if (confirm("휴먼계정을 푸시겠습니까?")) {
+                      location.href = "<%=request.getContextPath()%>/id/dormantIdAction.jsp?id=<%=id%>"// 이동할 페이지 경로 설정
+                  } else {
+                      location.href = "<%=request.getContextPath()%>/id/login.jsp"; // 취소 시 이동할 페이지 경로 설정
+                  }
+                  return false; // 기본 동작 중지
+              }
+              
+              // 페이지 로드 시 팝업 창 열기
+              window.onload = function() {
+                  removeCheck();
+              };
+          </script>
+          <%
 		return;
 	} else{
 		System.out.println(YANG + loginId.id + " : 로그인 실패"+ RESET);
-		response.sendRedirect(request.getContextPath()+"/id/login.jsp"); // id, pw 틀려서 로그인 실패시 로그인창으로
+		// id, pw 틀리거나 탈퇴계정(D) ->  로그인 실패 -> 로그인창으로
+		%>
+		<script>
+			alert('아이디와 비밀번호를 확인해주세요');
+			
+		</script>
+		<%
 		return;
 	}
 	
@@ -63,6 +81,7 @@
 		session.setAttribute("loginId", loginId.id);
 		System.out.println(YANG + "로그인 성공 세션정보 : " + session.getAttribute("loginId") + RESET);
 		response.sendRedirect(request.getContextPath()+"/home.jsp");
+		
 	
 	// 고객이면 최근 방문 시간 체크하는메서드 호출
 	}else if (empCstm.equals("고객")){
@@ -71,7 +90,27 @@
 		
 		if(lastLogin.equals("휴면계정")){ // 마지막 방문일 6개월 이상이면 휴면처리(active Y -> N)
 			System.out.println(YANG + loginId.id + " : 마지막 로그인 날짜 6개월 이상 -> 휴면처리"+ RESET);
-			response.sendRedirect(request.getContextPath()+"/home.jsp"); // 휴면계정 푸는 창으로
+			
+			%>
+			<script>
+              function removeCheck() {
+                  if (confirm("마지막 방문일이 6개월이 지나 휴면처리되었습니다. 휴면계정을 푸시겠습니까?")) {
+                      location.href = "<%=request.getContextPath()%>/id/dormantIdAction.jsp?id=<%=id%>"// 이동할 페이지 경로 설정
+                  } else {
+                      location.href = "<%=request.getContextPath()%>/id/login.jsp"; // 취소 시 이동할 페이지 경로 설정
+                  }
+                  return false; // 기본 동작 중지
+              }
+              
+              // 페이지 로드 시 팝업 창 열기
+              window.onload = function() {
+                  removeCheck();
+              };
+          </script>
+		<%
+	return;
+		//response.sendRedirect(request.getContextPath()+"/id/login.jsp"); // 휴면계정 푸는 창으로
+			
 		} else if(lastLogin.equals("정상계정")){ // 마지막 방문일 6개월 미만이면 로그인 성공 (마지막 방문일 현재시간으로 업데이트 -> 세션에 저장)
 			session.setAttribute("loginId", loginId.id);
 			System.out.println(YANG + "로그인 성공 세션정보 : " + session.getAttribute("loginId") + RESET);

@@ -4,7 +4,10 @@
 <%@ page import="dao.*"%>
 <%@ page import = "vo.*" %>
 <%
-	
+
+	//인코딩
+	request.setCharacterEncoding("UTF-8");
+
 	//ANSI CODE	
 	final String RESET = "\u001B[0m"; 
 	final String LIM = "\u001B[41m";
@@ -49,23 +52,37 @@
 		System.out.println(YANG + "modifyPwAction 아이디와 현재 비밀번호 일치" + RESET);
 	} else {
 		System.out.println(YANG + "modifyPwAction 아이디와 현재 비밀번호 불일치" + RESET);
-		response.sendRedirect(request.getContextPath()+"/id/modifyPw.jsp?id=" + request.getParameter(id) + "&msg=" + msg);
+		%>
+		<script>
+			alert('비밀번호를 확인해주세요');
+			history.back();
+		</script>
+		<%
+		return;
 	}
 	
 	// 새로운 비밀번호 일치여부
 	if(!newPw.equals(newPwCk)) {
-		msg = URLEncoder.encode("비밀번호가 서로 일치하지않습니다", "utf-8");
-		response.sendRedirect(request.getContextPath() +"/id/modifyPw.jsp?id=" + request.getParameter(id) + "&msg=" + msg);
+		%>
+		<script>
+			alert('비밀번호가 서로 일치하지않습니다');
+			history.back();
+		</script>
+		<%
 		return;
 	}
 	
 	// 현재 비밀번호와 새로운 비밀번호 비일치 여부
-	if(newPw.equals(pw)) {
-		msg = URLEncoder.encode("현재 비밀번호와 새로운 비밀번호가 같습니다", "utf-8");
-		response.sendRedirect(request.getContextPath() +"/id/modifyPw.jsp?id=" + request.getParameter(id) + "&msg=" + msg);
+	if(newPw.equals(pw)
+			||newPwCk.equals(pw)) {
+		%>
+		<script>
+			alert('현재 비밀번호와 새로운 비밀번호가 같습니다');
+			history.back();
+		</script>
+		<%
 		return;
 	}
-	
 	// 비밀번호 갯수세는 메서드 호출
 	int cntPw = IdDao.cntPw(id);
 	System.out.println(YANG + cntPw + " <-- modifyPwAction cntPw" + RESET);
@@ -87,10 +104,23 @@
 	
 	// id_list에 last_pw 업데이트하는 메서드 호출
 	int modifyPw = IdDao.updatePw(modifyIdList);
-	if(modifyPw == 1){
+	if(modifyPw > 0){
 		System.out.println(YANG + "비밀번호 변경, last_pw 업데이트 완료!" + RESET);
-	
+		%>
+		<script>
+			alert('변경 성공!');
+			history.back();
+		</script>
+		<%
+		
+	} else {
+		%>
+		<script>
+			alert('비밀번호를 확인해주세요');
+			history.back();
+		</script>
+		<%
+		return;
 	}
 	
-	response.sendRedirect(request.getContextPath() + "/home.jsp");
 %>
