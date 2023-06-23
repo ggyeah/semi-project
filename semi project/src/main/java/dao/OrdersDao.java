@@ -19,7 +19,7 @@ public class OrdersDao {
 		ArrayList<Orders> ecList = new ArrayList<>();
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		String selectECOrdersSql = "select order_no, product_no, id, delivery_status, order_cnt, order_price, createdate, updatedate from orders ORDER BY order_no limit ?, ?";
+		String selectECOrdersSql = "select order_no, product_no, id, delivery_status, order_cnt, order_price, createdate, updatedate from orders ORDER BY order_no DESC limit ?, ?";
 		PreparedStatement selectECOrdersStmt = conn.prepareStatement(selectECOrdersSql);
 		selectECOrdersStmt.setInt(1, beginRow);
 		selectECOrdersStmt.setInt(2, rowPerPage);
@@ -76,7 +76,7 @@ public class OrdersDao {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
 		if (loginId != null) {
-		String selectCustomerOrdersSql = "select order_no, product_no, id, delivery_status, order_cnt, order_price, createdate, updatedate from orders WHERE id = ? ORDER BY order_no limit ? , ?";
+		String selectCustomerOrdersSql = "select order_no, product_no, id, delivery_status, order_cnt, order_price, createdate, updatedate from orders WHERE id = ? ORDER BY order_no DESC limit ? , ?";
 		PreparedStatement selectCustomerOrdersStmt = conn.prepareStatement(selectCustomerOrdersSql);
 		selectCustomerOrdersStmt.setString(1, loginId);
 		selectCustomerOrdersStmt.setInt(2, beginRow);
@@ -171,31 +171,33 @@ public class OrdersDao {
 		System.out.println("OrdersDao - addCustomerOrdersSql: " + addCustomerOrdersSql);
 		row = addCustomerOrdersStmt.executeUpdate();
 		// 주문 추가 시 address_last_date = NOW()
-		 if (row == 1) {
-		        String updateAddressLastDateSql = "UPDATE address SET address_last_date = NOW() WHERE address_no IN (SELECT address_no FROM orders WHERE product_no = ? AND id = ?)";
-		        PreparedStatement updateAddressLastDateStmt = conn.prepareStatement(updateAddressLastDateSql);
-		        updateAddressLastDateStmt.setInt(1, orders.getProductNo());
-		        updateAddressLastDateStmt.setString(2, orders.getId());
-		        updateAddressLastDateStmt.executeUpdate();
-		    }
+		if (row == 1) {
+		    String updateAddressLastDateSql = "UPDATE address SET address_last_date = NOW() WHERE address_no IN (SELECT address_no FROM orders WHERE product_no = ? AND id = ? AND order_no = ?)";
+		    PreparedStatement updateAddressLastDateStmt = conn.prepareStatement(updateAddressLastDateSql);
+		    updateAddressLastDateStmt.setInt(1, orders.getProductNo());
+		    updateAddressLastDateStmt.setString(2, orders.getId());
+		    updateAddressLastDateStmt.setInt(3, orders.getOrderNo());
+		    updateAddressLastDateStmt.executeUpdate();
+		}
 		// 주문 추가 시 cart에 있던 목록 삭제
 		if(row == 1) {
-				String removeCartSql = "DELETE FROM cart WHERE product_no = ?";
-				PreparedStatement removeCartStmt = conn.prepareStatement(removeCartSql);
-				removeCartStmt.setInt(1, orders.getProductNo());
-				removeCartStmt.executeUpdate();
-			}
+			String removeCartSql = "DELETE FROM cart WHERE product_no = ?";
+			PreparedStatement removeCartStmt = conn.prepareStatement(removeCartSql);
+			removeCartStmt.setInt(1, orders.getProductNo());
+			removeCartStmt.executeUpdate();
+		}
 		
 		return row;
 	}
 	
 	// 고객 주문 수정 ("구매확정"으로 변경) (구매확정시 포인트 1000씩 증가)
-	public int modifyCustomerOrders(String loginId) throws Exception {
+	public int modifyCustomerOrders(String loginId, int orderNo) throws Exception {
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		String modifyCustomerOrdersSql = "UPDATE orders SET delivery_status='구매확정', updatedate=NOW() WHERE id=?";
+		String modifyCustomerOrdersSql = "UPDATE orders SET delivery_status='구매확정', updatedate=NOW() WHERE id=? AND order_no=?";
 		PreparedStatement modifyCustomerOrdersStmt = conn.prepareStatement(modifyCustomerOrdersSql);
 		modifyCustomerOrdersStmt.setString(1, loginId);
+		modifyCustomerOrdersStmt.setInt(2, orderNo);
 		System.out.println(KIM+"OrdersDao - modifyCustomerOrdersSql: " + modifyCustomerOrdersSql+RESET);
 		int row = modifyCustomerOrdersStmt.executeUpdate();
 		return row;

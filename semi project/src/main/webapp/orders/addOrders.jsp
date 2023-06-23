@@ -47,7 +47,7 @@
 	// 주문 상세 정보 조회
 	Orders orders = ordersDao.selectCustomerOrdersOne(loginId);
 	
-	// 상품 가격 조회
+	// 상품 이름, 가격 조회
 	ProductDao productDao = new ProductDao();
 	Product product = productDao.ProductListOne(productNo);
 	
@@ -94,24 +94,26 @@ $(document).ready(function() {
 });
 </script>
 <style>
-.left {
-	font-size: 16px;
-	display: inline-block;
-	margin-left: 20px;
-	border-left: 0.5px solid #ccc;
-	padding-left: 20px;
-}
-.orders {
-	font-size: 14px;
-	color: #ffffff;
-	font-weight: 800;
-	text-transform: uppercase;
-	display: inline-block;
-	padding: 13px 30px 12px;
-	background: #7fad39;
-	border: none;
-}
-
+	.center{
+		text-align:center;
+		}
+	.left {
+		font-size: 16px;
+		display: inline-block;
+		margin-left: 20px;
+		border-left: 0.5px solid #ccc;
+		padding-left: 20px;
+	}
+	.orders {
+		font-size: 14px;
+		color: #ffffff;
+		font-weight: 800;
+		text-transform: uppercase;
+		display: inline-block;
+		padding: 13px 30px 12px;
+		background: #7fad39;
+		border: none;
+	}
 </style>
 </head>
 <body>
@@ -129,10 +131,10 @@ $(document).ready(function() {
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2>주문</h2>
+                        <h2>주문하기</h2>
                         <div class="breadcrumb__option">
                             <a>Home</a>
-                            <span>주문</span>
+                            <span>주문하기</span>
                         </div>
                     </div>
                 </div>
@@ -176,7 +178,7 @@ $(document).ready(function() {
                 <br>
                 <br>
              	<div class="checkout__form">
-                     <h4>배송지 정보</h4>
+                     <h4>주문서</h4>
                      <div class="row">
                   	 <div class="col-lg-8 col-md-6"> 
                          <div class="checkout__input">
@@ -186,15 +188,15 @@ $(document).ready(function() {
                          <div class="checkout__input">
                         		<p>배송지<span>*</span></p>
                         		<div class="row">
-	                         		<div class="col-lg-4">
+	                         		<div class="col-lg-10">
 	                                  	<div class="checkout__input">
 	                                      <input type="text" name="address" value="<%=address%>" id="cstmAddress" class="checkout__input__add">
 	                                  	  <span id="addressMsg" class="msg"></span>
 	                                  	</div>
 	                            	</div>
-	                                <div class="col-lg-4">
+	                                <div class="col-lg-2">
 	                                    <div class="checkout__input">
-	                                      <a href="<%=request.getContextPath()%>/address/addressList.jsp?productNo=<%=cart.getProductNo()%>" class="delivery-change" onclick="openUserDeliveryListPop();"><span class="">배송지관리</span></a>
+	                                      <a href="<%=request.getContextPath()%>/address/addressList.jsp?productNo=<%=cart.getProductNo()%>" class="delivery-change" onclick="openUserDeliveryListPop();"><span class="center">배송지 선택</span></a>
 	                                    </div>
 	                                </div>
                             	</div>

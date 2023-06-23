@@ -38,32 +38,81 @@
 <head>
 <meta charset="UTF-8">
 <title>addressList</title>
-<style>
-	#yellow {background-color:yellow;}
-</style>
-	<meta name="description" content="Ogani Template">
-    <meta name="keywords" content="Ogani, unica, creative, html">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ogani | Template</title>
+<meta name="description" content="Ogani Template">
+<meta name="keywords" content="Ogani, unica, creative, html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Ogani | Template</title>
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
 
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" type="text/css">
+<!-- Css Styles -->
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/bootstrap.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/font-awesome.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/elegant-icons.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/nice-select.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/jquery-ui.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.carousel.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/slicknav.min.css" type="text/css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" type="text/css">
 <style>
+	#yellow {
+		background-color:yellow;
+		border-radius: 1em;
+	}
+	.center {
+		text-align: center;
+	}
 	.right{
 		text-align: right;
 	}
+	.top{
+		padding-top: 10px;
+		padding-bottom: 5px;
+	}
+	.round{
+	    border-collapse: collapse;
+	    border-radius: 1em;
+	    overflow: hidden;
+	}
+	.checkout__form2 {
+		color: #1c1c1c;
+		border: 1px solid #e1e1e1;
+		border-radius: 1em;
+		padding-top: 10px;
+		padding-left: 5px;
+		padding-right: 5px;
+		padding-bottom: 10px;
+		margin-bottom: 25px;
+	}
+	.button {
+		font-size: 14px;
+		color: #ffffff;
+		text-transform: uppercase;
+		display: inline-block;
+		padding: 10px 20px 9px;
+		background: #7fad39;
+		border: none;
+	}
 </style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $(document).on("click", ".remove-cart", function(e) {
+      e.preventDefault();
+      if (confirm("정말 삭제하시겠습니까?")) {
+        var deleteLink = $(this);
+        $.get(deleteLink.attr("href"), function() {
+          deleteLink.closest("tr").remove();
+          location.reload(); // 삭제 후에 화면을 다시 로드
+        }).fail(function() {
+          alert("삭제에 실패했습니다. 다시 시도해주세요.");
+        });
+      }
+    });
+  });
+</script>
 </head>
 <body>
 <!-------------- 상단 네비게이션 바(메인메뉴) -------------->
@@ -91,10 +140,11 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2>배송지 관리</h2>
+                        <h2>배송지 선택</h2>
                         <div class="breadcrumb__option">
                              <a>Home</a>
-                            <span>배송지 관리</span>
+                             <a>주문하기</a>
+                            <span>배송지 선택</span>
                         </div>
                     </div>
                 </div>
@@ -137,115 +187,116 @@
 		            <div class="row">
 		                <div class="col-lg-12 text-center">
 		                    <div class="breadcrumb__text">
-		                        <h2>배송지 관리</h2>
+		                        <h2>배송지 선택</h2>
 		                        <div class="breadcrumb__option">
-		                             <a>Home</a>
-		                            <span>배송지 관리</span>
+		                            <a>Home</a>
+                             		<a>주문하기</a>
+		                            <span>배송지 선택</span>
 		                        </div>
 		                    </div>
 		                </div>
 		            </div>
 		        </div>
 		    </section>
-<!--[begin]------------------------ 기본 배송지 선택 폼 -------------------------->			    
-		    
+<!--[begin]------------------------ 기본 배송지 선택 폼 -------------------------->
 				<section class="checkout spad">
 			      	<div class="container">
 			      		<!-- 타이틀; 기본 배송지 "이름" | 기본 배송지 표시 -->
 						  <div class="checkout__form">
-						  <h4>기본 배송지</h4>
+						  	<h4>기본 배송지</h4>
+						  </div>
 						  <%
 							for(Address b : defaultAddressList){			
 						  %>
-			                  <div class="row">
-			                      <div class="col-lg-2">
-			                          <div class="checkout__input">
-			                              <%=b.getAddressName()%>
-			                          </div>
-			                      </div>
-			                      <div class="col-lg-3">
-			                      	<div class="checkout__input">
-			                      		<span id="yellow">기본배송지</span>
-			                      	</div>
-			                      </div>
-			                      <div class="col-lg-3"></div>
-			                      <div class="col-lg-4"></div>
-			                  </div>
-			                </div>
-			               <!-- 1행 7열 배송지 정보 출력 -->
-			               	<div class="row">
-			               			<div class="col-lg-9">
-				                  		<table>
-											<tr>
-												<td>
-													<%=b.getAddress()%>
-												</td>
-											</tr>
-										</table>
+						  <div class="checkout__form2">
+						  	<div class="row">
+							  <div class="col-lg-9">
+				                  <div class="row">
+				                      <div class="col-lg-2">
+				                          <div class="checkout__input">
+				                              <%=b.getAddressName()%>
+				                          </div>
+				                      </div>
+				                      <div class="col-lg-2">
+				                      	<div class="checkout__input">
+				                      		<span id="yellow">기본배송지</span>
+				                      	</div>
+				                      </div>
+				                  	</div>
+			               		   <div class="row">
+				               		   <div class="col-lg-9">
+					                  		<table>
+												<tr>
+													<td>
+														<%=b.getAddress()%>
+													</td>
+												</tr>
+											</table>
+										</div>
 									</div>
-									<div class="col-lg-3">
-									<table>
-										<tr>
-											<td>
-												<form action="<%=request.getContextPath()%>/address/modifyAddress.jsp" method="post">
-													<input type="hidden" name="productNo" value="<%=productNo%>">
-													<input type="hidden" name="addressNo" value="<%=b.getAddressNo()%>">
-													<input type="hidden" name="id" value="<%=b.getId()%>">
-													<input type="hidden" name="addressName" value="<%=b.getAddressName()%>">
-													<input type="hidden" name="address" value="<%=b.getAddress()%>">
-													<input type="hidden" name="createdate" value="<%=b.getCreatedate()%>">
-													<input type="hidden" name="updatedate" value="<%=b.getUpdatedate()%>">
-													<input type="submit" value="수정">
-												</form>
-											</td>
-											<td>
-												<div class="col-lg-12">
-													<form action="<%=request.getContextPath()%>/address/removeAddressAction.jsp" method="post">
-														<input type="hidden" name="productNo" value="<%=productNo%>">
-														<input type="hidden" name="id" value="<%=b.getId()%>">
-														<input type="hidden" name="addressNo" value="<%=b.getAddressNo()%>">
-														<input type="hidden" name="addressName" value="<%=b.getAddressName()%>">
-														<input type="submit" value="삭제">
-													</form>
-												</div>
-											</td>
-											 <td>
-											 	<div class="col-lg-12">
-							                    	<a type="button" href="<%=request.getContextPath()%>/orders/addOrders.jsp?check=<%=b.getAddress()%>&productNo=<%=productNo%>">선택</a>
-							                	</div>
-							                </td>
-										</tr>
-									</table>
 								</div>
-							</div>
-			      </section>
+									<div class="col-lg-3">
+										<div class="top">
+											<table>
+												<tr>
+													<td>
+														<form action="<%=request.getContextPath()%>/address/modifyAddress.jsp" method="post">
+															<input type="hidden" name="productNo" value="<%=productNo%>">
+															<input type="hidden" name="addressNo" value="<%=b.getAddressNo()%>">
+															<input type="hidden" name="id" value="<%=b.getId()%>">
+															<input type="hidden" name="addressName" value="<%=b.getAddressName()%>">
+															<input type="hidden" name="address" value="<%=b.getAddress()%>">
+															<input type="hidden" name="createdate" value="<%=b.getCreatedate()%>">
+															<input type="hidden" name="updatedate" value="<%=b.getUpdatedate()%>">
+															<input type="submit" value="수정" class="button">
+														</form>
+													</td>
+													<td>&nbsp;</td>
+													<td>
+														<div>
+															<a class="button" class="remove-cart" href="<%=request.getContextPath()%>/address/removeAddressAction.jsp?productNo=<%=productNo%>&addressNo=<%=b.getAddressNo()%>">삭제</a>
+														</div>
+													</td>
+													<td>&nbsp;</td>
+													 <td>
+													 	<div>
+									                    	<a class="button" type="button" href="<%=request.getContextPath()%>/orders/addOrders.jsp?check=<%=b.getAddress()%>&productNo=<%=productNo%>">선택</a>
+									                	</div>
+									                </td>
+												  </tr>
+											  </table>
+											</div>
+										</div>
+										
+									</div>
+								</div>
+							  </div>
+			      		</section>
 	          <%
 			  		}
 	          %>
 <!--[end]------------------------ 기본 배송지 선택 폼 -------------------------->
 
 <!--[begin]------------------------ 일반 배송지 선택 폼 -------------------------->	          
-	          
-								<%	
-									for(Address a : addressList){
-								%>
+	          <div class="container">
+		          <div class="checkout__form">
+		          <h4>일반 배송지</h4>
+		          </div>
+	          </div>
+				<%	
+					for(Address a : addressList){
+				%>
+				<div class="checkout__form">
 			      	<div class="container">
-						<div class="checkout__form">
-							<h4>일반 배송지</h4>
-							<div class="row" rowspan="2">
+						<div class="checkout__form2">
+							<div class="row">
 								<div class="col-lg-9">
 									<table>
 										<tr>
 											<td><%=a.getAddressName()%></td><!-- 배송지 이름 -->
 										</tr>
-									</table>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-lg-9">
-									<table>
 										<tr>
-											<%=a.getAddress()%>
+											<td><%=a.getAddress()%></td>
 										</tr>
 									</table>
 								</div>
@@ -261,45 +312,43 @@
 													<input type="hidden" name="address" value="<%=a.getAddress()%>">
 													<input type="hidden" name="createdate" value="<%=a.getCreatedate()%>">
 													<input type="hidden" name="updatedate" value="<%=a.getUpdatedate()%>">
-													<input type="submit" value="수정">
+													<input type="submit" value="수정" class="button">
 												</form>
 											</td>
+											<td>&nbsp;</td>
 											<td>
-												<div class="col-lg-12">
-													<form action="<%=request.getContextPath()%>/address/removeAddressAction.jsp" method="post">
-														<input type="hidden" name="productNo" value="<%=productNo%>">
-														<input type="hidden" name="id" value="<%=a.getId()%>">
-														<input type="hidden" name="addressNo" value="<%=a.getAddressNo()%>">
-														<input type="hidden" name="addressName" value="<%=a.getAddressName()%>">
-														<input type="submit" value="삭제">
-													</form>
+												<div>
+													<a class="button" class="remove-cart" href="<%=request.getContextPath()%>/address/removeAddressAction.jsp?productNo=<%=productNo%>&addressNo=<%=a.getAddressNo()%>">삭제</a>
 												</div>
 											</td>
+											<td>&nbsp;</td>
 											 <td>
-											 	<div class="col-lg-12">
-							                    	<a type="button" href="<%=request.getContextPath()%>/orders/addOrders.jsp?check=<%=a.getAddress()%>&productNo=<%=productNo%>">선택</a>
+											 	<div>
+							                    	<a class="button" type="button" href="<%=request.getContextPath()%>/orders/addOrders.jsp?check=<%=a.getAddress()%>&productNo=<%=productNo%>">선택</a>
 							                	</div>
 							                </td>
 										</tr>
 									</table>
-								<%		
-									}
-								%>
 									</div>
 								</div>
+							  </div>
+							</div>
 							</div>
 						<%
+								}
 							}
 						%>
-					</div>
+	<br>
 <!--[end]------------------------ 일반 배송지 선택 폼 -------------------------->			
 <!-- 배송지 추가 버튼 -->
-	<div>
+	<div class="center">
+		<a type="button" href="<%=request.getContextPath()%>/orders/addOrders.jsp?productNo=<%=productNo%>">이전</a>
+		<a>&nbsp;</a>
 		<a href="<%=request.getContextPath()%>/address/addAddress.jsp?productNo=<%=productNo%>">배송지 추가</a>
 	</div>
-<!--  선택된 주소가 없을 경우: 다시 주문폼으로 -->		
-	<a type="button" href="<%=request.getContextPath()%>/orders/addOrders.jsp?productNo=<%=productNo%>">이전</a>
-
+<!--  선택된 주소가 없을 경우: 다시 주문폼으로 -->	
+	<br>
+	<br>
 <!-- Js Plugins -->
    <script src="<%=request.getContextPath()%>/js/jquery-3.3.1.min.js"></script>
    <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>

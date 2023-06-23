@@ -33,7 +33,7 @@
 	
 	//구매확정 시 포인트 추가
 	OrdersDao ordersDao = new OrdersDao();
-	int row = ordersDao.modifyCustomerOrders(loginId);
+	int row = ordersDao.modifyCustomerOrders(loginId, orderNo);
 	int row2 = ordersDao.addCustomerPoint(orderNo);
 	System.out.println(row+KIM+"<--modifyCstmAction row"+RESET);
 	System.out.println(row2+KIM+"<--modifyCstmAction row2"+RESET);

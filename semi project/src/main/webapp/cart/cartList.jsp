@@ -15,7 +15,7 @@
    request.setCharacterEncoding("utf-8");
 
    /* 유효성 검사 */
-   String loginId = (String)session.getAttribute("loginId");
+   String loginId = (String)session.getAttribute("loginId"); //비회원도 조회가능하므로 redirect 생략
    
    // CartDao 객체 생성
    CartDao cartDao = new CartDao();
@@ -25,6 +25,7 @@
   // DB에 저장된 장바구니 조회
    cartList = cartDao.selectCart(loginId);
    System.out.println(KIM+(cartList!=null?true:false)+" <-- cart/cartList 장바구니"+RESET);
+
 %>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -68,7 +69,24 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" type="text/css">
 <style>
-	.center{ text-align:center;}
+	.center{
+		text-align:center;
+	}
+	.pro-qty2 {
+		width: 140px;
+		height: 50px;
+		display: inline-block;
+		position: relative;
+		text-align: center;
+		background: #f5f5f5;
+		padding-top: 10px;
+		margin-bottom: 5px;
+	}
+	.shoping__cart__item2{
+		width: 630px;
+		text-align: center;
+		position: relative;
+	}
 </style>
 </head>
 <body>
@@ -139,12 +157,16 @@
             </div>
          </div>
      </section>
+<!------------ 하단 저작권 바 ------------>
+<div>
+	<jsp:include page="/inc/copyRight.jsp"></jsp:include>
+</div>
               
    <%
       } else { // 장바구니가 있다면 출력
    %>
 	
-
+	
     <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="../img/breadcrumb.jpg">
         <div class="container">
@@ -183,29 +205,32 @@
                             	for (Cart cart : sessionCartMap.values()) {
    							%> 
                                 <tr>
-                                    <td class="shoping__cart__item">
+                                    <td class="shoping__cart__item2">
                                         <%= cart.getProductNo() %>
                                     </td>
                                     <td class="shoping__cart__quantity">
                                         <div class="quantity">
-                                            <div class="pro-qty">
+                                            <div class="pro-qty2">
                                                 <%= cart.getCartCnt() %>
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="shoping__cart__item">
+                                    <td class="shoping__cart__item2">
                                         <%= cart.getCreatedate() %>
                                     </td>
-                                    <td class="shoping__cart__item">
+                                    <td class="shoping__cart__item2">
                                         <%= cart.getUpdatedate() %>
                                     </td>
-                                    <td class="shoping__cart__item">
+                                    <td class="shoping__cart__item2">
                                         <a href="<%=request.getContextPath()%>/customer/addCustomer.jsp">주문</a>
                                     </td>
-                                    <td class="shoping__cart__item">
+                                    <td class="shoping__cart__item2">
                                         <a href="<%= request.getContextPath() %>/cart/removeSessionCartAction.jsp?productNo=<%= cart.getProductNo() %>" class="remove-cart">삭제</a>
                                     </td>
                                 </tr>
+                                 <%
+							         }
+							     %>
                             </tbody>
                         </table>
                     </div>
@@ -213,6 +238,7 @@
             </div>
          </div>
      </section>
+     
 <!------------ 하단 저작권 바 ------------>
 <div>
 	<jsp:include page="/inc/copyRight.jsp"></jsp:include>
@@ -221,7 +247,6 @@
 	  
 <!--[begin]--------------------- 로그인자 장바구니 리스트 ------------------------->	  
    <%
-      		}
      	}
      } else { // 로그인 아이디가 있을 경우
    
@@ -273,6 +298,10 @@
             </div>
          </div>
      </section>
+<!------------ 하단 저작권 바 ------------>
+<div>
+	<jsp:include page="/inc/copyRight.jsp"></jsp:include>
+</div>
       <%
          } else { // 장바구니가 있다면 출력
       %>
@@ -314,30 +343,30 @@
 					            for(Cart c : cartList){
 					         %>
                                 <tr>
-                                    <td class="shoping__cart__item">
+                                    <td class="shoping__cart__item2">
                                         <%= c.getProductNo() %>
                                     </td>
                                     <td class="shoping__cart__quantity">
                                         <div class="quantity">
-                                            <div class="pro-qty">
+                                            <div class="pro-qty2">
                                                 <%= c.getCartCnt() %>
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="shoping__cart__item">
+                                    <td class="shoping__cart__item2">
                                         <%= c.getCreatedate() %>
                                     </td>
-                                    <td class="shoping__cart__item">
+                                    <td class="shoping__cart__item2">
                                         <%= c.getUpdatedate() %>
                                     </td>
-                                    <td class="shoping__cart__item">
+                                    <td class="shoping__cart__item2">
                                         <form action="<%=request.getContextPath()%>/orders/addOrders.jsp" method="post">
 						                  <input type="hidden" name="productNo" value="<%=c.getProductNo()%>">
 						                  <input type="hidden" name="id" value="<%=c.getId()%>">
-						                  <input type="submit" value="주문하기">
+						                  <input type="submit" value="주문">
 						               </form>
                                     </td>
-                                    <td class="shoping__cart__item">
+                                    <td class="shoping__cart__item2">
                                         <a href="<%=request.getContextPath()%>/cart/removeCartAction.jsp?cartNo=<%=c.getCartNo()%>" class="remove-cart">삭제</a>
                                     </td>
                                 </tr>

@@ -23,9 +23,9 @@
 		|| request.getParameter("addressName").equals("")
 		|| request.getParameter("address").equals("")
 		|| request.getParameter("defaultAddress").equals("")){
-		int productNo = Integer.parseInt(request.getParameter("productNo"));
-		response.sendRedirect(request.getContextPath()+"/address/modifyAddress.jsp?productNo="+productNo);
-		return;
+			int productNo = Integer.parseInt(request.getParameter("productNo"));
+			response.sendRedirect(request.getContextPath()+"/address/addressList.jsp?productNo="+productNo);
+			return;
 		}
 	int productNo = Integer.parseInt(request.getParameter("productNo"));
 	int addressNo = Integer.parseInt(request.getParameter("addressNo"));
