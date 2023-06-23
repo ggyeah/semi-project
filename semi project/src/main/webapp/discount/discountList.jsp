@@ -9,7 +9,27 @@ response.sendRedirect(request.getContextPath() + "/home.jsp");
 }
 
 DiscountDao discountDao = new DiscountDao();
-ArrayList<Discount> dList = discountDao.discountList(0,10);
+
+
+//페이징
+int totalRow = discountDao.discountCnt();
+
+//현재페이지
+int currentPage = 1;
+if (request.getParameter("currentPage") != null){
+  currentPage = Integer.parseInt(request.getParameter("currentPage"));
+}
+
+int rowPerPage = 5;
+int beginRow = (currentPage - 1) * rowPerPage; 
+
+
+int pagePerPage = 5;
+int lastPage = (totalRow % rowPerPage == 0) ? (totalRow / rowPerPage) : (totalRow / rowPerPage + 1);
+int minPage = ((currentPage - 1) / pagePerPage) * pagePerPage + 1;
+int maxPage = Math.min(minPage + pagePerPage - 1, lastPage);
+
+ArrayList<Discount> dList = discountDao.discountList(beginRow,rowPerPage);
 %>
 <!DOCTYPE html>
 <html>
@@ -52,6 +72,12 @@ ArrayList<Discount> dList = discountDao.discountList(0,10);
     });
   });
 </script>
+<style>
+  .center {
+    display: flex;
+    justify-content: center;
+  }
+</style>
 </head>
 <body>
 <!-- 상단 네비 바(메인메뉴) -->
@@ -140,6 +166,36 @@ ArrayList<Discount> dList = discountDao.discountList(0,10);
      </div>
    </div>
 </div>
+
+<!--   페이징   -->
+
+<div class="center">                    
+	<div class="product__pagination">
+        <%  // 하단 페이징 번호
+           for(int i = minPage; i <= maxPage; i = i+1){
+              if(i == currentPage){
+        %>
+              <a class="page-link" style="color:#2F9D27"><span><%=i%>&nbsp;</span></a>
+        <%         
+              } else {
+        %>
+             <a class="page-link" href="<%=request.getContextPath()%>/discount/discountList.jsp?currentPage=<%=i%>"><%=i%></a>
+        <%         
+              }
+           }
+           // 다음
+           if(maxPage != lastPage){
+        %> 
+           <a href ="<%=request.getContextPath()%>/discount/discountList.jsp?currentPage=<%=minPage+pagePerPage%>"><i class="fa fa-long-arrow-right"></i></a>
+        <%     
+           }
+        %>
+  </div>
+</div>
+ <br><br>
+
+
+
 <!------------ 하단 저작권 바 ------------>
 <div>
 	<jsp:include page="/inc/copyRight.jsp"></jsp:include>

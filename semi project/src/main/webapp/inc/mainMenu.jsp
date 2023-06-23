@@ -77,22 +77,14 @@
             </div>
         </div>
         <div class="container">
+        <div class="text-center">
             <div class="row">
-                <div class="col-lg-3">
-                    <div class="header__logo">
-                        <a href="<%=request.getContextPath()%>/home.jsp"><img src="<%=request.getContextPath()%>/img/logo.png" alt="no logo"></a>
+                <div class="col-lg-12">
+                        <a href="<%=request.getContextPath()%>/home.jsp"><img src="<%=request.getContextPath()%>/img/homelogo.png" alt="no logo"></a>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <nav class="header__menu">
-                        <ul>
-                            <li class="active"><a href="<%=request.getContextPath()%>/home.jsp">Home</a></li>
-                        </ul>
-                    </nav>
                 </div>
-                <div class="col-lg-3"></div>
             </div>
-        </div>
     </header>
 <!-- [End] Header Section -->
 <!--------------------------- 2. 로그인자 ---------------------------->	

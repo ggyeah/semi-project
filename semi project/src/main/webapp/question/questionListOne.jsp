@@ -60,7 +60,7 @@ if (request.getParameter("qNo") != null){
 <script>
 $(document).ready(function() {
     // 시작시 title 입력 폼에 포커스
-    $('#title').focus();
+    $('#content').focus();
     
     // 유효성 체크 함수
     function validateForm() {
@@ -181,7 +181,7 @@ for (Employees e : list){
 }
 if (checkId) {
 %>
- 	<div class="checkout__form answer-container"">
+ 	<div class="checkout__form answer-container">
    	 <h4>&#10145;  답변</h4>
 		<span class="blog__item__text">
 			<ul>

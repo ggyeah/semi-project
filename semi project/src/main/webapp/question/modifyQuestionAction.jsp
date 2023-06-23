@@ -36,6 +36,7 @@ if (request.getParameter("qNo") != null
 	question.setqCategory(qCategory);
 	question.setqTitle(qTitle);
 	question.setqContent(qContent);
+	
 	int row = questionDao.modifyQuestion(question); 
 
 	response.sendRedirect(request.getContextPath() + "/question/questionListOne.jsp?qNo=" +qNo);
