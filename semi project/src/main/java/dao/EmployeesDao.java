@@ -17,7 +17,7 @@ public class EmployeesDao {
 			Connection conn = dbUtil.getConnection();
 			
 			// 리스트 불러오기
-			String employeesListSql ="SELECT e.id id, e.emp_name empName, e.emp_level empLevel, e.createdate createdate, e.updatedate updatedate, id.active active FROM employees e, id_list id WHERE e.id =id.id AND id.active = 'Y' ORDER BY empLevel DESC, empName LIMIT ?, ?";
+			String employeesListSql ="SELECT e.id id, e.emp_name empName, e.emp_level empLevel, e.createdate createdate, e.updatedate updatedate, id.active active FROM employees e, id_list id WHERE e.id =id.id ORDER BY id.active, empLevel DESC, empName LIMIT ?, ?";
 			PreparedStatement employeesListStmt = conn.prepareStatement(employeesListSql);
 			employeesListStmt.setInt(1, beginRow);
 			employeesListStmt.setInt(2, rowPerPage);

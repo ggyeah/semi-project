@@ -25,45 +25,92 @@
 	
 %>
 <!DOCTYPE html>
-<html>
+<html lang="zxx">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<style>
-   table,td,th {border: 1px solid #000000; border-collapse: collapse;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ogani Template">
+    <meta name="keywords" content="Ogani, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>addEmployees</title>
+
+    <!-- Google Font -->
+    <link href="<%=request.getContextPath() %>https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/style.css" type="text/css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
 </head>
 <body>
+	<!------------ 상단 네비 바 ------------>
+	<!-- 상단 네비 바(메인메뉴) -->
 	<div>
-		<h1>직원삭제</h1>
-		<h3>직원을 삭제하려면 활성화 여부를 N으로 바꿔주세요</h3>
-		<!-- 직원 삭제폼 -->
-		<form action="<%=request.getContextPath() %>/employees/removeEmployeesAction.jsp" method="post">
-			<table>
-				<tr>
-					<td>아이디</td>
-					<td><input type="text" name="id" value="<%=employees.getId() %>" readonly="readonly"></td>					
-				</tr>
-				<tr>
-					<td>이름</td>
-					<td><%=employees.getEmpName() %></td>					
-				</tr>
-				<tr>
-					<td>관리자 레벨</td>
-					<td><%=employees.getEmpLevel() %></td>	
-				</tr>
-				<!-- 활성화 여부를 N으로 바꾸면 삭제 -->
-				<tr>
-					<td>활성화 여부</td>
-					<td>
-						<label><input type="radio" name="active" value="Y" <%if((employees.getActive()).equals("Y")) { %>checked<% } %>>Y</label>
-						<label><input type="radio" name="active" value="N" <%if((employees.getActive()).equals("N")) { %>checked<% } %>>N</label>
-					</td>
-				</tr>
-			</table>
-			<button type="submit">삭제</button>
-		</form>
+		<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
 	</div>
-
+	
+	<!-- 직원 삭제 폼 -->
+	<div class="container">
+		<div class="checkout__form">
+			<h4>직원 삭제</h4>
+				<form id="removeForm"action="<%=request.getContextPath() %>/employees/removeEmployeesAction.jsp" method="post">
+					<div class="row">
+						<div class="col-lg-8 col-md-6">
+							<div class="checkout__input">
+								<p>아이디</p>
+								<input type="text" name="id" id="id" value="<%=employees.getId()%>" readonly="readonly">
+							</div>
+							<div class="checkout__input">
+								<p>이름</p>
+								<input type="text" name="empName" id="empName" value="<%=employees.empName %>" readonly="readonly">
+							</div>
+							<div class="checkout__input">
+								<p>관리자 레벨</p>
+								<input type="text" name="empLevel" id="empLevel" value="<%=employees.empLevel%>" readonly="readonly">
+							</div>
+							<div class="checkout__input">
+							<p>활성화 여부<span>*</span></p>
+							</div>
+							<div>
+								<label><input type="radio" name="active" value="Y" <%if((employees.getActive()).equals("Y")) { %>checked<% } %>></label>
+								<label>Y</label>
+								<label><input type="radio" name="active" value="D" <%if((employees.getActive()).equals("D")) { %>checked<% } %>></label>
+								<label>D</label>
+							</div>
+							<br>
+							<div class="text-center">	
+							<button type="submit" id="removeBtn" class="site-btn">수정</button>
+							</div>
+							<br>
+						</div>
+					</div>
+				</form>
+		</div>
+	</div>
+			
+	<!-- Js Plugins -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/mixitup.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
+    
+    <!------------ 하단 저작권 바 ------------>
+	<div>
+		<jsp:include page="/inc/copyRight.jsp"></jsp:include>
+	</div>
+	
 </body>
 </html>

@@ -77,7 +77,7 @@
 	
 	// id_list insert 메서드 호출
 	int addId = IdDao.insertId(addIdList);
-	if(addId == 1){
+	if(addId > 0){
 		System.out.println(YANG + "employees id_list 추가 성공" + RESET);
 	} 
 	
@@ -99,7 +99,7 @@
 	
 	// insert 메서드 호출
 	int addEmp = EmpDao.insertEmployees(addEmployees);
-	if(addEmp == 1){
+	if(addEmp > 0){
 		System.out.println(YANG + "employees 추가 성공" + RESET);
 		response.sendRedirect(request.getContextPath()+"/employees/employeesList.jsp");
 	} 

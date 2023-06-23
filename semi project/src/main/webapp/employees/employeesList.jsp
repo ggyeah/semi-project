@@ -53,78 +53,172 @@
 
 %>
 <!DOCTYPE html>
-<html>
+<html lang="zxx">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<style>
-   table,td,th {border: 1px solid #000000; border-collapse: collapse;}
-</style>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ogani Template">
+    <meta name="keywords" content="Ogani, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>addEmployees</title>
+
+    <!-- Google Font -->
+    <link href="<%=request.getContextPath() %>https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="<%=request.getContextPath() %>/css/style.css" type="text/css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
 </head>
 <body>
+	<!------------ 상단 네비 바 ------------>
+	<!-- 상단 네비 바(메인메뉴) -->
 	<div>
-		<h1>전체직원목록</h1>
+		<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
+	</div>
+	
+	<!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="../img/breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2>직원관리</h2>
+                        <div class="breadcrumb__option">
+                            <a>관리자 메뉴</a>
+                            <span>직원관리</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <br>
+    <br>
+    <!-- Breadcrumb Section End -->
+    
 		<!-- 직원 추가 버튼 -->
-		<a href ="<%=request.getContextPath() %>/employees/addEmployees.jsp"><button type="button">추가</button></a>
+		
 		<!-- 직원목록 테이블 -->
-		<table>
-			<tr>
-				<td>아이디</td>
-				<td>이름</td>
-				<td>관리자 레벨</td>
-				<td>등록일</td>					
-				<td>수정일</td>		
-				<td>활성화 여부</td>			
-				<td>수정</td>
-				<td>삭제</td>
-			</tr>
-			<%
-				for(Employees e : list) {
-			%>
-			<tr>
-				<td><%=e.getId() %></td>
-				<td><%=e.getEmpName() %></td>
-				<td><%=e.getEmpLevel() %></td>
-				<td><%=e.getCreatedate() %></td>
-				<td><%=e.getUpdatedate() %></td>
-				<td><%=e.getActive() %></td>
-				<td><a href ="<%=request.getContextPath() %>/employees/modifyEmployees.jsp?id=<%=e.getId() %>">수정</a></td>
-				<td><a href ="<%=request.getContextPath() %>/employees/removeEmployees.jsp?id=<%=e.getId() %>">삭제</a></td>
-			</tr>
-			<%
-				}
-			%>
-		</table>
-	</div>
+		<!-- 회원목록 테이블 -->
+		<div class="container">
+		<div class="col-lg-12">
+                    <div class="shoping__cart__btns">
+                        <a href="<%=request.getContextPath() %>/employees/addEmployees.jsp" class="primary-btn cart-btn">추가</a>
+                    </div>
+                </div>
+                </div>
+	<section class="shoping-cart spad">
+	
+        <div class="container">
+        
+            <div class="row">
+            	
+                <br>
+                <br>
+                <div class="col-lg-12">
+                    <div class="shoping__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>아이디</th>
+                                    <th>이름</th>
+                                    <th>관리자 레벨</th>
+                                    <th>등록일</th>
+                                    <th>수정일</th>
+                                    <th>활성화 여부</th>
+                                    <th>수정</th>
+                                    <th>삭제</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            
+                            <%
+							for(Employees e : list) {
+							%>
+							<tr>
+								<td ><%=e.getId() %></td>
+								<td><%=e.getEmpName() %></td>
+								<td><%=e.getEmpLevel() %></td>
+								<td><%=e.getCreatedate() %></td>
+								<td><%=e.getUpdatedate() %></td>
+								<td><%=e.getActive() %></td>
+								<td><a href ="<%=request.getContextPath() %>/employees/modifyEmployees.jsp?id=<%=e.getId() %>">수정</a></td>
+								<td><a href ="<%=request.getContextPath() %>/employees/removeEmployees.jsp?id=<%=e.getId() %>">삭제</a></td>
+							<%
+							}
+							%>	
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+             <div class="row">
+            
+                <div class="col-lg-12">
+                    <!-- 페이지 네비게이션 -->
+					<div class="text-center">
+						<%
+						if(minPage > 1) {
+						%>
+							<a href="<%=request.getContextPath() %>/employees/employeesList.jsp?currentPage=<%=minPage-pagePerPage%>">이전</a>	
+						<%
+						}
+						
+						for(int i = minPage; i<=maxPage; i=i+1) {
+							if(i == currentPage) {
+						%>
+								<span><%=i%></span>&nbsp;
+						<%			
+							} else {		
+						%>
+								<a href="<%=request.getContextPath() %>/employees/employeesList.jsp?currentPage=<%=i%>"><%=i%></a>&nbsp;	
+						<%	
+							}
+						}
+						
+						if(maxPage != lastPage) {
+						%>
+							<!--  maxPage + 1 -->
+							<a href="<%=request.getContextPath() %>/employees/employeesList.jsp?currentPage=<%=minPage+pagePerPage%>">다음</a>
+						<%
+						}
+				   		%>
+					</div>
+                    
+                </div>
+            </div>
+        </div>
+        
+    </section>
 		
-	<!-- 페이지 네비게이션 -->
+		
+		
+	
+	<!-- Js Plugins -->
+    <script src="<%=request.getContextPath() %>/js/jquery-3.3.1.min.js"></script>
+    <script src="<%=request.getContextPath() %>/js/bootstrap.min.js"></script>
+    <script src="<%=request.getContextPath() %>/js/jquery.nice-select.min.js"></script>
+    <script src="<%=request.getContextPath() %>/js/jquery-ui.min.js"></script>
+    <script src="<%=request.getContextPath() %>/js/jquery.slicknav.js"></script>
+    <script src="<%=request.getContextPath() %>/js/mixitup.min.js"></script>
+    <script src="<%=request.getContextPath() %>/js/owl.carousel.min.js"></script>
+    <script src="<%=request.getContextPath() %>/js/main.js"></script>
+    
+    <!------------ 하단 저작권 바 ------------>
 	<div>
-	<%
-		if(minPage > 1) {
-	%>
-			<a href="<%=request.getContextPath() %>/employees/employeesList.jsp?currentPage=<%=minPage-pagePerPage%>">이전</a>	
-	<%
-		}
-		
-		for(int i = minPage; i<=maxPage; i=i+1) {
-			if(i == currentPage) {
-	%>
-				<span><%=i%></span>&nbsp;
-	<%			
-			} else {		
-	%>
-				<a href="<%=request.getContextPath() %>/employees/employeesList.jsp?currentPage=<%=i%>"><%=i%></a>&nbsp;	
-	<%	
-			}
-		}
-		
-		if(maxPage != lastPage) {
-	%>
-			<!--  maxPage + 1 -->
-			<a href="<%=request.getContextPath() %>/employees/employeesList.jsp?currentPage=<%=minPage+pagePerPage%>">다음</a>
-	<%
-		}
-   	%>
+		<jsp:include page="/inc/copyRight.jsp"></jsp:include>
 	</div>
+	
 </body>
 </html>
