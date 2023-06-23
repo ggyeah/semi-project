@@ -35,41 +35,93 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" type="text/css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $(document).on("click", ".remove-category", function(e) {
+      e.preventDefault();
+      if (confirm("정말 삭제하시겠습니까?")) {
+        var deleteLink = $(this);
+        $.get(deleteLink.attr("href"), function() {
+          deleteLink.closest("tr").remove();
+          location.reload(); // 삭제 후에 화면을 다시 로드
+        }).fail(function() {
+          alert("삭제에 실패했습니다. 다시 시도해주세요.");
+        });
+      } else {
+          location.reload(); // 취소를 눌렀을 때도 화면을 다시 로드 
+      }
+    });
+  });
+</script>
 </head>
 <body>
 <!-- 상단 네비 바(메인메뉴) -->
 <div>
 	<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
 </div>
-<div>
-
-	<h1>카테고리 관리 페이지</h1>
-	<table>
-		<tr>
-			<th>category_name</th>
-			<th>createdate</th>
-			<th>updatedate</th>
-		</tr>
-	<%
-		for(Category category : categoryList) {
-	%>
-		<tr>
-			<td><%=category.getCategoryName()%></td>
-			<td><%=category.getCreatedate()%></td>
-			<td><%=category.getUpdatedate()%></td>
-		</tr>
-	<% 
-		}
-	%>
-	</table>
+<!-- 상단토마토바 -->
+<section class="breadcrumb-section set-bg" data-setbg="<%=request.getContextPath()%>/img/breadcrumb.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>카테고리 관리</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<br>
+<br>
+<!-- 카테고리정보 관리 버튼 -->
+<div class="container">
+	<div>	
+		<a href="<%=request.getContextPath()%>/category/addCategory.jsp">카테고리 추가</a>
+		<a href="<%=request.getContextPath()%>/category/modifyCategory.jsp">카테고리 수정</a>
+	</div>
+</div>
+<br>
+<br>
+<!--  카테고리리스트 -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="shoping__cart__table">
+              <table>
+                  <thead>
+                     <tr>
+						<th>카테고리</th>
+						<th>생성일</th>
+						<th>수정일</th>
+						<th>삭제</th>
+					 </tr>
+				   </thead>
+					<%
+						for(Category category : categoryList) {
+					%>
+					<tbody>
+					  <tr>
+					     <td><%=category.getCategoryName()%></td>
+						 <td><%=category.getCreatedate()%></td>
+						 <td><%=category.getUpdatedate()%></td>
+						 <td>
+						 	<a href="<%=request.getContextPath()%>/category/removeCategoryAction.jsp?removeCategoryName=<%=category.getCategoryName()%>" class="remove-category">
+						 		카테고리 삭제
+						 	</a>
+						 </td>
+					  </tr>
+					 </tbody>
+					<% 
+						}
+					%>
+			</table>
+         </div>
+     </div>
+   </div>
+</div>
 	
 	<br>
-	
-	<!-- 카테고리정보 관리 버튼 -->
-	<a href="<%=request.getContextPath()%>/category/addCategory.jsp">카테고리 추가</a>
-	<a href="<%=request.getContextPath()%>/category/modifyCategory.jsp">카테고리 수정</a>
-	<a href="<%=request.getContextPath()%>/category/removeCategory.jsp">카테고리 삭제</a>
-</div>
 
 <!------------ 하단 저작권 바 ------------>
 <div>

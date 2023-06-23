@@ -48,6 +48,35 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" type="text/css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // 시작시 title 입력 폼에 포커스
+    $('#title').focus();
+    
+    // 유효성 체크 함수
+    function validateForm() {
+        let allCheck = true; // allCheck 변수 초기화
+
+        if ($('#category').val() == '') {
+            $('#categoryMsg').text('내용을 입력하세요');
+            $('#category').focus();
+            allCheck = false;
+        } else {
+            $('#categoryMsg').text('');
+        }
+        
+        return allCheck;
+    }
+    $('#btn').click(function(e) {
+        e.preventDefault(); // 기본 동작 방지`
+
+        if (validateForm()) {
+            $('#form').submit();
+        }
+    });
+});
+</script>
 </head>
 <body>
 <!------------ 상단 네비 바 ------------>
@@ -55,56 +84,53 @@
 <div>
 	<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
 </div>
-
-	<h1>카테고리 수정</h1>
-	<form action="<%=request.getContextPath()%>/category/modifyCategoryAction.jsp" method="post">
-		<div>	
-			<table>
-				<tr>
-					<th>수정할 카테고리 이름을 선택해 주세요</th>
-				</tr>
-				<tr>
-					<td>기존 카테고리명</td>
-				</tr>
-				<tr>
-					<td>
-						<select class="form-select" name="crntCategoryName">
-						<%
-							for(Category category : categoryList) {
-						%>
-							<option value="<%=category.getCategoryName()%>"><%=category.getCategoryName()%></option>
-						<% 
-							}
-						%>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>카테고리명 수정</td>
-				</tr>
-				<tr>
-					<td><input type="text" name="newCategoryName"></td>
-				</tr>
-			</table>
-		</div>
-		
-		<!-- 오류 메시지 -->
-		<div class="text-danger">
+<!-- 상단토마토바 -->
+<section class="breadcrumb-section set-bg" data-setbg="<%=request.getContextPath()%>/img/breadcrumb.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>카테고리 관리</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<br>
+<!-- 카테고리 수정 -->
+<div class="container">
+<div class="checkout__form">
+	 <h4> 카테고리 수정</h4>
+ 	   <div class="hero__search__form">
+ 	    <div class="col-lg-12">
+ 	  	 <form action="<%=request.getContextPath()%>/category/modifyCategoryAction.jsp" method="post" id="form">	  
+ 			<select class="form-select" name="crntCategoryName">
+			<option value="">카테고리를 선택하세요</option>
 			<%
-				if(request.getParameter("msg") != null){
+				for(Category category : categoryList) {
 			%>
-				<%=request.getParameter("msg")%>
-			<%
+				<option value="<%=category.getCategoryName()%>"><%=category.getCategoryName()%></option>
+			<% 
 				}
 			%>
+			</select>
+			 	<input type="text" name="newCategoryName" id="category">
+				<button type="submit"  class="site-btn"  id="btn">수정</button>
+				<div><span id="categoryMsg" class="msg"></span></div>
+			</form>
 		</div>
-		
-		<div>
-			<button type="submit">수정</button>
-			<br>
-			<a href="<%=request.getContextPath()%>/category/categoryList.jsp">이전으로</a>
+		<a href="<%=request.getContextPath()%>/category/categoryList.jsp">이전으로</a>
 		</div>
-	</form>
+	</div>
+</div>	
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+
 	
 <!------------ 하단 저작권 바 ------------>
 <div>
