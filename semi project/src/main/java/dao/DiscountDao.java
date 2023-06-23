@@ -121,20 +121,30 @@ public class DiscountDao {
 	
 	}	
 	// 5) 할인품목전체 cnt
-	public int discountCnt() throws Exception{
-		int totalrow = 0;
-		DBUtil dbUtil = new DBUtil();
-		Connection conn = dbUtil.getConnection();
+	public int getTotalCnt() throws Exception {
+	    int totalCnt = 0;
+
+	    DBUtil dbUtil = new DBUtil();
+	    Connection conn = dbUtil.getConnection();
+
+	    // 할인 품목 개수 조회
+	    String discountCntSql = "SELECT COUNT(*) FROM discount";
+	    PreparedStatement discountCntStmt = conn.prepareStatement(discountCntSql);
+	    ResultSet discountCntRs = discountCntStmt.executeQuery();
 		
-		String totalrowsql = "SELECT COUNT(*) FROM discount";
-		PreparedStatement totalrowstmt = conn.prepareStatement(totalrowsql);
-		ResultSet totalrowrs = totalrowstmt.executeQuery();
-		
-		if(totalrowrs.next()) {
-			totalrow = totalrowrs.getInt("COUNT(*)");
-		}
-		return totalrow;
-		}
+		int discountCnt = 0;
+	    if (discountCntRs.next()) {
+	        discountCnt = discountCntRs.getInt(1);
+	    }
+
+	    // 상품 개수 조회
+	    ProductDao productDao = new ProductDao(); // ProductDao 인스턴스 생성
+	    int productCnt = productDao.productCnt(); // 상품 개수 조회
+
+	    totalCnt = discountCnt + productCnt;
+
+	    return totalCnt;
+	}
 	
 
 		
