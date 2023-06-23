@@ -173,7 +173,7 @@
 					for(int i = minPage; i<=maxPage; i=i+1) {
 						if(i == currentPage) {
 					%>
-							<span><%=i%></span>&nbsp;
+							<a><span><%=i%></span></a>&nbsp;
 					<%			
 						} else {		
 					%>
