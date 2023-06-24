@@ -19,7 +19,7 @@ public class CartDao {
 		ArrayList<Cart> cartList = new ArrayList<>();
 		DBUtil dbUtil = new DBUtil();
 		Connection conn = dbUtil.getConnection();
-		String selectCartSql = "select cart_no, product_no, id, createdate, cart_cnt, updatedate from cart WHERE id = ? ORDER BY cart_no";
+		String selectCartSql = "SELECT c.cart_no, c.product_no, c.id, c.createdate, c.cart_cnt, c.updatedate, p.product_name FROM cart c INNER JOIN product p ON c.product_no = p.product_no WHERE c.id = ? ORDER BY c.cart_no";
 		PreparedStatement selectCartStmt = conn.prepareStatement(selectCartSql);
 		selectCartStmt.setString(1, loginId);
 		System.out.println(KIM+"CartDao - selectCartSql: " + selectCartSql+RESET);
@@ -29,6 +29,7 @@ public class CartDao {
 			Cart c = new Cart();
 			c.setCartNo(rs.getInt("cart_no"));
 			c.setProductNo(rs.getInt("product_no"));
+			c.setProductName(rs.getString("product_name"));
 			c.setCreatedate(rs.getString("createdate"));
 			c.setCartCnt(rs.getInt("cart_cnt"));
 			c.setUpdatedate(rs.getString("updatedate"));

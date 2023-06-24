@@ -252,7 +252,7 @@
    
          if(cartList == null || cartList.isEmpty()){ // 장바구니가 비었다면 메세지
       %>
-         <!-- Breadcrumb Section Begin -->
+    <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-section set-bg" data-setbg="../img/breadcrumb.jpg">
         <div class="container">
             <div class="row">
@@ -277,7 +277,7 @@
                         <table>
                         	<thead>
                                 <tr>
-                                    <th>상품 번호</th>
+                                    <th>상품 이름</th>
 						            <th>주문 수량</th>
 						            <th>생성일</th>
 						            <th>수정일</th>
@@ -330,7 +330,7 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>상품 번호</th>
+                                    <th>상품 이름</th>
 						            <th>주문 수량</th>
 						            <th>생성일</th>
 						            <th>수정일</th>
@@ -344,7 +344,7 @@
 					         %>
                                 <tr>
                                     <td class="shoping__cart__item2">
-                                        <%= c.getProductNo() %>
+                                        <%= c.getProductName() %>
                                     </td>
                                     <td class="shoping__cart__quantity">
                                         <div class="quantity">

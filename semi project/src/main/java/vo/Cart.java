@@ -2,6 +2,7 @@ package vo;
 
 public class Cart {
 	private int cartNo;
+	private String productName;
 	private int productNo;
 	private String id;
 	private String createdate;
@@ -12,6 +13,12 @@ public class Cart {
 	}
 	public void setCartNo(int cartNo) {
 		this.cartNo = cartNo;
+	}
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
 	public int getProductNo() {
 		return productNo;
