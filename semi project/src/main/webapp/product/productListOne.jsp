@@ -50,6 +50,26 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $(document).on("click", ".remove-product", function(e) {
+      e.preventDefault();
+      if (confirm("정말 삭제하시겠습니까?")) {
+        var deleteLink = $(this);
+        $.get(deleteLink.attr("href"), function() {
+          deleteLink.closest("tr").remove();
+          window.location.href = "<%=request.getContextPath()%>/product/productList.jsp"; // 삭제 후에 화면을 다시 로드
+          alert("상품 삭제가 완료되었습니다.");
+        }).fail(function() {
+          alert("상품 삭제에 실패했습니다. 다시 시도해주세요.");
+        });
+      } else {
+          location.reload(); // 취소를 눌렀을 때도 화면을 다시 로드 
+      }
+    });
+  });
+</script>
 <meta charset="UTF-8">
 <meta name="description" content="Ogani Template">
 <meta name="keywords" content="Ogani, unica, creative, html">
@@ -71,6 +91,19 @@
 <title>productListOne</title>
 <style>
 	table,td,th {border: 1px solid #000000; border-collapse: collapse;}
+   .pro-qty2 {
+      width: 140px;
+      height: 50px;
+      display: inline-block;
+      position: relative;
+      text-align: center;
+      background: #f5f5f5;
+      padding-top: 10px;
+      margin-bottom: 5px;
+   }
+   .center {
+   	  text-align: center;
+   }
 </style>
 </head>
 <body>
@@ -81,92 +114,132 @@
 </div>
 
 <!------------  상품상세보기 ------------>
-<div>
-	<h1><%=productOne.getProductName()%> 상품 상세 페이지</h1>
-	<!-- 에러메세지 -->
-	<div>
-	<%
-		if(request.getParameter("msg") != null){
-	%>
-		<%=request.getParameter("msg")%>
-	<%
-		}
-	%>
+    <section class="product-details spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__pic">
+                    <%
+						for(ProductImg pi: productImgs){
+					%>
+                        <div class="product__details__pic__item">
+                            <img class="product__details__pic__item--large"
+                                src="<%=request.getContextPath() + "/productImgUpload/" + pi.getProductSaveFilename()%>">
+                        </div>
+                     <%
+						}
+					%>	   
+	                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__text">
+                        <h3><%=productOne.getProductName()%></h3>
+                        <div class="product__details__rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-half-o"></i>
+                            <span>(18 reviews)</span>
+                        </div>
+                        <div class="product__details__price"><%=productOne.getProductPrice()%>원</div>
+                        <p><%=productOne.getProductInfo()%></p>
+                        <div class="product__details__quantity">
+                            <div class="quantity">
+                                <div class="pro-qty2">
+                                    1개 담기
+                                </div>
+                            </div>
+                        </div>
+                        <a href="<%=request.getContextPath()%>/cart/addCartAction.jsp?productNo=<%=productOne.getProductNo()%>" class="primary-btn">ADD TO CARD</a>
+                        <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                        <ul>
+                            <li><b>Availability</b> <span><%=productOne.getProductStatus()%></span></li>
+                            <li><b>Shipping</b> <span>3~4 day shipping. &nbsp;<samp>Free pickup today</samp></span></li>
+                            <li><b>Weight</b> <span>0.5 kg</span></li>
+                        </ul>
+                    </div>
+                    
+                    <br>
+                    
+                    <!-- 상품정보 수정 및 삭제 버튼 -->
+					<div>
+					<%
+						//loginId가 관리자2(최고위직)일 경우에만 상품 수정 및 삭제 가능
+						if(session.getAttribute("loginId") != null){
+							if(session.getAttribute("loginId").equals("admin")){ 
+					%>
+					<a href="<%=request.getContextPath()%>/product/modifyProduct.jsp?productNo=<%=productOne.getProductNo()%>" class="primary-btn">상품수정</a>
+					<a href="<%=request.getContextPath()%>/product/removeProductAction.jsp?productNo=<%=productOne.getProductNo()%>" class="remove-product primary-btn">상품삭제</a>
+					<%
+							}
+						}
+					%>
+					</div>
+                </div>
+                </div>
+                </div>
+                </section>
+   
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="product__details__tab">
+					<ul class="nav nav-tabs" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
+							aria-selected="true">상세정보</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<br>
+    
+    <div class="center">
+	<div class="container">
+		<div class="row">
+		<div class="col-lg-3 col-md-6"></div>
+			<div class="col-lg-6 col-md-6">
+                	<div class="product__details__pic">
+                    <%
+						for(ProductImg pi: productImgs){
+					%>
+						<div class="product__details__pic__item">
+							<img class="product__details__pic__item--large"
+								src="<%=request.getContextPath() + "/productImgUpload/" + pi.getProductSaveFilename()%>">
+						</div>
+						<div class="product__details__pic__item">
+							<img class="product__details__pic__item--large"
+								src="<%=request.getContextPath() + "/productImgUpload/" + pi.getProductSaveFilename()%>">
+						</div>
+						<div class="product__details__pic__item">
+							<img class="product__details__pic__item--large"
+								src="<%=request.getContextPath() + "/productImgUpload/" + pi.getProductSaveFilename()%>">
+						</div>
+						<div class="product__details__pic__item">
+							<img class="product__details__pic__item--large"
+								src="<%=request.getContextPath() + "/productImgUpload/" + pi.getProductSaveFilename()%>">
+						</div>
+						<div class="product__details__pic__item">
+							<img class="product__details__pic__item--large"
+								src="<%=request.getContextPath() + "/productImgUpload/" + pi.getProductSaveFilename()%>">
+						</div>
+					<%
+						}
+					%>	   
+					</div>
+                </div>
+			<div class="col-lg-3 col-md-6"></div>
+			</div>
+		</div>
 	</div>
 	
-	<table>
-		<tr>
-			<th>product_no</th>
-			<td><%=productOne.getProductNo()%></td>
-		</tr>
-		<tr>
-			<th>category_name</th>
-			<td><%=productOne.getCategoryName()%></td>
-		</tr>
-		<tr>	
-			<th>product_name</th>
-			<td><%=productOne.getProductName()%></td>
-		</tr>
-		<tr>
-			<th>product_price</th>
-			<td><%=productOne.getProductPrice()%></td>
-		</tr>
-		<tr>
-			<th>product_status</th>
-			<td><%=productOne.getProductStatus()%></td>
-		</tr>
-		<tr>
-			<th>product_stock</th>
-			<td><%=productOne.getProductStock()%></td>
-		</tr>
-	<%
-		if (productImgs.size() == 0){
-	%>
-			<tr>
-				<th>product_img</th>
-				<td>이미지가 없습니다.</td>
-			</tr>
-	<%
-		}
-		for(ProductImg pi: productImgs){
-	%>
-			<tr>
-				<th>product_img</th>
-				<td><img src="<%=request.getContextPath() + "/productImgUpload/" + pi.getProductSaveFilename()%>"></td>
-			</tr>
-	<%
-		}
-	%>	
-		<tr>
-			<th>product_info</th>
-			<td><%=productOne.getProductInfo()%></td>
-		</tr>
-		<tr>
-			<th>createdate</th>
-			<td><%=productOne.getCreatedate()%></td>
-		</tr>
-		<tr>
-			<th>updatedate</th>
-			<td><%=productOne.getUpdatedate()%></td>
-		</tr>
-		<tr>
-			<th>장바구니</th>
-			<td><a href="<%=request.getContextPath()%>/cart/addCartAction.jsp?productNo=<%=productOne.getProductNo()%>">장바구니 추가</a></td>
-		</tr>
-	</table>
-</div>
-	<!-- 상품정보 수정 및 삭제 버튼 -->
-	<%
-		//loginId가 관리자2(최고위직)일 경우에만 상품 수정 및 삭제 가능
-		if(session.getAttribute("loginId") != null){
-			if(session.getAttribute("loginId").equals("admin")){ 
-	%>
-	<a href="<%=request.getContextPath()%>/product/modifyProduct.jsp?productNo=<%=productOne.getProductNo()%>">상품 수정</a>
-	<a href="<%=request.getContextPath()%>/product/removeProduct.jsp?productNo=<%=productOne.getProductNo()%>">상품 삭제</a>
-	<%
-			}
-		}
-	%>
+                
+                            
+	
  <!------------lim :  문의 & 리뷰   ------------>
  <div class="container">
 				<div class="product__details__tab">
@@ -237,7 +310,15 @@
                  </div>
              </div>
 </div>
-                 <!-- Js Plugins -->
+
+<br>
+
+<!------------ 하단 저작권 바 ------------>
+<div>
+	<jsp:include page="/inc/copyRight.jsp"></jsp:include>
+</div>
+                              
+<!-- Js Plugins -->
     <script src="<%=request.getContextPath()%>/js/jquery-3.3.1.min.js"></script>
     <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
     <script src="<%=request.getContextPath()%>/js/jquery.nice-select.min.js"></script>
