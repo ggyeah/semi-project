@@ -54,6 +54,7 @@
 		maxPage = lastPage;
 	}
 	
+
 %>
 <!DOCTYPE html>
 <html>
@@ -171,9 +172,22 @@ $(document).ready(function() {
 								<% // 이미 구매확정 버튼을 눌렀을 시 addReview로 이동
 									if(orders.getDeliveryStatus().equals("구매확정")){
 								%>
-									<a href="<%=request.getContextPath()%>/review/addReview.jsp?orderNo=<%=orders.getOrderNo()%>&productNo=<%=orders.getProductNo()%>">리뷰작성</a>
+								 		<%
+										ReviewDao reviewDao = new ReviewDao();
+										Review review = new Review();
+										review = reviewDao.reviewListOne(orders.getOrderNo());
+										
+								 		if (review != null) { //작성된 리뷰가 있으면 리뷰를 보러
+								 		%>
+          									<a href="<%=request.getContextPath()%>/review/reviewListOne.jsp?orderNo=<%=review.getOrderNo()%>">리뷰보기</a>
+           								<% 
+           								} else { // 작성된 리뷰가 없으면 리뷰작성으로  
+           								%> 
+           	  								<a href="<%=request.getContextPath()%>/review/addReview.jsp?orderNo=<%=orders.getOrderNo()%>&productNo=<%=orders.getProductNo()%>">리뷰작성</a>
+									
 								<%	// 배송완료일 때 구매확정 할 수 있도록 설정
-									} else if(orders.getDeliveryStatus().equals("배송완료")){
+           							}	
+           						} else if(orders.getDeliveryStatus().equals("배송완료")){
 								%>
 									<button class="modify"><a href="<%=request.getContextPath()%>/orders/modifyCstmAction.jsp?orderNo=<%=orders.getOrderNo()%>&loginId=<%=loginId%>&deliveryStatus=<%=orders.getDeliveryStatus()%>">구매확정</a></button>
 							    <%

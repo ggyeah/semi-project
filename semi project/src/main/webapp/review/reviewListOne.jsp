@@ -19,6 +19,9 @@ System.out.println(orderNo + "<- reviewOneorderNo");
 
 review = reviewDao.reviewListOne(orderNo);
 reviewImgs = reviewImgDao.getReviewImages(orderNo); 
+
+ProductDao prodDao = new ProductDao(); 
+Product productOne = prodDao.ProductListOne(review.getProductNo());
 %>
 <!DOCTYPE html>
 <html>
@@ -61,6 +64,7 @@ reviewImgs = reviewImgDao.getReviewImages(orderNo);
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="breadcrumb__text">
+                    <P style="color:white;"><%=productOne.getProductName()%></P>
                     <h2>상품리뷰</h2>
                 </div>
             </div>

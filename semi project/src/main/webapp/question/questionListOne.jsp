@@ -15,6 +15,8 @@ if (request.getParameter("qNo") != null){
 	answer = answerDao.answerOne(qNo);
  }
 
+ProductDao prodDao = new ProductDao(); 
+Product productOne = prodDao.ProductListOne(question.getProductNo());
 %>
 <!DOCTYPE html>
 <html>
@@ -104,6 +106,7 @@ $(document).ready(function() {
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="breadcrumb__text answer-container">
+                     <P style="color:white;"><%=productOne.getProductName()%></P>
                     <h2>상품문의</h2>
                 </div>
             </div>
