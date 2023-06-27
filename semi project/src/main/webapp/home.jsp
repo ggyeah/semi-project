@@ -54,7 +54,11 @@
     <link rel="stylesheet" href="css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="css/style.css" type="text/css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+<style>
+	.center {
+	text-align: center;
+	}
+</style>
 </head>
 <body>
 <!------------ 상단 네비 바 ------------>
@@ -62,7 +66,7 @@
 <div>
 	<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
 </div>
-<!-- 카테고리 바 Begin -->
+<!-- 카테고리 및 검색창 Begin -->
     <section class="hero">
         <div class="container">
             <div class="row">
@@ -81,6 +85,7 @@
 							<% 
 								}
 							%>
+							<li><a href="<%=request.getContextPath()%>/product/productList.jsp?categoryName=할인상품">할인상품</a></li>
                         </ul>
                     </div>
                 </div>
@@ -108,7 +113,7 @@
             </div>
         </div>
     </section>
-<!-- Hero Section End -->
+<!-- 카테고리 및 검색창 End -->
     
 <!-- Featured Section Begin -->
 <section class="featured spad">
@@ -137,7 +142,7 @@
 		  });
 		});
 		</script>
-			<div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
+			<div class="col-lg-3 col-md-4 col-sm-6">
 				<div class="featured__item">
 					<div class="featured__item__pic set-bg featured__item__pic<%=productNo%>" data-setbg="<%=request.getContextPath()%>/productImgUpload/<%=productImgs.get(0).getProductSaveFilename()%>">
 						<ul class="featured__item__pic__hover">
@@ -161,9 +166,11 @@
 		%>
 		</div>
 			<!-- 더보기 누르면 상품리스트로 가도록 -->
-			<a href="<%=request.getContextPath()%>/product/productList.jsp?categoryName=전체">
+			<div class="center">
+			<a href="<%=request.getContextPath()%>/product/productList.jsp?categoryName=전체" class="primary-btn">
 				더보기
 			</a>
+			</div>
 	</div>
 </section>
 <!-- Featured Section End -->

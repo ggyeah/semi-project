@@ -77,8 +77,8 @@
 <!-- 카테고리정보 관리 버튼 -->
 <div class="container">
 	<div>	
-		<a href="<%=request.getContextPath()%>/category/addCategory.jsp">카테고리 추가</a>
-		<a href="<%=request.getContextPath()%>/category/modifyCategory.jsp">카테고리 수정</a>
+		<a href="<%=request.getContextPath()%>/category/addCategory.jsp" class="primary-btn">카테고리 추가</a>
+		<a href="<%=request.getContextPath()%>/category/modifyCategory.jsp" class="primary-btn">카테고리 수정</a>
 	</div>
 </div>
 <br>
@@ -106,7 +106,7 @@
 						 <td><%=category.getCreatedate()%></td>
 						 <td><%=category.getUpdatedate()%></td>
 						 <td>
-						 	<a href="<%=request.getContextPath()%>/category/removeCategoryAction.jsp?removeCategoryName=<%=category.getCategoryName()%>" class="remove-category">
+						 	<a href="<%=request.getContextPath()%>/category/removeCategoryAction.jsp?removeCategoryName=<%=category.getCategoryName()%>" class="remove-category primary-btn">
 						 		카테고리 삭제
 						 	</a>
 						 </td>
