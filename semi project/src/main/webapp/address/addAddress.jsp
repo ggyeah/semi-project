@@ -34,15 +34,6 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.carousel.min.css" type="text/css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" type="text/css">
-<script>
-		document.getElementById("check").addEventListener("change", function() {
-			if (this.checked) {
-				document.getElementsByName("defaultAddress")[0].value = "Y";
-			} else {
-				document.getElementsByName("defaultAddress")[0].value = "N";
-			}
-		});
-</script>	
 <style>
 	.center{
 		text-align:center;
@@ -141,7 +132,7 @@
 							<div class="center">
 								<div class="center">
 									<input type="checkbox" name="defaultAddress" value="Y" id="check">
-									<label for="defaultAddressCheckbox">기본 배송지로 등록</label>
+									<label for="check">기본 배송지로 등록</label>
 								</div>
 							</div>	
 							<div class="center">	
@@ -167,6 +158,17 @@
     <script src="<%=request.getContextPath()%>/js/mixitup.min.js"></script>
     <script src="<%=request.getContextPath()%>/js/owl.carousel.min.js"></script>
     <script src="<%=request.getContextPath()%>/js/main.js"></script>
-          
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#check").change(function() {
+            if ($(this).is(":checked")) {
+                $("input[name='defaultAddress']").val("Y");
+            } else {
+                $("input[name='defaultAddress']").val("N");
+            }
+        });
+    });
+</script>          
 </body>
 </html>
