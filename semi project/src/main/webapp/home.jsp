@@ -133,6 +133,8 @@
 				ProductImgDao productImgDao = new ProductImgDao();
 				ArrayList<ProductImg> productImgs = new ArrayList<>();
 				productImgs = productImgDao.getProductImages(productNo);
+				DiscountDao discountDao = new DiscountDao(); // ProductDao 객체 생성
+				Discount discount = discountDao.discountOneList(productNo);
 				if(productImgs.size() != 0){
 		%>
 		<script>
@@ -155,7 +157,7 @@
 			    		<h6><a href="<%=request.getContextPath()%>/product/productListOne.jsp?productNo=<%=product.getProductNo()%>">
 							<%=product.getProductName()%>
 						</a></h6>
-						<h5><%=product.getProductPrice()%>원</h5>
+						<h5><%=discount.getDiscountedPrice()%>원</h5>
 							<%=product.getProductStatus()%>
 					</div>
 				</div>

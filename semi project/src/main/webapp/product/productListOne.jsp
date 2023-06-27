@@ -22,10 +22,12 @@
 	int productNo = Integer.parseInt(request.getParameter("productNo"));
 	// 디버깅
 	System.out.println(SONG + productNo + " <-- 상품번호" + RESET);
-	
+
 	
 	ProductDao prodDao = new ProductDao(); // ProductDao 객체 생성
 	Product productOne = prodDao.ProductListOne(productNo); // productNo 매개변수로 productOne 메서드 호출하여, 상세보기에 표시할 productOne 객체 가져오기
+	DiscountDao discountDao = new DiscountDao(); // ProductDao 객체 생성
+	Discount discount = discountDao.discountOneList(productNo);
 	
 	ProductImgDao productImgDao = new ProductImgDao();
 	ArrayList<ProductImg> productImgs = new ArrayList<>();
@@ -142,7 +144,7 @@
                             <i class="fa fa-star-half-o"></i>
                             <span>(18 reviews)</span>
                         </div>
-                        <div class="product__details__price"><%=productOne.getProductPrice()%>원</div>
+                        <div class="product__details__price"><%=discount.getDiscountedPrice()%>원</div>
                         <p><%=productOne.getProductInfo()%></p>
                         <div class="product__details__quantity">
                             <div class="quantity">
