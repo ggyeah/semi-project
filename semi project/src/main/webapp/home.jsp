@@ -17,18 +17,19 @@
 	ArrayList<Category> categoryList = ctgrDao.categoryList(); // categoryList 메서드 호출하여, 옵션에 표시할 categoryCntList 객체 가져오기
 	
 	/* categoryName의 디폴트 값을 "전체"로 설정 */
-	// null로 넘어와도 → 전체 카테고리의 게시글을 출력하고
-	// "전체"로 넘어와도 → 전체 카테고리의 게시글을 출력해야 하기 때문
+	// null로 넘어와도 → 전체 카테고리의 상품을 출력하고
+	// "전체"로 넘어와도 → 전체 카테고리의 상품을 출력해야 하기 때문
 	String categoryName = "전체";
 	if(request.getParameter("categoryName") != null){
 		categoryName = request.getParameter("categoryName");	
 	}
 	
 	ProductDao productCateDao = new ProductDao();
-	ArrayList<Product> productListCate = productCateDao.productListCateByPage(categoryName, 0, 10);
+	ArrayList<Product> productListCate = productCateDao.productListCateByPage(categoryName, 0, 13);
 
 	ProductDao productDao = new ProductDao();
-	ArrayList<Product> productList = productDao.productListByPage(0, 12);
+	ArrayList<Product> productList = productDao.productListByPage(0, 13);
+	
 	
 %>
 <!DOCTYPE html>

@@ -12,6 +12,19 @@
 	final String KIM = "\u001B[42m";
 	final String SONG = "\u001B[43m";
 	final String YANG = "\u001B[44m";
+	
+	// 현재페이지
+	int currentPage = 1;
+	
+	/* 유효성 검사 통과하면 변수에 저장 */
+	if (request.getParameter("currentPage") != null){
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
+	
+	// 페이지에 보여줄 상품의 개수
+	int rowPerPage = 13;
+	// 시작 상품의 번호
+	int beginRow = (currentPage-1) * rowPerPage;
 
 	CategoryDao ctgrDao = new CategoryDao(); // CategoryDao 객체 생성
 	ArrayList<Category> categoryList = ctgrDao.categoryList(); // categoryList 메서드 호출하여, 옵션에 표시할 categoryCntList 객체 가져오기
@@ -25,10 +38,28 @@
 	}
 	
 	ProductDao productDao = new ProductDao();
-	ArrayList<Product> productListCate = productDao.productListCateByPage(categoryName, 0, 12);
+	ArrayList<Product> productListCate = productDao.productListCateByPage(categoryName, beginRow, rowPerPage);
 
 	DiscountDao discountDao = new DiscountDao();
-	ArrayList<Discount> dList = discountDao.discountinvokedList(1, 12);
+	ArrayList<Discount> dList = discountDao.discountinvokedList(beginRow, rowPerPage);
+	
+	// 전체 상품의 수 구하기
+	int totalRow = productDao.productCnt();
+	
+	// 마지막 페이지
+	int lastPage = totalRow / rowPerPage;
+		
+		
+	// 하단 페이지목록 : 한 번에 보여줄 페이지의 개수
+	int pagePerPage = 5;
+	// 페이지 목록 중 가장 작은 숫자의 페이지
+	int minPage = ((currentPage - 1) / pagePerPage ) * pagePerPage + 1;
+	// 페이지 목록 중 가장 큰 숫자의 페이지
+	int maxPage = minPage + (pagePerPage - 1);
+	// maxPage 가 last Page보다 커버리면 안되니까 lastPage를 넣어준다
+	if (maxPage > lastPage){
+		maxPage = lastPage;
+	}
 %>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -118,10 +149,10 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2>추천밀키트</h2>
+                        <h2>할인상품</h2>
                         <div class="breadcrumb__option">
                             <a href="./index.html">Home &nbsp;</a>
-                            <span>추천밀키트</span>
+                            <span>할인상품</span>
                         </div>
                     </div>
                 </div>
@@ -173,7 +204,7 @@
 		%>
 		<script>
 		$(document).ready(function() {
-		  $(".featured__item__pic<%=productNo%>").click(function() {
+		  $(".product__item__pic<%=productNo%>").click(function() {
 		    window.location.href = "<%=request.getContextPath()%>/product/productListOne.jsp?productNo=<%=productNo%>";
 		  });
 		});
@@ -191,6 +222,7 @@
 					<h6><a href="<%=request.getContextPath()%>/product/productListOne.jsp?productNo=<%=discountProduct.getProductNo()%>">
 						<%=discountProduct.getProductName()%></a></h6>
 					<h5><%=discount.getDiscountedPrice()%>원</h5>
+						<%=discountProduct.getProductPrice()%><br>
 						<%=discountProduct.getProductStatus()%>
 				</div>
 			</div>
@@ -201,17 +233,35 @@
 		%>
 	</div>  
                       	
-<!------------ 페이징 예정 ------------>
+<!------------ 페이지네이션 ------------>
 	<div class="center">
 	<div class="row">
 	<div class="col-lg-12">
 		<div class="product__pagination">
-			<a href="#">1</a>
-			<a href="#">2</a>
-			<a href="#">3</a>
-			<a href="#">4</a>
-			<a href="#">5</a>
-		    <a href="#"><i class="fa fa-long-arrow-right"></i></a>
+		<%
+			if(minPage > 1) {	// 1페이지 아닐 때 이전버튼 표시
+		%>
+			<a href="<%=request.getContextPath()%>/product/discountProductList.jsp?currentPage=<%=minPage - 1%>"><i class="fa fa-long-arrow-left"></i></a>
+		<%
+			}
+		%> 
+		
+		<%
+			for(int i = minPage; i <= maxPage; i++) {
+		%>
+			<a href="<%=request.getContextPath()%>/product/discountProductList.jsp?currentPage=<%=i%>">
+			<%=i%></a>
+		<%
+			}
+		%>
+		
+		<%
+			if(maxPage < lastPage) { // 마지막페이지 아닐 때 다음버튼 표시
+		%>
+		    <a href="<%=request.getContextPath()%>/product/discountProductList.jsp?currentPage=<%=maxPage + 1%>"><i class="fa fa-long-arrow-right"></i></a>
+		<%
+			}
+		%>    
 		</div>
 	</div>
 	</div>

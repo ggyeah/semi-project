@@ -68,6 +68,12 @@ public class Discount {
 	public void setProductName(String productName) {
 		ProductName = productName;
 	}
+	public int getProductPrice() {
+		return ProductPrice;
+	}
+	public void setProductPrice(int productPrice) {
+		ProductPrice = productPrice;
+	}
 	public String getProductStatus() {
 		return ProductStatus;
 	}
@@ -86,11 +92,6 @@ public class Discount {
 	public void setDiscountedPrice(int discountedPrice) {
 		DiscountedPrice = discountedPrice;
 	}
-	public int getProductPrice() {
-		return ProductPrice;
-	}
-	public void setProductPrice(int productPrice) {
-		ProductPrice = productPrice;
-	}
+	
 	}
 

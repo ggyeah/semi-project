@@ -220,7 +220,7 @@ public class DiscountDao {
 	            discount.setProductNo(discountListRs.getInt("product_no"));
 	            discount.setCategoryName(discountListRs.getString("category_name"));
 	            discount.setProductName(discountListRs.getString("product_name"));
-	            discount.setProductName(discountListRs.getString("product_price"));
+	            discount.setProductPrice(discountListRs.getInt("product_price"));
 	            discount.setProductStatus(discountListRs.getString("product_status"));
 	            discount.setProductStock(discountListRs.getInt("product_stock"));
 	            discount.setDiscountStart(discountListRs.getString("discount_start"));
