@@ -211,7 +211,7 @@ public class DiscountDao {
 			  discount d ON p.product_no = d.product_no
 			*/
 			
-			PreparedStatement discountListStmt = conn.prepareStatement("SELECT p.product_no, p.category_name, p.product_name, p.product_status, p.product_stock, d.discount_start, d.discount_end, d.discount_no, CASE WHEN (d.discount_start <= NOW() AND d.discount_end >= NOW()) THEN d.discount_rate ELSE 0.0 END AS discount_rate, CASE WHEN (d.discount_start <= NOW() AND d.discount_end >= NOW()) THEN p.product_price * (1 - d.discount_rate) ELSE p.product_price END AS discounted_price FROM product p INNER JOIN discount d ON p.product_no = d.product_no");
+			PreparedStatement discountListStmt = conn.prepareStatement("SELECT p.product_no, p.category_name, p.product_name, p.product_price, p.product_status, p.product_stock, d.discount_start, d.discount_end, d.discount_no, CASE WHEN (d.discount_start <= NOW() AND d.discount_end >= NOW()) THEN d.discount_rate ELSE 0.0 END AS discount_rate, CASE WHEN (d.discount_start <= NOW() AND d.discount_end >= NOW()) THEN p.product_price * (1 - d.discount_rate) ELSE p.product_price END AS discounted_price FROM product p INNER JOIN discount d ON p.product_no = d.product_no ORDER BY p.createdate DESC");
 	        
 	        ResultSet discountListRs = discountListStmt.executeQuery();
 	        
@@ -220,6 +220,7 @@ public class DiscountDao {
 	            discount.setProductNo(discountListRs.getInt("product_no"));
 	            discount.setCategoryName(discountListRs.getString("category_name"));
 	            discount.setProductName(discountListRs.getString("product_name"));
+	            discount.setProductName(discountListRs.getString("product_price"));
 	            discount.setProductStatus(discountListRs.getString("product_status"));
 	            discount.setProductStock(discountListRs.getInt("product_stock"));
 	            discount.setDiscountStart(discountListRs.getString("discount_start"));

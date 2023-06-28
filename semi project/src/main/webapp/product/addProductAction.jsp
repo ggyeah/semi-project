@@ -99,9 +99,11 @@
 			if (addProductImgRow == 1) {
 			    System.out.println(SONG + addProductImgRow + " <-- addProductAction 상품 이미지 추가 성공" + RESET);
 			    response.sendRedirect(request.getContextPath()+"/product/productList.jsp");
+			    return;
 			} else {
 			    System.out.println(SONG + addProductImgRow + " <-- addProductAction 상품 이미지 추가 실패" + RESET);
 			    response.sendRedirect(request.getContextPath()+"/product/addProduct.jsp");
+			    return;
 			}
 		} response.sendRedirect(request.getContextPath()+"/product/productList.jsp");
 	} else {

@@ -10,6 +10,7 @@ public class Discount {
 	private String updatedate;
 	private String CategoryName;
 	private String ProductName;
+	private int ProductPrice;
 	private String ProductStatus;
 	private int ProductStock;
 	private int DiscountedPrice;
@@ -84,6 +85,12 @@ public class Discount {
 	}
 	public void setDiscountedPrice(int discountedPrice) {
 		DiscountedPrice = discountedPrice;
+	}
+	public int getProductPrice() {
+		return ProductPrice;
+	}
+	public void setProductPrice(int productPrice) {
+		ProductPrice = productPrice;
 	}
 	}
 

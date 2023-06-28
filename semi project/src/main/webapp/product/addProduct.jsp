@@ -59,6 +59,74 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" type="text/css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+    // 시작시 title 입력 폼에 포커스
+    $('#categoryName').focus();
+    
+    // 유효성 체크 함수
+    function validateForm() {
+        let allCheck = true; // allCheck 변수 초기화
+
+        if ($('#categoryName').val() == '') {
+            $('#categoryNameMsg').text('카테고리를 선택하세요');
+            $('#categoryName').focus();
+            allCheck = false;
+        } else {
+            $('#categoryNameMsg').text('');
+        }
+
+        if ($('#Status').val() == '') {
+            $('#StatusMsg').text('상태를 선택하세요');
+            $('#Status').focus();
+            allCheck = false;
+        } else {
+            $('#statusMsg').text('');
+        }
+        
+        if ($('#Name').val() == '') {
+            $('#NameMsg').text('상품이름을 입력하세요');
+            $('#Name').focus();
+            allCheck = false;
+        } else {
+            $('#NameMsg').text('');
+        }
+        
+        if ($('#Price').val() == '') {
+            $('#PriceMsg').text('가격을 입력하세요');
+            $('#Price').focus();
+            allCheck = false;
+        } else {
+            $('#PriceMsg').text('');
+        }
+        
+        if ($('#Stock').val() == '') {
+            $('#StockMsg').text('재고량을 입력하세요');
+            $('#Stock').focus();
+            allCheck = false;
+        } else {
+            $('#StockMsg').text('');
+        }
+        
+        if ($('#Info').val() == '') {
+            $('#InfoMsg').text('내용을 입력하세요');
+            $('#Info').focus();
+            allCheck = false;
+        } else {
+            $('#InfoMsg').text('');
+        }
+        return allCheck;
+    }
+     $('#Btn').click(function(e) {
+        e.preventDefault(); // 기본 동작 방지
+
+        if (validateForm()) {
+            $('#Form').submit();
+        }
+    });
+});
+</script>
 </head>
 <body>
 <!------------ 상단 네비 바 ------------>
@@ -83,13 +151,13 @@
 		<div class="container">
 			<div class="checkout__form">
 				<h4>상품 추가 페이지</h4>
-				<form action="<%=request.getContextPath()%>/product/addProductAction.jsp" method="post" enctype="multipart/form-data">
+				<form action="<%=request.getContextPath()%>/product/addProductAction.jsp" method="post" enctype="multipart/form-data"  id="Form" >
 					<div class="col-lg-12 col-md-6">
 						<div class="row">
 						<div class="col-lg-12">
 							<div class="checkout__input">
 								<p>카테고리명<span>*</span></p>
-								<select class="category" name="categoryName">
+								<select class="category" name="categoryName" id="categoryName">
 									<option value="">카테고리를 선택하세요</option>
 								<%
 									for(Category category : categoryList) {
@@ -99,6 +167,7 @@
 									}
 								%>
 								</select>
+								<span id="categoryNameMsg" class="msg"></span>
 							</div>    
 						</div>
 						</div>
@@ -109,12 +178,13 @@
 						<div class="col-lg-12">
 							<div class="checkout__input">
 								<p>판매상태<span>*</span></p>
-								<select class="status" name="productStatus" >
+								<select class="status" name="productStatus" id="Status">
 									<option value="">상태를 선택하세요</option>
 									<option value="일시품절">일시품절</option>
 									<option value="판매중">판매중</option>
 									<option value="단종">단종</option>
 								</select>
+								<span id="StatusMsg" class="msg"></span>
 							</div>
 						</div>
 						</div>
@@ -123,23 +193,27 @@
       
 						<div class="checkout__input">
 							<p>상품명<span>*</span></p>
-							<input type="text" name="productName">
+							<input type="text" name="productName" id="Name">
+							<span id="NameMsg" class="msg"></span>
 						</div>
   
 						<div class="checkout__input">
 							<p>가격<span>*</span></p>
-							<input type="text" name="productPrice">				
+							<input type="text" name="productPrice" id="Price">	
+							<span id="PriceMsg" class="msg"></span>			
 						</div>
 
 						
 						<div class="checkout__input">
 							<p>재고량<span>*</span></p>
-							<input type="text" name="productStock">
+							<input type="text" name="productStock"  id="Stock">
+							<span id="StockMsg" class="msg"></span>
 						</div>
 
 						<div class="checkout__input">
 							<p>상세설명<span>*</span></p>
-							<input type="text" name="productInfo">				
+							<input type="text" name="productInfo"  id="Info">
+							<span id="InfoMsg" class="msg"></span>				
 						</div>
 						
 						<div class="checkout__input">
@@ -147,7 +221,7 @@
 							<input type="file" name="productImg" class="button">
 						</div>
 					</div>        
-						<button type="submit" class="site-btn">상품추가</button>
+						<button type="submit" class="site-btn" id="Btn">상품추가</button>
 				</form>
 			</div>
 		</div>

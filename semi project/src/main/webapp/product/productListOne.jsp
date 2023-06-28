@@ -33,6 +33,17 @@
 	ArrayList<ProductImg> productImgs = new ArrayList<>();
 	productImgs = productImgDao.getProductImages(productNo);
 	
+	CategoryDao ctgrDao = new CategoryDao(); // CategoryDao 객체 생성
+	ArrayList<Category> categoryList = ctgrDao.categoryList(); // categoryList 메서드 호출하여, 옵션에 표시할 categoryCntList 객체 가져오기
+	
+	/* categoryName의 디폴트 값을 "전체"로 설정 */
+	// null로 넘어와도 → 전체 카테고리의 게시글을 출력하고
+	// "전체"로 넘어와도 → 전체 카테고리의 게시글을 출력해야 하기 때문
+	String categoryName = "전체";
+	if(request.getParameter("categoryName") != null){
+		categoryName = request.getParameter("categoryName");	
+	}
+	
 	/*---------lim : 리뷰리스트 -----------*/
 	ReviewDao reviewDao = new ReviewDao();
 	int beginRow = 0;
@@ -114,6 +125,53 @@
 <div>
 	<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
 </div>
+
+<!-- 카테고리 및 검색창 Begin -->
+    <section class="hero hero-normal">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="hero__categories">
+                        <div class="hero__categories__all">
+                            <i class="fa fa-bars"></i>
+                            <span>All category</span>
+                        </div>
+                        <ul>
+                            <li><a href="<%=request.getContextPath()%>/product/productList.jsp?categoryName=전체">전체</a></li>
+                            <%
+								for(Category category : categoryList) {
+							%>
+								<li><a href="<%=request.getContextPath()%>/product/productList.jsp?categoryName=<%=category.getCategoryName()%>"><%=category.getCategoryName()%></a></li>
+							<% 
+								}
+							%>
+							 <li><a href="<%=request.getContextPath()%>/product/discountProductList.jsp">할인상품</a></li>
+                        </ul>
+                    </div>
+                </div>
+               <div class="col-lg-9">
+                    <div class="hero__search">
+                        <div class="hero__search__form">
+                            <form action="#">
+                                <input type="text" placeholder="What do yo u need?">
+                                <button type="submit" class="site-btn">SEARCH</button>
+                            </form>
+                        </div>
+                        <div class="hero__search__phone">
+                            <div class="hero__search__phone__icon">
+                                <i class="fa fa-phone"></i>
+                            </div>
+                            <div class="hero__search__phone__text">
+                                <h5>+82 02.000.000</h5>
+                                <span>&nbsp; support 24/7 time</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- 카테고리 및 검색창 End -->
 
 <!------------  상품상세보기 ------------>
     <section class="product-details spad">

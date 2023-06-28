@@ -28,6 +28,7 @@
 	ArrayList<Product> productListCate = productDao.productListCateByPage(categoryName, 0, 12);
 
 	DiscountDao discountDao = new DiscountDao();
+	ArrayList<Discount> dList = discountDao.discountinvokedList(1, 12);
 %>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -51,7 +52,6 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" type="text/css">
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
 	.center {
 	text-align: center;
@@ -173,7 +173,7 @@
 		%>
 		<script>
 		$(document).ready(function() {
-		  $(".product__item__pic<%=productNo%>").click(function() {
+		  $(".featured__item__pic<%=productNo%>").click(function() {
 		    window.location.href = "<%=request.getContextPath()%>/product/productListOne.jsp?productNo=<%=productNo%>";
 		  });
 		});

@@ -85,7 +85,7 @@
 							<% 
 								}
 							%>
-							<li><a href="<%=request.getContextPath()%>/product/productList.jsp?categoryName=할인상품">할인상품</a></li>
+							<li><a href="<%=request.getContextPath()%>/product/discountProductList.jsp">할인상품</a></li>
                         </ul>
                     </div>
                 </div>
@@ -177,6 +177,25 @@
 </section>
 <!-- Featured Section End -->
 
+<!-- 상품추가버튼 -->
+<%
+	//loginId가 관리자2(최고위직)일 경우에만 상품 수정 및 삭제 가능
+	if(session.getAttribute("loginId") != null){
+		if(session.getAttribute("loginId").equals("admin")){ 
+%>
+	<div class="center">
+	<div class="row">
+		<div class="col-lg-12">
+		<a href="<%=request.getContextPath()%>/product/addProduct.jsp" class="primary-btn">상품추가</a>
+		</div>
+	</div>
+	</div>
+<%
+		}
+	}
+%>
+
+<br>
 	
 <!------------ 하단 저작권 바 ------------>
 <div>
