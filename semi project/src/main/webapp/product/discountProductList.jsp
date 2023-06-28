@@ -162,8 +162,8 @@
                     </div>
 	<div class="row"> 
 		<%
-			for(Product product : productListCate) {
-				int productNo = product.getProductNo();
+		for(Discount discountProduct : dList) {
+				int productNo = discountProduct.getProductNo();
 				Discount discount = discountDao.discountOneList(productNo);
 				
 				ProductImgDao productImgDao = new ProductImgDao();
@@ -182,16 +182,16 @@
 			<div class="product__item">
 				<div class="product__item__pic set-bg product__item__pic<%=productNo%>" data-setbg="<%=request.getContextPath()%>/productImgUpload/<%=productImgs.get(0).getProductSaveFilename()%>">
 					<ul class="product__item__pic__hover">
-						<li><a href="<%=request.getContextPath()%>/product/productListOne.jsp?productNo=<%=product.getProductNo()%>"><i class="fa fa-heart"></i></a></li>
-						<li><a href="<%=request.getContextPath()%>/product/productListOne.jsp?productNo=<%=product.getProductNo()%>"><i class="fa fa-retweet"></i></a></li>
-						<li><a href="<%=request.getContextPath()%>/cart/addCartAction.jsp?productNo=<%=product.getProductNo()%>"><i class="fa fa-shopping-cart"></i></a></li>
+						<li><a href="<%=request.getContextPath()%>/product/productListOne.jsp?productNo=<%=discountProduct.getProductNo()%>"><i class="fa fa-heart"></i></a></li>
+						<li><a href="<%=request.getContextPath()%>/product/productListOne.jsp?productNo=<%=discountProduct.getProductNo()%>"><i class="fa fa-retweet"></i></a></li>
+						<li><a href="<%=request.getContextPath()%>/cart/addCartAction.jsp?productNo=<%=discountProduct.getProductNo()%>"><i class="fa fa-shopping-cart"></i></a></li>
 					</ul>
 				</div>
 				<div class="product__item__text">
-					<h6><a href="<%=request.getContextPath()%>/product/productListOne.jsp?productNo=<%=product.getProductNo()%>">
-						<%=product.getProductName()%></a></h6>
+					<h6><a href="<%=request.getContextPath()%>/product/productListOne.jsp?productNo=<%=discountProduct.getProductNo()%>">
+						<%=discountProduct.getProductName()%></a></h6>
 					<h5><%=discount.getDiscountedPrice()%>원</h5>
-						<%=product.getProductStatus()%>
+						<%=discountProduct.getProductStatus()%>
 				</div>
 			</div>
 		</div>
