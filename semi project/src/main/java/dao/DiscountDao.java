@@ -231,6 +231,31 @@ public class DiscountDao {
 	    	}
 	        return dList;
 	    }	
+		
+	//8)할인품목 상세보기
+			public Discount discountOne(int productNo) throws Exception {
+				
+				DBUtil dbUtil = new DBUtil();
+				Connection conn = dbUtil.getConnection();
+				PreparedStatement discountOneStmt = conn.prepareStatement("select discount_no, product_no, discount_start, discount_end, discount_rate, createdate, updatedate from discount where product_no = ?");
+			    discountOneStmt.setInt(1, productNo);
+
+			    ResultSet discountOneRs = discountOneStmt.executeQuery();
+
+			    Discount discount = null;
+
+			    if(discountOneRs.next()) {
+		        	discount = new Discount();
+		        	discount.setDiscountNo(discountOneRs.getInt("discount_no"));
+		        	discount.setProductNo(discountOneRs.getInt("product_no"));
+		        	discount.setDiscountStart(discountOneRs.getString("discount_start"));
+		        	discount.setDiscountEnd(discountOneRs.getString("discount_end"));
+		        	discount.setDiscountRate(discountOneRs.getDouble("discount_rate"));
+		        	discount.setCreatedate(discountOneRs.getString("createdate"));
+		        	discount.setUpdatedate(discountOneRs.getString("updatedate"));
+		    	}
+			    return discount;
+			}
 }
 		    
 		    
