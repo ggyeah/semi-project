@@ -63,6 +63,24 @@
 		padding-bottom: 10px;
 		margin-bottom: 25px;
 	}
+	.checkout__input input {
+   width: 100%;
+   border: 1px solid #ebebeb;
+   padding-left: 20px;
+   font-size: 16px;
+   color: #b2b2b2;
+   border-radius: 4px;
+}
+.addressForm{
+	width: 100%;
+}
+.addressTable{
+	display:flex;
+	justify-content: center;
+}
+.addressTable table{
+	width: 30%;
+}
 </style>
 </head>
 <body>
@@ -99,51 +117,49 @@
     </section>
 <!-- Breadcrumb Section End -->	
 <!---------------------- 배송지 추가 ---------------------->
-	<div class="center">
+	
 		<section class="shoping-cart spad">
 	        <div class="container">
+	        
 	        	<div class="checkout__form2">
 		            <div class="row">
-						<form action="<%=request.getContextPath()%>/address/addAddressAction.jsp" method="post">
+						<form action="<%=request.getContextPath()%>/address/addAddressAction.jsp" method="post" class="addressForm">
 							<input type="hidden" name="productNo" value="<%=productNo%>">
 							<input type="hidden" name="defaultAddress" value="N">	
-							<div class="center">
-								<div class="col-lg-12 text-center">
-									<table>
-										<tr>
-											<th>배송지명</th>
-										</tr>
-										<tr>	
-											<td class="checkout__input">
-												<input type="text" name="addAddressName" placeholder="배송지명을 입력하세요" class="center">
-											</td>
-										</tr>
-										<tr>	
-											<th>주소</th>
-										</tr>
-										<tr>	
-											<td class="checkout__input">
-												<input type="text" name="addAddress" placeholder="주소를 입력하세요" class="center">
-											</td>
-										</tr>
-									</table>
-								</div>
+							<div class="center addressTable">
+								<table>
+									<tr>
+										<th>배송지명</th>
+									</tr>
+									<tr>	
+										<td class="checkout__input">
+											<input type="text" name="addAddressName" placeholder="배송지명을 입력하세요" class="center">
+										</td>
+									</tr>
+									<tr>	
+										<th>주소</th>
+									</tr>
+									<tr>	
+										<td class="checkout__input">
+											<input type="text" name="addAddress" placeholder="주소를 입력하세요" class="center">
+										</td>
+									</tr>
+								</table>
 							</div>
 							<div class="center">
-								<div class="center">
-									<input type="checkbox" name="defaultAddress" value="Y" id="check">
-									<label for="check">기본 배송지로 등록</label>
-								</div>
-							</div>	
-							<div class="center">	
+								<input type="checkbox" name="defaultAddress" value="Y" id="check">
+								<label for="check">기본 배송지로 등록</label>
+							</div>
+							<div class="center">
 								<button type="submit" class="button">추가</button>
 							</div>
 						</form>
 					</div>
 				  </div>
+				 
 				</div>
 		</section>
-	</div>	
+	
 <!------------ 하단 저작권 바 ------------>
 <div>
 	<jsp:include page="/inc/copyRight.jsp"></jsp:include>

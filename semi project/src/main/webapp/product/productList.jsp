@@ -22,7 +22,7 @@
 	}
 	
 	// 페이지에 보여줄 상품의 개수
-	int rowPerPage = 13;
+	int rowPerPage = 12;
 	// 시작 상품의 번호
 	int beginRow = (currentPage-1) * rowPerPage;
 
@@ -115,7 +115,7 @@
                             <%
 								for(Category category : categoryList) {
 							%>
-								<li><a href="<%=request.getContextPath()%>/product/productList.jsp?categoryName=<%=category.getCategoryName()%>"><%=category.getCategoryName()%></a></li>
+								<li><a href="<%=request.getContextPath()%>/product/productCateList.jsp?categoryName=<%=category.getCategoryName()%>"><%=category.getCategoryName()%></a></li>
 							<% 
 								}
 							%>
@@ -153,10 +153,10 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2>추천밀키트</h2>
+                        <h2>전체 상품</h2>
                         <div class="breadcrumb__option">
                             <a href="./index.html">Home &nbsp;</a>
-                            <span>추천밀키트</span>
+                            <span>전체 상품</span>
                         </div>
                     </div>
                 </div>
@@ -184,7 +184,7 @@
                             </div>
                             <div class="col-lg-4 col-md-4">
                                 <div class="filter__found">
-                                    <h6>&nbsp;</h6>
+                                    <h6>전체 <span><%=totalRow%></span>개의 상품이 있습니다</h6>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-3">

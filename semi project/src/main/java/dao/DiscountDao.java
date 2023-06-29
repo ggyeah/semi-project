@@ -209,9 +209,11 @@ public class DiscountDao {
 			  product p
 			INNER JOIN
 			  discount d ON p.product_no = d.product_no
+			WHERE
+  (d.		  discount_start <= NOW() AND d.discount_end >= NOW());
 			*/
 			
-			PreparedStatement discountListStmt = conn.prepareStatement("SELECT p.product_no, p.category_name, p.product_name, p.product_price, p.product_status, p.product_stock, d.discount_start, d.discount_end, d.discount_no, CASE WHEN (d.discount_start <= NOW() AND d.discount_end >= NOW()) THEN d.discount_rate ELSE 0.0 END AS discount_rate, CASE WHEN (d.discount_start <= NOW() AND d.discount_end >= NOW()) THEN p.product_price * (1 - d.discount_rate) ELSE p.product_price END AS discounted_price FROM product p INNER JOIN discount d ON p.product_no = d.product_no ORDER BY p.createdate DESC");
+			PreparedStatement discountListStmt = conn.prepareStatement("SELECT p.product_no, p.category_name, p.product_name, p.product_price, p.product_status, p.product_stock, d.discount_start, d.discount_end, d.discount_no, CASE WHEN (d.discount_start <= NOW() AND d.discount_end >= NOW()) THEN d.discount_rate ELSE 0.0 END AS discount_rate, CASE WHEN (d.discount_start <= NOW() AND d.discount_end >= NOW()) THEN p.product_price * (1 - d.discount_rate) ELSE p.product_price END AS discounted_price FROM product p INNER JOIN discount d ON p.product_no = d.product_no WHERE(d.discount_start <= NOW() AND d.discount_end >= NOW()) ORDER BY p.createdate DESC");
 	        
 	        ResultSet discountListRs = discountListStmt.executeQuery();
 	        
@@ -233,7 +235,26 @@ public class DiscountDao {
 	        return dList;
 	    }	
 		
-	//8)할인품목 상세보기
+	//8)할인적용된 상품 개수
+		public int getDiscountProductCnt() throws Exception {
+		    int discountProductCnt = 0;
+
+		    DBUtil dbUtil = new DBUtil();
+		    Connection conn = dbUtil.getConnection();
+
+		    // 할인 품목 개수 조회
+		    String discountProductCntSql = "SELECT COUNT(*) FROM discount WHERE(discount_start <= NOW() AND discount_end >= NOW())";
+		    PreparedStatement discountProductCntStmt = conn.prepareStatement(discountProductCntSql);
+		    ResultSet discountProductCntRs = discountProductCntStmt.executeQuery();
+			
+		    if (discountProductCntRs.next()) {
+		        discountProductCnt = discountProductCntRs.getInt("COUNT(*)");
+		    }
+
+		    return discountProductCnt;
+		}
+		
+	//9)할인품목 상세보기
 			public Discount discountOne(int productNo) throws Exception {
 				
 				DBUtil dbUtil = new DBUtil();

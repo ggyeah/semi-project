@@ -41,10 +41,9 @@
 	ArrayList<Product> productListCate = productDao.productListCateByPage(categoryName, beginRow, rowPerPage);
 
 	DiscountDao discountDao = new DiscountDao();
-	ArrayList<Discount> dList = discountDao.discountinvokedList(beginRow, rowPerPage);
 	
 	// 전체 상품의 수 구하기
-	int totalRow = discountDao.getDiscountProductCnt();
+	int totalRow = productDao.productCateCnt(categoryName);
 	
 	// 마지막 페이지
 	int lastPage = totalRow / rowPerPage;
@@ -63,6 +62,7 @@
 	if (maxPage > lastPage){
 		maxPage = lastPage;
 	}
+		
 %>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -153,10 +153,10 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="breadcrumb__text">
-                        <h2>할인상품</h2>
+                        <h2><%=categoryName%> 상품</h2>
                         <div class="breadcrumb__option">
                             <a href="./index.html">Home &nbsp;</a>
-                            <span>할인상품</span>
+                            <span><%=categoryName%> 상품</span>
                         </div>
                     </div>
                 </div>
@@ -197,8 +197,8 @@
                     </div>
 	<div class="row"> 
 		<%
-		for(Discount discountProduct : dList) {
-				int productNo = discountProduct.getProductNo();
+			for(Product product : productListCate) {
+				int productNo = product.getProductNo();
 				Discount discount = discountDao.discountOneList(productNo);
 				
 				ProductImgDao productImgDao = new ProductImgDao();
@@ -217,17 +217,16 @@
 			<div class="product__item">
 				<div class="product__item__pic set-bg product__item__pic<%=productNo%>" data-setbg="<%=request.getContextPath()%>/productImgUpload/<%=productImgs.get(0).getProductSaveFilename()%>">
 					<ul class="product__item__pic__hover">
-						<li><a href="<%=request.getContextPath()%>/product/productListOne.jsp?productNo=<%=discountProduct.getProductNo()%>"><i class="fa fa-heart"></i></a></li>
-						<li><a href="<%=request.getContextPath()%>/product/productListOne.jsp?productNo=<%=discountProduct.getProductNo()%>"><i class="fa fa-retweet"></i></a></li>
-						<li><a href="<%=request.getContextPath()%>/cart/addCartAction.jsp?productNo=<%=discountProduct.getProductNo()%>"><i class="fa fa-shopping-cart"></i></a></li>
+						<li><a href="<%=request.getContextPath()%>/product/productListOne.jsp?productNo=<%=product.getProductNo()%>"><i class="fa fa-heart"></i></a></li>
+						<li><a href="<%=request.getContextPath()%>/product/productListOne.jsp?productNo=<%=product.getProductNo()%>"><i class="fa fa-retweet"></i></a></li>
+						<li><a href="<%=request.getContextPath()%>/cart/addCartAction.jsp?productNo=<%=product.getProductNo()%>"><i class="fa fa-shopping-cart"></i></a></li>
 					</ul>
 				</div>
 				<div class="product__item__text">
-					<h6><a href="<%=request.getContextPath()%>/product/productListOne.jsp?productNo=<%=discountProduct.getProductNo()%>">
-						<%=discountProduct.getProductName()%></a></h6>
-					<h5>할인가 <%=discount.getDiscountedPrice()%>원</h5>
-						원가 <%=discountProduct.getProductPrice()%><br>
-						<%=discountProduct.getProductStatus()%>
+					<h6><a href="<%=request.getContextPath()%>/product/productListOne.jsp?productNo=<%=product.getProductNo()%>">
+						<%=product.getProductName()%></a></h6>
+					<h5><%=discount.getDiscountedPrice()%>원</h5>
+						<%=product.getProductStatus()%>
 				</div>
 			</div>
 		</div>
@@ -245,7 +244,7 @@
 		<%
 			if(minPage > 1) {	// 1페이지 아닐 때 이전버튼 표시
 		%>
-			<a href="<%=request.getContextPath()%>/product/discountProductList.jsp?currentPage=<%=minPage - 1%>"><i class="fa fa-long-arrow-left"></i></a>
+			<a href="<%=request.getContextPath()%>/product/productCateList.jsp?categoryName=<%=categoryName%>&currentPage=<%=minPage - 1%>"><i class="fa fa-long-arrow-left"></i></a>
 		<%
 			}
 		%> 
@@ -253,7 +252,7 @@
 		<%
 			for(int i = minPage; i <= maxPage; i++) {
 		%>
-			<a href="<%=request.getContextPath()%>/product/discountProductList.jsp?currentPage=<%=i%>">
+			<a href="<%=request.getContextPath()%>/product/productCateList.jsp?categoryName=<%=categoryName%>&currentPage=<%=i%>">
 			<%=i%></a>
 		<%
 			}
@@ -262,7 +261,7 @@
 		<%
 			if(maxPage < lastPage) { // 마지막페이지 아닐 때 다음버튼 표시
 		%>
-		    <a href="<%=request.getContextPath()%>/product/discountProductList.jsp?currentPage=<%=maxPage + 1%>"><i class="fa fa-long-arrow-right"></i></a>
+		    <a href="<%=request.getContextPath()%>/product/productCateList.jsp?categoryName=<%=categoryName%>&currentPage=<%=maxPage + 1%>"><i class="fa fa-long-arrow-right"></i></a>
 		<%
 			}
 		%>    

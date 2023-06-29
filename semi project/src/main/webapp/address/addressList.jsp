@@ -342,9 +342,9 @@ $(document).ready(function() {
 <!--[end]------------------------ 일반 배송지 선택 폼 -------------------------->			
 <!-- 배송지 추가 버튼 -->
 	<div class="center">
-		<a type="button" href="<%=request.getContextPath()%>/orders/addOrders.jsp?productNo=<%=productNo%>">이전</a>
+		<a type="button" href="<%=request.getContextPath()%>/orders/addOrders.jsp?productNo=<%=productNo%>" class="button">이전</a>
 		<a>&nbsp;</a>
-		<a href="<%=request.getContextPath()%>/address/addAddress.jsp?productNo=<%=productNo%>">배송지 추가</a>
+		<a href="<%=request.getContextPath()%>/address/addAddress.jsp?productNo=<%=productNo%>" class="button">배송지 추가</a>
 	</div>
 <!--  선택된 주소가 없을 경우: 다시 주문폼으로 -->	
 	<br>

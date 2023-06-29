@@ -188,7 +188,7 @@
 								<td class="shoping__cart__item">
 								
 									<h5><%=pointSum%></h5>
-									&nbsp;&nbsp;<a href ="<%=request.getContextPath() %>/point/pointHistoryList.jsp" class="btn btn-light"  style="text-align: right;">포인트내역보기</a>
+									&nbsp;&nbsp;<a href ="<%=request.getContextPath() %>/point/pointHistoryList.jsp?id=<%=customer.getId()%>" class="btn btn-light"  style="text-align: right;">포인트내역보기</a>
 								</td>
 							</tr>
 							<tr>

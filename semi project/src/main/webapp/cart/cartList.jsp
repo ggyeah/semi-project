@@ -222,10 +222,10 @@
                                         <%= cart.getUpdatedate() %>
                                     </td>
                                     <td class="shoping__cart__item2">
-                                        <a href="<%=request.getContextPath()%>/customer/addCustomer.jsp">주문</a>
+                                        <a href="<%=request.getContextPath()%>/customer/addCustomer.jsp" class="primary-btn">주문</a>
                                     </td>
                                     <td class="shoping__cart__item2">
-                                        <a href="<%= request.getContextPath() %>/cart/removeSessionCartAction.jsp?productNo=<%= cart.getProductNo() %>" class="remove-cart">삭제</a>
+                                        <a href="<%= request.getContextPath() %>/cart/removeSessionCartAction.jsp?productNo=<%= cart.getProductNo() %>" class="remove-cart primary-btn">삭제</a>
                                     </td>
                                 </tr>
                                  <%
@@ -360,14 +360,10 @@
                                         <%= c.getUpdatedate() %>
                                     </td>
                                     <td class="shoping__cart__item2">
-                                        <form action="<%=request.getContextPath()%>/orders/addOrders.jsp" method="post">
-						                  <input type="hidden" name="productNo" value="<%=c.getProductNo()%>">
-						                  <input type="hidden" name="id" value="<%=c.getId()%>">
-						                  <input type="submit" value="주문">
-						               </form>
+						                <a href="<%=request.getContextPath()%>/orders/addOrders.jsp?productNo=<%=c.getProductNo()%>&id=<%=c.getId()%>" class="primary-btn">주문</a>
                                     </td>
                                     <td class="shoping__cart__item2">
-                                        <a href="<%=request.getContextPath()%>/cart/removeCartAction.jsp?cartNo=<%=c.getCartNo()%>" class="remove-cart">삭제</a>
+                                        <a href="<%=request.getContextPath()%>/cart/removeCartAction.jsp?cartNo=<%=c.getCartNo()%>" class="remove-cart primary-btn">삭제</a>
                                     </td>
                                 </tr>
                                 <%

@@ -218,7 +218,7 @@ $(document).ready(function() {
 						
 						<div class="checkout__input">
 							<p>이미지<span>*</span></p>
-							<input type="file" name="productImg" class="button">
+							<input type="file" name="productImg" class="button" required="required">
 						</div>
 					</div>        
 						<button type="submit" class="site-btn" id="Btn">상품추가</button>

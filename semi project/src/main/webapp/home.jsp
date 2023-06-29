@@ -25,10 +25,10 @@
 	}
 	
 	ProductDao productCateDao = new ProductDao();
-	ArrayList<Product> productListCate = productCateDao.productListCateByPage(categoryName, 0, 13);
+	ArrayList<Product> productListCate = productCateDao.productListCateByPage(categoryName, 0, 12);
 
 	ProductDao productDao = new ProductDao();
-	ArrayList<Product> productList = productDao.productListByPage(0, 13);
+	ArrayList<Product> productList = productDao.productListByPage(0, 12);
 	
 	
 %>
@@ -82,7 +82,7 @@
                             <%
 								for(Category category : categoryList) {
 							%>
-								<li><a href="<%=request.getContextPath()%>/product/productList.jsp?categoryName=<%=category.getCategoryName()%>"><%=category.getCategoryName()%></a></li>
+								<li><a href="<%=request.getContextPath()%>/product/productCateList.jsp?categoryName=<%=category.getCategoryName()%>"><%=category.getCategoryName()%></a></li>
 							<% 
 								}
 							%>

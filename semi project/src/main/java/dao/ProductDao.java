@@ -121,6 +121,26 @@ public class ProductDao {
 		return productRow;
 	}
 	
+	/* 카테고리별 상품 개수 조회 : productCateCnt */
+	public int productCateCnt(String categoryName) throws Exception {
+		int productRow = 0;	
+		DBUtil dbUtil = new DBUtil();							// DBUtil 객체 생성
+		Connection conn = dbUtil.getConnection();				// 데이터베이스 연결을 위한 Connection 객체 생성
+		PreparedStatement productCateCntStmt = null;			// 쿼리를 전송하기 위해 PreparedStatement 객체 생성
+		ResultSet productCateCntRs = null;						// 쿼리 실행 결과를 담을 ResultSet 객체 생성
+		// SQL 쿼리문
+		String productCateCntSql = "SELECT COUNT(*) FROM product WHERE category_name = ?";
+		productCateCntStmt = conn.prepareStatement(productCateCntSql);
+		// ? 1개
+		productCateCntStmt.setString(1, categoryName);
+		// 쿼리 실행 및 결과 저장
+		productCateCntRs = productCateCntStmt.executeQuery();
+		if(productCateCntRs.next()) { 							// 결과가 존재하는 경우
+			productRow = productCateCntRs.getInt("COUNT(*)");	// 결과에서 상품 개수 추출
+		}
+		return productRow;
+	}
+	
 	
 	/* 상품 하나 상세정보 조회 : productListOne */
 	public Product ProductListOne(int productNo) throws Exception {	// productNo를 매개변수로 받아 해당 상품의 상세 정보를 가져오는 메서드

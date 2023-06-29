@@ -141,7 +141,7 @@
                             <%
 								for(Category category : categoryList) {
 							%>
-								<li><a href="<%=request.getContextPath()%>/product/productList.jsp?categoryName=<%=category.getCategoryName()%>"><%=category.getCategoryName()%></a></li>
+								<li><a href="<%=request.getContextPath()%>/product/productCateList.jsp?categoryName=<%=category.getCategoryName()%>"><%=category.getCategoryName()%></a></li>
 							<% 
 								}
 							%>

@@ -149,8 +149,8 @@
 								<td><%=e.getCreatedate() %></td>
 								<td><%=e.getUpdatedate() %></td>
 								<td><%=e.getActive() %></td>
-								<td><a href ="<%=request.getContextPath() %>/employees/modifyEmployees.jsp?id=<%=e.getId() %>">수정</a></td>
-								<td><a href ="<%=request.getContextPath() %>/employees/removeEmployees.jsp?id=<%=e.getId() %>">삭제</a></td>
+								<td><a href ="<%=request.getContextPath() %>/employees/modifyEmployees.jsp?id=<%=e.getId() %>" class="primary-btn">수정</a></td>
+								<td><a href ="<%=request.getContextPath() %>/employees/removeEmployees.jsp?id=<%=e.getId() %>" class="primary-btn">삭제</a></td>
 							<%
 							}
 							%>	

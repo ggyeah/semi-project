@@ -188,15 +188,15 @@ $(document).ready(function() {
                          <div class="checkout__input">
                         		<p>배송지<span>*</span></p>
                         		<div class="row">
-	                         		<div class="col-lg-10">
+	                         		<div class="col-lg-9">
 	                                  	<div class="checkout__input">
 	                                      <input type="text" name="address" value="<%=address%>" id="cstmAddress" class="checkout__input__add">
 	                                  	  <span id="addressMsg" class="msg"></span>
 	                                  	</div>
 	                            	</div>
-	                                <div class="col-lg-2">
+	                                <div class="col-lg-3">
 	                                    <div class="checkout__input">
-	                                      <a href="<%=request.getContextPath()%>/address/addressList.jsp?productNo=<%=cart.getProductNo()%>" class="delivery-change" onclick="openUserDeliveryListPop();"><span class="center">배송지 선택</span></a>
+	                                      <a href="<%=request.getContextPath()%>/address/addressList.jsp?productNo=<%=cart.getProductNo()%>" class="delivery-change" onclick="openUserDeliveryListPop();"><span class="center primary-btn">배송지 선택</span></a>
 	                                    </div>
 	                                </div>
                             	</div>

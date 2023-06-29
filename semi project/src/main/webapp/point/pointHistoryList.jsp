@@ -8,7 +8,7 @@ PointHistoryDao pointHistoryDao = new PointHistoryDao();
 
 int beginRow = 0;
 int rowPerPage = 10;
-String id = (String)session.getAttribute("loginId");
+String id = request.getParameter("id");
 
 ArrayList<PointHistory> pList = pointHistoryDao.pointHistoryList(beginRow, rowPerPage, id);
 
