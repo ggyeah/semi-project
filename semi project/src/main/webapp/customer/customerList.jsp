@@ -126,7 +126,7 @@
 							for(Customer c : list) {
 							%>
 							<tr>
-								<td><a href="<%=request.getContextPath() %>/customer/customerOne.jsp?id=<%=c.getId()%>"><%=c.getId() %></a></td>
+								<td><a href="<%=request.getContextPath() %>/customer/customerOne.jsp?id=<%=c.getId()%>" class="btn btn-light"><%=c.getId() %></a></td>
 								<td><%=c.getCstmName() %></td>
 								<td><%=c.getCstmLastLogin() %></td>
 								<td><%=c.getCreatedate() %></td>

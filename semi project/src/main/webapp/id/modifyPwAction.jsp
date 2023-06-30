@@ -103,6 +103,7 @@
 	int modifyPw = IdDao.updatePw(modifyIdList);
 	if(modifyPw > 0){
 		System.out.println(YANG + "비밀번호 변경, last_pw 업데이트 완료!" + RESET);
+		response.sendRedirect(request.getContextPath() + "/home.jsp");
 	} else {
 		%>
 		<script>
