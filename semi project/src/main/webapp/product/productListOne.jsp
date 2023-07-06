@@ -49,6 +49,7 @@
 	int beginRow = 0;
 	int rowPerPage = 5;
 	int totalRow = reviewDao.reviewCnt();
+	int productReviewCnt = reviewDao.productReviewCnt(productNo);
 	// + 리뷰 페이징 추가 해야함
 	ArrayList<Review> rList = reviewDao.reviewList(beginRow, rowPerPage, productNo);
 	
@@ -200,7 +201,7 @@
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star-half-o"></i>
-                            <span>(18 reviews)</span>
+                            <span>(<%=productReviewCnt%> reviews)</span>
                         </div>
                         <div class="product__details__price"><%=discount.getDiscountedPrice()%>원</div>
                         <p><%=productOne.getProductInfo()%></p>
@@ -240,7 +241,7 @@
                 </div>
                 </div>
                 </section>
-   
+   <!-- 
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
@@ -297,7 +298,7 @@
 		</div>
 	</div>
 	
-                
+     -->            
                             
 	
  <!------------lim :  문의 & 리뷰   ------------>

@@ -186,7 +186,20 @@ public class OrdersDao {
 			removeCartStmt.setInt(1, orders.getProductNo());
 			removeCartStmt.executeUpdate();
 		}
-		
+		// 결제 완료 시 상품재고량-1
+		if(row == 1) {
+			String stockSql = "UPDATE product SET product_stock = product_stock - 1 WHERE product_no = ?";
+			PreparedStatement stockStmt = conn.prepareStatement(stockSql);
+			stockStmt.setInt(1, orders.getProductNo());
+			stockStmt.executeUpdate();
+		}
+		// 결재 완료 시 상품재고량이 0 이면 '일시품절'로 변경
+		if(row == 1) {
+			String statusSql = "UPDATE product SET product_status = '일시품절' WHERE product_stock = 0 AND product_no = ?";
+			PreparedStatement statusStmt = conn.prepareStatement(statusSql);
+			statusStmt.setInt(1, orders.getProductNo());
+			statusStmt.executeUpdate();
+		}
 		return row;
 	}
 	

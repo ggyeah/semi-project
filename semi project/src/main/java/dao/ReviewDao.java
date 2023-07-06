@@ -131,6 +131,23 @@ public class ReviewDao {
 		    return review;
 		}
 		
+		
+	// 7) 특정 상품에 대한 리뷰 cnt
+		public int productReviewCnt(int productNo) throws Exception{
+			int pRcnt = 0;
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();
+			
+			String pRcntSql = "SELECT COUNT(*) FROM review WHERE product_no = ?";
+			PreparedStatement pRcntStmt = conn.prepareStatement(pRcntSql);
+			pRcntStmt.setInt(1, productNo);
+			ResultSet pRcntRs = pRcntStmt.executeQuery();
+			if(pRcntRs.next()) {
+				pRcnt = pRcntRs.getInt("COUNT(*)");
+			}
+			return pRcnt;
+		}
+		
 }
 		    
 		    
