@@ -24,6 +24,8 @@ Database MariaDB
 WAS Apache Tomcat9  
 OS window, MAC  
 TOOL Eclipse, HeidiSQL, sequel Ace  
+  
+home.jsp
+![image](https://github.com/huiju0502/semi-project/assets/133733210/f3e6fcf8-2cab-4bfc-9bb3-6a8541a75840)
 
-![image](https://github.com/huiju0502/semi-project/assets/133733210/17a4a3cc-b593-4727-a3b3-8a6da81c439f)
 
