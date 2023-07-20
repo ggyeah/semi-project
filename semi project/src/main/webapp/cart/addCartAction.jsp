@@ -17,7 +17,30 @@
    /* 인코딩 설정 */
    request.setCharacterEncoding("utf-8");
    
-   /* 로그인 여부에 따라 분기 */
+   /* 고객이 아닐 경우 home으로 */
+    CustomerDao customerDao = new CustomerDao();
+    ArrayList<Customer> selectCustomerList = customerDao.selectCustomerList();
+    
+	// 확인할 고객의 id
+	String customerIdToCheck = (String) session.getAttribute("loginId");
+	
+	// 리스트 순회하며 해당 고객의 id가 있는지 확인
+	boolean customerExists = false;
+	for (Customer customer : selectCustomerList) {
+	    if (customer.getId().equals(customerIdToCheck)) {
+	        customerExists = true;
+	        break;
+	    }
+	}
+	// 고객리스트에 존재하지 않는 관리자 및 직원은 home으로 redirect
+    if (!customerExists) {
+        // 홈으로 돌려보냄
+        String errorMsg = URLEncoder.encode("권한이 없습니다", "UTF-8");
+        response.sendRedirect(request.getContextPath()+"/home.jsp?errorMsg="+errorMsg);
+        return;
+    }
+
+   /* 로그인 여부에 따른 분기 */
    
    // 1. 비로그인 사용자의 경우, 세션에 장바구니 데이터를 추가
    if (session.getAttribute("loginId") == null) {
@@ -58,8 +81,7 @@
     // 수정된 장바구니 데이터를 세션에 저장
     session.setAttribute("sessionCartMap", sessionCartMap);
     response.sendRedirect(request.getContextPath()+"/cart/cartList.jsp");
-   
-
+    
    } else { //2. 로그인한 사용자의 경우 장바구니 데이터를 DB에 추가
       String loginId = (String)session.getAttribute("loginId");
       

@@ -142,4 +142,28 @@ public class CustomerDao {
 			return row;
 		}
 		
+	// 7) 회원 목록 조회(권한에 따른 분기를 위해)
+		public ArrayList<Customer> selectCustomerList() throws Exception {
+			// db연결
+			DBUtil dbUtil = new DBUtil();
+			Connection conn = dbUtil.getConnection();
+			
+			// 리스트 불러오기
+			String custonerListSql ="SELECT c.id id, c.cstm_name cstmName, c.cstm_last_login cstmLastLogin, c.createdate createdate, id.active active FROM customer c, id_list id WHERE c.id =id.id ORDER BY cstmName";
+			PreparedStatement customerListStmt = conn.prepareStatement(custonerListSql);
+			ResultSet customerListRs = customerListStmt.executeQuery();
+			
+			ArrayList<Customer> list = new ArrayList<>();
+			while(customerListRs.next()) {
+				Customer c = new Customer();
+				c.setId(customerListRs.getString("id"));
+				c.setCstmName(customerListRs.getString("cstmName"));
+				c.setCstmLastLogin(customerListRs.getString("cstmLastLogin"));
+				c.setCreatedate(customerListRs.getString("createdate"));
+				c.setActive(customerListRs.getString("active"));
+				
+				list.add(c);
+			}
+			return list;
+		}
 }
