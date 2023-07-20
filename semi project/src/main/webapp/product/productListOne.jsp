@@ -10,6 +10,22 @@
 	final String SONG = "\u001B[43m";
 	final String YANG = "\u001B[44m";
 	
+	// 요청분석 : loginId가 관리자2(최고위직)일 경우에만 상품 수정 및 삭제 가능
+	// 관리자 2의 level값을 가져옴
+	EmployeesDao employeesDao = new EmployeesDao();
+	ArrayList<Employees> twoEmployeesList = employeesDao.twoEmployeesList();
+	
+	String loginId = (String)session.getAttribute("loginId");
+	boolean checkId = false;
+	if(loginId != null) {
+		for(Employees e : twoEmployeesList) {
+			if(session.getAttribute("loginId").equals(e.getId())) {
+				checkId = true;
+				break;
+			}
+		}
+	}
+	
 	/* 요청값 유효성 검사 */
 	if(request.getParameter("productNo") == null  
 		|| request.getParameter("productNo").equals("")) {
@@ -153,8 +169,8 @@
                <div class="col-lg-9">
                     <div class="hero__search">
                         <div class="hero__search__form">
-                            <form action="#">
-                                <input type="text" placeholder="What do yo u need?">
+                            <form action="<%=request.getContextPath()%>/product/productSearchList.jsp">
+                                <input type="text" placeholder="What do yo u need?" name="searchWord">
                                 <button type="submit" class="site-btn">SEARCH</button>
                             </form>
                         </div>
@@ -226,14 +242,12 @@
                     <!-- 상품정보 수정 및 삭제 버튼 -->
 					<div>
 					<%
-						//loginId가 관리자2(최고위직)일 경우에만 상품 수정 및 삭제 가능
-						if(session.getAttribute("loginId") != null){
-							if(session.getAttribute("loginId").equals("admin")){ 
+						// loginId가 관리자2(최고위직)일 경우에만 상품 수정 및 삭제 가능
+						if(checkId == true){
 					%>
 					<a href="<%=request.getContextPath()%>/product/modifyProduct.jsp?productNo=<%=productOne.getProductNo()%>" class="primary-btn">상품수정</a>
 					<a href="<%=request.getContextPath()%>/product/removeProductAction.jsp?productNo=<%=productOne.getProductNo()%>" class="remove-product primary-btn">상품삭제</a>
 					<%
-							}
 						}
 					%>
 					</div>

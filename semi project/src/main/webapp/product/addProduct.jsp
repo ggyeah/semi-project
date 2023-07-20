@@ -4,7 +4,7 @@
 <%@ page import = "vo.*" %>
 <%@ page import = "java.util.*" %>
 <%@ page import = "com.oreilly.servlet.MultipartRequest" %>
-<%@ page import = "com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
+<%@ page import = "com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
 
 <%
 	// 인코딩 처리
@@ -18,13 +18,28 @@
 	final String YANG = "\u001B[44m";
 
 	// 요청분석 : 로그인 아이디가 관리자레벨2 일때만 상품 추가 가능
+	// 관리자 2의 level값을 가져옴
+	EmployeesDao employeesDao = new EmployeesDao();
+	ArrayList<Employees> twoEmployeesList = employeesDao.twoEmployeesList();
 	
-	// 에러메시지 담을 때 사용할 변수
-	String msg = null;
-
+	String loginId = (String)session.getAttribute("loginId");
+	boolean checkId = false;
+	if(loginId != null) {
+		for(Employees e : twoEmployeesList) {
+			if(session.getAttribute("loginId").equals(e.getId())) {
+				checkId = true;
+				break;
+			}
+		}
+	}
+	
 	/* 세션 유효성 검사 */
-	
-	
+	// 관리자 레벨2가 아니면 : home으로 돌아가고, 알림창에 오류메세지 출력
+	if(checkId == false) {
+		String errorMsg = URLEncoder.encode("권한이 없습니다.", "UTF-8");
+		response.sendRedirect(request.getContextPath() + "/home.jsp?errorMsg=" + errorMsg);
+		return;
+	}
 	
 	CategoryDao ctgrDao = new CategoryDao(); // CategoryDao 객체 생성
 	ArrayList<Category> categoryList = ctgrDao.categoryList(); // categoryList 메서드 호출하여, 옵션에 표시할 categoryList 객체 가져오기
@@ -38,8 +53,11 @@
 <meta charset="UTF-8">
 <style>
 .button{
-      padding-top: 7px;
-   }
+	padding-top: 7px;
+	}
+.error-msg {
+	color: #F15F5F;
+	}
 </style>
     <meta name="description" content="Ogani Template">
     <meta name="keywords" content="Ogani, unica, creative, html">
@@ -62,7 +80,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script>
 $(document).ready(function() {
-    // 시작시 title 입력 폼에 포커스
+    // 시작시 categoryName 입력 폼에 포커스
     $('#categoryName').focus();
     
     // 유효성 체크 함수
@@ -70,7 +88,7 @@ $(document).ready(function() {
         let allCheck = true; // allCheck 변수 초기화
 
         if ($('#categoryName').val() == '') {
-            $('#categoryNameMsg').text('카테고리를 선택하세요');
+            $('#categoryNameMsg').text('카테고리를 선택하세요').addClass('error-msg');
             $('#categoryName').focus();
             allCheck = false;
         } else {
@@ -78,15 +96,15 @@ $(document).ready(function() {
         }
 
         if ($('#Status').val() == '') {
-            $('#StatusMsg').text('상태를 선택하세요');
+            $('#StatusMsg').text('상태를 선택하세요').addClass('error-msg');
             $('#Status').focus();
             allCheck = false;
         } else {
-            $('#statusMsg').text('');
+            $('#StatusMsg').text('');
         }
         
         if ($('#Name').val() == '') {
-            $('#NameMsg').text('상품이름을 입력하세요');
+            $('#NameMsg').text('상품이름을 입력하세요').addClass('error-msg');
             $('#Name').focus();
             allCheck = false;
         } else {
@@ -94,7 +112,7 @@ $(document).ready(function() {
         }
         
         if ($('#Price').val() == '') {
-            $('#PriceMsg').text('가격을 입력하세요');
+            $('#PriceMsg').text('가격을 입력하세요').addClass('error-msg');
             $('#Price').focus();
             allCheck = false;
         } else {
@@ -102,7 +120,7 @@ $(document).ready(function() {
         }
         
         if ($('#Stock').val() == '') {
-            $('#StockMsg').text('재고량을 입력하세요');
+            $('#StockMsg').text('재고량을 입력하세요').addClass('error-msg');
             $('#Stock').focus();
             allCheck = false;
         } else {
@@ -110,7 +128,7 @@ $(document).ready(function() {
         }
         
         if ($('#Info').val() == '') {
-            $('#InfoMsg').text('내용을 입력하세요');
+            $('#InfoMsg').text('내용을 입력하세요').addClass('error-msg');
             $('#Info').focus();
             allCheck = false;
         } else {
@@ -135,17 +153,6 @@ $(document).ready(function() {
 	<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
 </div>
 
-	<!-- 에러메세지 -->
-	<div>
-	<%
-		if(request.getParameter("msg") != null){
-	%>
-		<%=request.getParameter("msg")%>
-	<%
-		}
-	%>
-	</div>
-	
 <!-- 새로운 상품 정보 입력 Begin -->
 	<section class="checkout spad">
 		<div class="container">
@@ -206,13 +213,13 @@ $(document).ready(function() {
 						
 						<div class="checkout__input">
 							<p>재고량<span>*</span></p>
-							<input type="text" name="productStock"  id="Stock">
+							<input type="text" name="productStock" id="Stock">
 							<span id="StockMsg" class="msg"></span>
 						</div>
 
 						<div class="checkout__input">
 							<p>상세설명<span>*</span></p>
-							<input type="text" name="productInfo"  id="Info">
+							<input type="text" name="productInfo" id="Info">
 							<span id="InfoMsg" class="msg"></span>				
 						</div>
 						

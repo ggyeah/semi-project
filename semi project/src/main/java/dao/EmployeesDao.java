@@ -177,6 +177,30 @@ public class EmployeesDao {
 	    }
 	    return oneEmployeesList;
 	}
+	
+	// 9) 관리자2 조회 : 권한에 따른 분기를 위해 관리자2(최고위직) 아이디를 가져올 수 있도록
+		public ArrayList<Employees> twoEmployeesList() throws Exception {
+		    // db연결
+		    DBUtil dbUtil = new DBUtil();
+		    Connection conn = dbUtil.getConnection();
+		    
+		    // 리스트 불러오기
+		    String twoEmployeesListSql = "SELECT id, emp_name, emp_level, createdate, updatedate FROM employees WHERE emp_level = 2";
+		    PreparedStatement twoEmployeesListStmt = conn.prepareStatement(twoEmployeesListSql);
+		    ResultSet twoEmployeesListRs = twoEmployeesListStmt.executeQuery();
+		    
+		    ArrayList<Employees> twoEmployeesList = new ArrayList<>();
+		    while (twoEmployeesListRs.next()) {
+		        Employees e = new Employees();
+		        e.setId(twoEmployeesListRs.getString("id"));
+		        e.setEmpName(twoEmployeesListRs.getString("emp_name"));
+		        e.setEmpLevel(twoEmployeesListRs.getInt("emp_level"));
+		        e.setCreatedate(twoEmployeesListRs.getString("createdate"));
+		        e.setUpdatedate(twoEmployeesListRs.getString("updatedate"));
+		        twoEmployeesList.add(e);
+		    }
+		    return twoEmployeesList;
+		}
 }
 
 

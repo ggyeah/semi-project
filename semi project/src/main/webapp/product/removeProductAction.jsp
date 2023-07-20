@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import ="vo.*" %>
-<%@ page import ="dao.*" %>
-<%@ page import="java.util.*"%>
+<%@ page import = "vo.*" %>
+<%@ page import = "dao.*" %>
+<%@ page import = "java.util.*"%>
+<%@ page import = "java.net.*" %>
 <%
 	// 인코딩 처리
 	request.setCharacterEncoding("UTF-8");
@@ -12,12 +13,6 @@
 	final String KIM = "\u001B[42m";
 	final String SONG = "\u001B[43m";
 	final String YANG = "\u001B[44m";
-	
-	// 요청분석 : 로그인 아이디가 관리자레벨2 일때만 상품 삭제 가능
-	
-	/* 세션 유효성 검사 */
-	// 비밀번호확인 완성되면 코드 바꿔야함!!(세션아이디 값과 비밀번호를 가져와서 비교해야함)
-	
 	
 	/* 요청값 유효성검사 */
 	if(request.getParameter("productNo") == null  

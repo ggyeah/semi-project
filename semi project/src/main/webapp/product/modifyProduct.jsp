@@ -15,12 +15,28 @@
 	final String YANG = "\u001B[44m";
 
 	// 요청분석 : 로그인 아이디가 관리자레벨2 일때만 상품 수정 가능
+	// 관리자 2의 level값을 가져옴
+	EmployeesDao employeesDao = new EmployeesDao();
+	ArrayList<Employees> twoEmployeesList = employeesDao.twoEmployeesList();
 	
-	// 에러메시지 담을 때 사용할 변수
-	String msg = null;
+	String loginId = (String)session.getAttribute("loginId");
+	boolean checkId = false;
+	if(loginId != null) {
+		for(Employees e : twoEmployeesList) {
+			if(session.getAttribute("loginId").equals(e.getId())) {
+				checkId = true;
+				break;
+			}
+		}
+	}
 	
-	/* 세션값 유효성 검사 */
-	
+	/* 세션 유효성 검사 */
+	// 관리자 레벨2가 아니면 : home으로 돌아가고, 알림창에 오류메세지 출력
+	if(checkId == false) {
+		String errorMsg = URLEncoder.encode("권한이 없습니다.", "UTF-8");
+		response.sendRedirect(request.getContextPath() + "/home.jsp?errorMsg=" + errorMsg);
+		return;
+	}
 
 	/* 요청값 유효성 검사 */
 	if(request.getParameter("productNo") == null  
@@ -46,8 +62,11 @@
 <meta charset="UTF-8">
 <style>
 .button{
-      padding-top: 7px;
-   }
+	padding-top: 7px;
+	}
+.error-msg {
+	color: #F15F5F;
+	}
 </style>
     <meta name="description" content="Ogani Template">
     <meta name="keywords" content="Ogani, unica, creative, html">
@@ -67,6 +86,74 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/style.css" type="text/css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+    // 시작시 categoryName 입력 폼에 포커스
+    $('#categoryName').focus();
+    
+    // 유효성 체크 함수
+    function validateForm() {
+        let allCheck = true; // allCheck 변수 초기화
+
+        if ($('#categoryName').val() == '') {
+            $('#categoryNameMsg').text('카테고리를 선택하세요').addClass('error-msg');
+            $('#categoryName').focus();
+            allCheck = false;
+        } else {
+            $('#categoryNameMsg').text('');
+        }
+
+        if ($('#Status').val() == '') {
+            $('#StatusMsg').text('상태를 선택하세요').addClass('error-msg');
+            $('#Status').focus();
+            allCheck = false;
+        } else {
+            $('#StatusMsg').text('');
+        }
+        
+        if ($('#Name').val() == '') {
+            $('#NameMsg').text('상품이름을 입력하세요').addClass('error-msg');
+            $('#Name').focus();
+            allCheck = false;
+        } else {
+            $('#NameMsg').text('');
+        }
+        
+        if ($('#Price').val() == '') {
+            $('#PriceMsg').text('가격을 입력하세요').addClass('error-msg');
+            $('#Price').focus();
+            allCheck = false;
+        } else {
+            $('#PriceMsg').text('');
+        }
+        
+        if ($('#Stock').val() == '') {
+            $('#StockMsg').text('재고량을 입력하세요').addClass('error-msg');
+            $('#Stock').focus();
+            allCheck = false;
+        } else {
+            $('#StockMsg').text('');
+        }
+        
+        if ($('#Info').val() == '') {
+            $('#InfoMsg').text('내용을 입력하세요').addClass('error-msg');
+            $('#Info').focus();
+            allCheck = false;
+        } else {
+            $('#InfoMsg').text('');
+        }
+        return allCheck;
+    }
+     $('#Btn').click(function(e) {
+        e.preventDefault(); // 기본 동작 방지
+
+        if (validateForm()) {
+            $('#Form').submit();
+        }
+    });
+});
+</script>
 </head>
 <body>
 <!------------ 상단 네비 바 ------------>
@@ -75,16 +162,6 @@
 	<jsp:include page="/inc/mainMenu.jsp"></jsp:include>
 </div>
 
-	<!-- 에러메세지 -->
-	<div>
-	<%
-		if(request.getParameter("msg") != null){
-	%>
-		<%=request.getParameter("msg")%>
-	<%
-		}
-	%>
-	</div>
 
 <!-- 수정할 상품 정보 입력 Begin -->
 <section class="checkout spad">
@@ -105,8 +182,7 @@
 							<div class="col-lg-2">
 								<div class="checkout__input">
 								<p>&nbsp;<span></span></p>
-									<select class="category" name="categoryName">
-									
+									<select class="category" name="categoryName" id="categoryName">
 										<option value="">카테고리를 선택하세요</option>
 									<%
 										for(Category category : categoryList) {
@@ -116,6 +192,7 @@
 										}
 									%>
 									</select>
+									<span id="categoryNameMsg" class="msg"></span>
 								</div>
 							</div>
 							</div>
@@ -136,12 +213,13 @@
 								<div class="col-lg-2"> 
 									<div class="checkout__input">
 										<p>&nbsp;<span></span></p>
-										<select class="status" name="productStatus" required>
+										<select class="status" name="productStatus" id="Status">
 											<option value="">상태를 선택하세요</option>
 											<option value="일시품절">일시품절</option>
 											<option value="판매중">판매중</option>
 											<option value="단종">단종</option>
 										</select>
+										<span id="StatusMsg" class="msg"></span>
 									</div>
 								</div>
 							</div>
@@ -152,22 +230,26 @@
       
 						<div class="checkout__input">
 							<p>상품명<span>*</span></p>
-							<input type="text" name="productName" value="<%=productOne.getProductName()%>">
+							<input type="text" name="productName" id="Name" value="<%=productOne.getProductName()%>">
+							<span id="NameMsg" class="msg"></span>
 						</div>
   
 						<div class="checkout__input">
 							<p>가격<span>*</span></p>
-							<input type="text" name="productPrice" value="<%=productOne.getProductPrice()%>">				
+							<input type="text" name="productPrice" id="Price" value="<%=productOne.getProductPrice()%>">				
+							<span id="PriceMsg" class="msg"></span>
 						</div>
      
 						<div class="checkout__input">
 							<p>재고량<span>*</span></p>
-							<input type="text" name="productStock" value="<%=productOne.getProductStock()%>">
+							<input type="text" name="productStock" id="Stock" value="<%=productOne.getProductStock()%>">
+							<span id="StockMsg" class="msg"></span>
 						</div>
 						
 						<div class="checkout__input">
 							<p>상세설명<span>*</span></p>
-							<input type="text" name="productInfo" value="<%=productOne.getProductInfo()%>">				
+							<input type="text" name="productInfo" id="Info" value="<%=productOne.getProductInfo()%>">				
+							<span id="InfoMsg" class="msg"></span>
 						</div>
 						
 						<div class="checkout__input">
@@ -175,7 +257,7 @@
 							<input class="button" type="file" name="productImg" required="required">
 						</div>
 					   
-					<button type="submit" class="site-btn">상품수정</button>
+					<button type="submit" class="site-btn" id="Btn">상품수정</button>
 				</form>
 			</div>
 		</div>
