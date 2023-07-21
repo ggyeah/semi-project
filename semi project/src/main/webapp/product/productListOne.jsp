@@ -61,6 +61,7 @@
 	}
 	
 	/*---------lim : 리뷰리스트 -----------*/
+	CustomerDao customerDao = new CustomerDao();
 	ReviewDao reviewDao = new ReviewDao();
 	int beginRow = 0;
 	int rowPerPage = 5;
@@ -332,8 +333,8 @@
                  <div class="tab-content">
                      <div class="tab-pane active" id="tabs-1" role="tabpanel">
                          <div class="product__details__tab__desc">
-                          <%// 로그인상태에서만 리뷰추가를 할 수 있게 : 리뷰추가를 누르면 본인 주문리스트로 넘어감 
-							if(session.getAttribute("loginId") != null) { %>
+                          <%// 회원만 리뷰추가를 할 수 있게 : 리뷰추가를 누르면 본인 주문리스트로 넘어감 
+							if(loginId != null && customerDao.checkCustomerId(loginId)) { %>
 								<a href="<%=request.getContextPath()%>/orders/ordersCstmList.jsp" class="primary-btn">
 									리뷰추가
 								</a> 
@@ -358,8 +359,8 @@
                       <!------------  문의리스트  ------------>
                      <div class="tab-pane" id="tabs-2" role="tabpanel">
                          <div class="product__details__tab__desc">
-                         <% //로그인상태에서만 문의추가 할 수 있게 
-							if(session.getAttribute("loginId") != null) { %>
+                         <% //회원만 문의추가 할 수 있게 
+                         if(loginId != null && customerDao.checkCustomerId(loginId)) { %>
 								<a href="<%=request.getContextPath()%>/question/addQuestion.jsp?productNo=<%=productNo%>"  class="primary-btn">
 									문의추가
 								</a> 

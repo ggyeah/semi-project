@@ -166,4 +166,20 @@ public class CustomerDao {
 			}
 			return list;
 		}
-}
+		
+	//8) 회원조회하여 세션값 분기를 위해
+	    public boolean checkCustomerId(String id) throws Exception {
+	        // db연결
+	        DBUtil dbUtil = new DBUtil();
+	        Connection conn = dbUtil.getConnection();
+
+	        // 회원 ID가 존재하는지 확인
+	        String checkCustomerIdSql = "SELECT id FROM customer WHERE id = ?";
+	        PreparedStatement checkCustomerIdStmt = conn.prepareStatement(checkCustomerIdSql);
+	        checkCustomerIdStmt.setString(1, id);
+	        ResultSet checkCustomerIdRs = checkCustomerIdStmt.executeQuery();
+
+	        return checkCustomerIdRs.next();
+	    }
+	}
+
