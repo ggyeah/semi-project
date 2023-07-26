@@ -90,7 +90,7 @@
 			$('#ckPw').blur(function(){
 				if ($('#ckPw').val() != $('#pw').val()) {
 					$('#ckPwMsg').text('비밀번호를 확인하세요');
-					$('#pw').focus();
+					$('#ckpw').focus();
 				} else {
 					$('#ckPwMsg').text('');
 					$('#cstmName').focus();
@@ -232,6 +232,7 @@
 							<div class="checkout__input">
   								<p>비밀번호 확인<span>*</span></p>
 								<input type="password" name="ckPw" id="ckPw" placeholder="비밀번호를 한번 더 입력하세요">
+								<span id="ckPwMsg" class="msg"></span>
 							</div>
 							<!-- customer -->
 							<div class="checkout__input">
