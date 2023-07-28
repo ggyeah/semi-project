@@ -17,23 +17,25 @@
    /* 인코딩 설정 */
    request.setCharacterEncoding("utf-8");
    
-   /* 고객이 아닐 경우 home으로 */
-    CustomerDao customerDao = new CustomerDao();
-    ArrayList<Customer> selectCustomerList = customerDao.selectCustomerList();
-    
-	// 확인할 고객의 id
-	String customerIdToCheck = (String) session.getAttribute("loginId");
+	// 관리자 1의 level값을 가져옴
+	EmployeesDao employeesDao = new EmployeesDao();
+	ArrayList<Employees> oneEmployeesList = employeesDao.oneEmployeesList();
 	
-	// 리스트 순회하며 해당 고객의 id가 있는지 확인
-	boolean customerExists = false;
-	for (Customer customer : selectCustomerList) {
-	    if (customer.getId().equals(customerIdToCheck)) {
-	        customerExists = true;
-	        break;
-	    }
+
+	boolean checkId = false;
+	
+	String checkloginId = (String) session.getAttribute("loginId");
+	
+	if (checkloginId != null) {
+	for (Employees e : oneEmployeesList){
+	   if (checkloginId.equals(e.getId())){
+	      checkId = true;
+	      break;
+	   		}
+	   }
 	}
-	// 고객리스트에 존재하지 않는 관리자 및 직원은 home으로 redirect
-    if (!customerExists) {
+	
+    if (checkId || checkloginId.equals("admin") ) {
         // 홈으로 돌려보냄
         String errorMsg = URLEncoder.encode("권한이 없습니다", "UTF-8");
         response.sendRedirect(request.getContextPath()+"/home.jsp?errorMsg="+errorMsg);
