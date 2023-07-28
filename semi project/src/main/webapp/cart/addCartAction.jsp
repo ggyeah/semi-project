@@ -24,23 +24,25 @@
 
 	boolean checkId = false;
 	
-	String checkloginId = (String) session.getAttribute("loginId");
+	String checkLoginId = (String) session.getAttribute("loginId");
 	
-	if (checkloginId != null) {
+	if (checkLoginId != null) {
 	for (Employees e : oneEmployeesList){
-	   if (checkloginId.equals(e.getId())){
+	   if (checkLoginId.equals(e.getId())){
 	      checkId = true;
 	      break;
 	   		}
 	   }
 	}
 	
-    if (checkId || checkloginId.equals("admin") ) {
+	if (checkLoginId != null) {
+		if (checkId || checkLoginId.equals("admin") ) {
         // 홈으로 돌려보냄
         String errorMsg = URLEncoder.encode("권한이 없습니다", "UTF-8");
         response.sendRedirect(request.getContextPath()+"/home.jsp?errorMsg="+errorMsg);
         return;
-    }
+   	 	}
+	}
 
    /* 로그인 여부에 따른 분기 */
    
