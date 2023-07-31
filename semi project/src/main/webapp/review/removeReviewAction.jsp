@@ -12,6 +12,9 @@ final String SONG = "\u001B[43m";
 final String YANG = "\u001B[44m";
 
 IdDao idDao = new IdDao();
+
+int orderNo = Integer.parseInt(request.getParameter("orderNo"));
+int productNo = Integer.parseInt(request.getParameter("productNo"));
 //세션 유효성 검사
 if(session.getAttribute("loginId") != null) {
 	// 요청값 객체에 묶어 저장
@@ -32,8 +35,7 @@ if(session.getAttribute("loginId") != null) {
         //  세션 아이디와 입력된 비밀번호가 일치하면 리뷰 삭제 수행
         if (request.getParameter("orderNo") != null) {
         	ReviewDao reviewDao = new ReviewDao();
-            int orderNo = Integer.parseInt(request.getParameter("orderNo"));
-            int productNo = Integer.parseInt(request.getParameter("productNo"));
+        	
             //디버깅
             System.out.println(orderNo +"<removeReviewACtion orderNo");       
 
@@ -57,6 +59,12 @@ if(session.getAttribute("loginId") != null) {
             response.sendRedirect(request.getContextPath() + "/product/productListOne.jsp?productNo="+productNo);}
     } else {
     	System.out.println("비밀번호가 일치하지 않습니다");  
+	    %>
+	    <script>
+	        alert('비밀번호가 틀렸습니다. 다시 시도해주세요.');
+	        window.location.href = '<%= request.getContextPath() + "/review/removeReview.jsp?productNo=" + productNo + "&orderNo=" + orderNo %>';
+	    </script>
+	    <% 
     }
 }
 %>

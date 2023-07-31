@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <% 
 int qNo= Integer.parseInt(request.getParameter("qNo"));
+int productNo = Integer.parseInt(request.getParameter("productNo"));
 
 System.out.println(qNo+"<- removequestion qNo");
 //로그인상태가 아니면 홈으로 돌아감
@@ -83,7 +84,7 @@ $(document).ready(function() {
 	<div class="checkout__form answer-container">
 	<h4>삭제하시려면 비밀번호를 입력하십시오</h4>
 		<div class="hero__search__form">
-			<form action="<%=request.getContextPath()%>/question/removeQuestionAction.jsp?qNo=<%=qNo%>" method="post"  id="form">
+			<form action="<%=request.getContextPath()%>/question/removeQuestionAction.jsp?qNo=<%=qNo%>&productNo=<%=productNo%>" method="post"  id="form">
 					<input type="password" name="password" id="password">
 					<button type="submit" id="btn" class="site-btn" > 삭제 </button>
 			</form>
